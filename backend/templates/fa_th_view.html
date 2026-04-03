@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>FA-TH View</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<style>
+    h5 {
+        text-align: center;
+    }
+</style>
+
+<body style="background:#f4f6f8">
+
+    <div class="container mt-4">
+
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">FA-TH Analysis Records</h5>
+                <button type="button" class="back-btn" onclick="window.location.href='{{ url_for('fa_th_analysis') }}'">
+                    ← Back
+                </button>
+            </div>
+
+            <div class="card-body">
+
+                <!-- 🔽 FILTER SECTION -->
+                <form method="GET">
+
+                    <div class="row">
+                        <div class="col-md-2">
+                            <label>Scheme</label>
+                            <select name="scheme_id" class="form-select" onchange="this.form.submit()">
+                                <option value="">All</option>
+                                {% for s in schemes %}
+                                <option value="{{ s.id }}" {% if selected_scheme==s.id|string %}selected{% endif %}>
+                                    {{ s.scheme_name }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label>Academic Year</label>
+                            <select name="academic_year" class="form-select" onchange="this.form.submit()">
+                                <option value="">All</option>
+                                {% for y in years %}
+                                <option value="{{ y.academic_year }}" {% if selected_year==y.academic_year %}selected{%
+                                    endif %}>
+                                    {{ y.academic_year }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label>Semester</label>
+                            <select name="semester" class="form-select" onchange="this.form.submit()">
+                                <option value="">All</option>
+                                {% for s in semesters %}
+                                <option value="{{ s.semester }}" {% if selected_sem==s.semester|string %}selected{%
+                                    endif %}>
+                                    {{ s.semester }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label>Unit Test</label>
+                            <select name="exam" class="form-select" onchange="this.form.submit()">
+                                <option value="">All</option>
+                                {% for e in exams %}
+                                <option value="{{ e.exam_type }}" {% if selected_exam==e.exam_type %}selected{% endif
+                                    %}>
+                                    {{ e.exam_type }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label>Course</label>
+                            <select name="course_code" class="form-select" onchange="this.form.submit()">
+                                <option value="">All</option>
+                                {% for c in courses %}
+                                <option value="{{ c.course_code }}" {% if selected_course==c.course_code %}selected{%
+                                    endif %}>
+                                    {{ c.course_code }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <br><br>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <a href="{{ url_for('view_fa_th') }}" class="btn btn-secondary w-100">
+                                Reset
+                            </a>
+                        </div>
+
+                    </div>
+
+                </form>
+
+                <hr>
+
+                <!-- 📊 RECORD TABLE -->
+                <div class="table-responsive">
+
+                    <table class="table table-bordered table-striped table-sm text-center">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Enrollment</th>
+                                <th>Sem</th>
+                                <th>Exam</th>
+                                <th>Course</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% if records %}
+                            {% for r in records %}
+                            <tr>
+                                <td>{{ r.enrollment_no }}</td>
+                                <!-- <td>{{ r.student_name }}</td> -->
+                                <td>{{ r.semester }}</td>
+                                <td>{{ r.exam_type }}</td>
+                                <td>{{ r.course_code }}</td>
+                                <td><b>{{ r.total }}</b></td>
+                            </tr>
+                            {% endfor %}
+                            {% else %}
+                            <tr>
+                                <td colspan="6" class="text-danger fw-bold">
+                                    No records found
+                                </td>
+                            </tr>
+                            {% endif %}
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Principal Dashboard | Hostel Roles</title>
+
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f4f6f8;
+      margin: 0;
+    }
+
+    header {
+      background: #1f3c88;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .container {
+      padding: 20px
+    }
+
+    .actions {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      padding: 12px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .rector {
+      background: #4caf50;
+      color: #fff
+    }
+
+    .mess {
+      background: #ff9800;
+      color: #fff
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    th,
+    td {
+      padding: 12px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+    }
+
+    th {
+      background: #e8ecf1
+    }
+
+    tr:hover {
+      background: #f1f1f1
+    }
+
+    .footer {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #555;
+    }
+
+    #success {
+      display: none;
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      min-width: 280px;
+      padding: 14px 18px;
+      border-radius: 10px;
+      background: #e8f5e9;
+      color: #2e7d32;
+      font-weight: bold;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: 0.6s ease;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>Principal Dashboard</h1>
+    <p>Assign Hostel Rector & Mess In-charge</p>
+  </header>
+
+  <div class="container">
+
+    <div class="actions">
+      <select id="hostelType" onchange="filterEmployees()" style="padding:10px;border-radius:6px;font-weight:bold">
+        <option value="">Select Hostel</option>
+        <option value="BOYS">Boys Hostel</option>
+        <option value="GIRLS">Girls Hostel</option>
+      </select>
+
+      <button class="rector" id="rectorBtn" disabled onclick="assignRole('HOSTEL_RECTOR')">
+        Assign Hostel Rector
+      </button>
+
+      <button class="mess" id="messBtn" disabled onclick="assignRole('MESS_INCHARGE')">
+        Assign Mess In-charge
+      </button>
+    </div>
+
+    <div id="success"></div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Select</th>
+          <th>Name</th>
+          <th>Qualification</th>
+          <th>Contact</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody id="employeeTable"></tbody>
+    </table>
+
+    <div class="footer">
+      * Select one employee and click a role button
+    </div>
+
+  </div>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+
+    const employees = [
+      { id: 1, name: 'Rahul Patil', gender: 'Male', qualification: 'M.Tech', contact: '9876543210', email: 'rahul@gmail.com' },
+      { id: 2, name: 'Sneha Deshmukh', gender: 'Female', qualification: 'MBA', contact: '9123456789', email: 'sneha@gmail.com' },
+      { id: 3, name: 'Amit Sharma', gender: 'Male', qualification: 'B.Tech', contact: '9988776655', email: 'amit@gmail.com' },
+      { id: 4, name: 'Pooja Kulkarni', gender: 'Female', qualification: 'M.Sc', contact: '9090909090', email: 'pooja@gmail.com' }
+    ];
+
+    const table = document.getElementById('employeeTable');
+    const rectorBtn = document.getElementById('rectorBtn');
+    const messBtn = document.getElementById('messBtn');
+    const successBox = document.getElementById('success');
+
+    function loadTable(list) {
+      table.innerHTML = '';
+      list.forEach(emp => {
+        table.innerHTML += `
+          <tr>
+            <td><input type="radio" name="emp" data-name="${emp.name}"></td>
+            <td>${emp.name}</td>
+            <td>${emp.qualification}</td>
+            <td>${emp.contact}</td>
+            <td>${emp.email}</td>
+          </tr>`;
+      });
+    }
+
+    window.filterEmployees = function () {
+      rectorBtn.disabled = true;
+      messBtn.disabled = true;
+
+      const hostel = document.getElementById('hostelType').value;
+      if (hostel === 'BOYS') {
+        loadTable(employees.filter(e => e.gender === 'Male'));
+      } else if (hostel === 'GIRLS') {
+        loadTable(employees.filter(e => e.gender === 'Female'));
+      } else {
+        loadTable(employees);
+      }
+    }
+
+    window.assignRole = function (role) {
+      const selected = document.querySelector('input[name="emp"]:checked');
+      if (!selected) {
+        alert("Please select an employee");
+        return;
+      }
+
+      const name = selected.getAttribute("data-name");
+
+      if (!confirm(`Confirm assignment?\nEmployee: ${name}\nRole: ${role}`)) return;
+
+      successBox.innerText = `Successfully assigned ${name} as ${role}`;
+      successBox.style.display = 'block';
+
+      setTimeout(() => {
+        successBox.style.opacity = '1';
+        successBox.style.transform = 'translateY(0)';
+      }, 50);
+
+      setTimeout(() => {
+        successBox.style.opacity = '0';
+        successBox.style.transform = 'translateY(-10px)';
+        setTimeout(() => successBox.style.display = 'none', 600);
+      }, 8000);
+
+      rectorBtn.disabled = true;
+      messBtn.disabled = true;
+      selected.checked = false;
+    }
+
+    // ✅ INITIAL LOAD
+    loadTable(employees);
+
+  });
+</script>
+
+
+</body>
+
+</html>

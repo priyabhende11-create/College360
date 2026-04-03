@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>CLG360 – View Schemes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: #f4f6f9;
+        }
+
+        /* Header */
+        .header {
+            background: #1f3c88;
+            padding: 15px 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            color: white;
+            height: 50px;
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        .header span {
+            color: #2b6cb0;
+        }
+
+        /* Back Button Big */
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: green;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #222;
+        }
+
+        /* Container */
+        .container {
+            width: 95%;
+            margin: 100px auto;
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background: #2b6cb0;
+            color: white;
+        }
+
+        tr:hover {
+            background: #f1f1f1;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 20px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+
+<body>
+
+    <a href="/register_scheme" class="back-btn">
+        <i class="fa-solid fa-arrow-left"></i> Back
+    </a>
+
+    <div class="header">
+        <center>Registered Schemes</center>
+    </div>
+
+    <div class="container">
+
+        {% if schemes %}
+        <table>
+            <tr>
+                <th>Scheme Name</th>
+                <th>Year</th>
+                <th>Head1</th>
+                <th>Head2</th>
+                <th>Head3</th>
+                <th>Head4</th>
+                <th>Head5</th>
+            </tr>
+
+            {% for scheme in schemes %}
+            <tr>
+                <td>{{ scheme.scheme_name }}</td>
+                <td>{{ scheme.year_start }}</td>
+                <td>{{ scheme.head1 }}</td>
+                <td>{{ scheme.head2 }}</td>
+                <td>{{ scheme.head3 }}</td>
+                <td>{{ scheme.head4 }}</td>
+                <td>{{ scheme.head5 }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        {% else %}
+        <div class="no-data">
+            No Schemes Registered Yet.
+        </div>
+        {% endif %}
+
+    </div>
+
+</body>
+
+</html>

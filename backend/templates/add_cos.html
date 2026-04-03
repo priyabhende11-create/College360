@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>CLG360 - Course Outcomes</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f4f6f9;
+    }
+
+    .header {
+      background: #1f3c88;
+      color: white;
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header button {
+      background: white;
+      /* Green */
+      border: none;
+      color: rgb(210, 144, 144);
+      font-size: 14px;
+      cursor: pointer;
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-weight: 500;
+      transition: background 0.3s ease;
+    }
+
+    .header button:hover {
+      background: #bedec5;
+    }
+
+
+    .container {
+      max-width: 900px;
+      margin: 30px auto;
+      background: white;
+      padding: 25px;
+      border-radius: 8px;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 15px;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    .actions {
+      text-align: right;
+      margin-top: 25px;
+    }
+
+    .save-btn {
+      padding: 10px 20px;
+      background: #1f3c88;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+
+    .success {
+      margin-top: 15px;
+      color: green;
+      font-weight: bold;
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="header">
+    <button onclick="window.location.href='/registration_dashboard'">⬅ Back</button>
+    <h3>CLG360 – Course Outcomes</h3>
+    <button onclick="window.location.href='/view_cos'">View</button>
+  </div>
+
+  <div class="container">
+
+    <form id="coForm" method="POST" action="/co/save">
+      <label>Scheme</label>
+      <select name="scheme_id" required>
+        <option value="">Select</option>
+        {% for s in schemes %}
+        <option value="{{ s.id }}">{{ s.scheme_name }}</option>
+        {% endfor %}
+      </select>
+      <label>Year</label>
+      <select name="year" required>
+        <option value="">Select</option>
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>
+      </select>
+
+      <label>Semester</label>
+      <select name="semester" required>
+        <option value="">Select</option>
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+        <option>6</option>
+      </select>
+
+      <label>Course Code</label>
+      <select name="course_code" id="courseCode" required onchange="setTitle(this)">
+        <option value="">Select</option>
+        {% for c in courses %}
+        <option value="{{ c.course_code }}" data-title="{{ c.course_title }}">
+          {{ c.course_code }}
+        </option>
+        {% endfor %}
+      </select>
+
+      <label>Department</label>
+      <input type="text" value="{{ dept_name }}" readonly>
+      <input type="hidden" name="dept_id" value="{{ dept_id }}">
+
+      <label>Course Title</label>
+      <select name="course_title" id="courseTitle" required onchange="setTitle(this)">
+        <option value="">Select</option>
+        {% for c in courses %}
+        <option value="{{ c.course_title }}" data-title="{{ c.course_title }}">
+          {{ c.course_title }}
+        </option>
+        {% endfor %}
+      </select>
+
+
+      <label>CO1</label>
+      <textarea name="co1" required></textarea>
+
+      <label>CO2</label>
+      <textarea name="co2"></textarea>
+
+      <label>CO3</label>
+      <textarea name="co3"></textarea>
+
+      <label>CO4</label>
+      <textarea name="co4"></textarea>
+
+      <label>CO5</label>
+      <textarea name="co5"></textarea>
+
+      <div class="actions">
+        <button type="submit" class="save-btn">Save</button>
+      </div>
+
+    </form>
+
+    <div class="success" id="successMsg">
+      ✅ Course Outcomes saved successfully.
+    </div>
+
+  </div>
+
+  <script>
+    function setTitle(sel) {
+      const title = sel.options[sel.selectedIndex].dataset.title;
+      document.getElementById("courseTitle").value = title || "";
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("success") === "1") {
+      const msg = document.getElementById("successMsg");
+      const form = document.getElementById("coForm");
+      msg.style.display = "block";
+      setTimeout(() => {
+        form.reset();
+        msg.style.display = "none";
+      }, 3000);
+    }
+  </script>
+
+</body>
+
+</html>

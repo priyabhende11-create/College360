@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>CLG360 | View Mess Records</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f4f6f9;
+        }
+
+        .header {
+            height: 60px;
+            background: #1f3c88;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 600;
+            position: relative;
+        }
+
+        .back-btn {
+            position: absolute;
+            left: 20px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .container {
+            padding: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background: #1f3c88;
+            color: white;
+        }
+
+        .btn-edit {
+            padding: 4px 8px;
+            background: #1f3c88;
+            color: white;
+            text-decoration: none;
+        }
+
+        .btn-delete {
+            padding: 4px 8px;
+            background: #c0392b;
+            color: white;
+            text-decoration: none;
+        }
+    </style>
+
+
+</head>
+
+<body>
+
+    <div class="header">
+        <button class="back-btn" onclick="window.location.href='/mess_dashboard'">
+            ⬅ Back
+        </button>
+        Girls Hostel Mess Records
+    </div>
+
+    <div class="container">
+
+        <form method="get">
+
+            <select name="month">
+                <option value="">All Months</option>
+                {% for m in months %}
+                <option value="{{ m.month }}" {% if m.month==sel_month %}selected{% endif %}>
+                    {{ m.month }}
+                </option>
+                {% endfor %}
+            </select>
+
+            <select name="year">
+                <option value="">All Years</option>
+                {% for y in years %}
+                <option value="{{ y.year }}" {% if y.year==sel_year %}selected{% endif %}>
+                    {{ y.year }}
+                </option>
+                {% endfor %}
+            </select>
+
+            <button type="submit">Filter</button>
+        </form>
+
+        <br>
+
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Department</th>
+                <th>Year</th>
+                <th>Month</th>
+                <th>Fee</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+
+            {% if records %}
+            {% for r in records %}
+            <tr>
+                <td>{{ r.student_name }}</td>
+                <td>{{ r.dept_name }}</td>
+                <td>{{ r.year }}</td>
+                <td>{{ r.month }}</td>
+                <td>{{ r.mess_fee }}</td>
+                <td>{{ r.status }}</td>
+                <td>
+                    <a href="{{ url_for('edit_mess', id=r.id) }}" class="btn-edit">Edit</a>
+                    |
+                    <a href="{{ url_for('delete_mess', id=r.id) }}" onclick="return confirm('Are you sure?')"
+                        class="btn-delete">
+                        Delete
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <tr>
+                <td colspan="7" style="text-align:center;">
+                    No records found
+                </td>
+            </tr>
+            {% endif %}
+        </table>
+
+    </div>
+
+</body>
+
+</html>

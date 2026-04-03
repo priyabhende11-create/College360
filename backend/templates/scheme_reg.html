@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CLG360 – Scheme Registration</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+body{
+    margin:0;
+    font-family:'Segoe UI', sans-serif;
+    background:#f4f6f9;
+}
+
+/* Header */
+.header{
+    background:#1f3c88;
+    padding:15px 30px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.08);
+    font-size:22px;
+    color: white;
+    font-weight:600;
+    height: 50px;
+}
+
+.header span{
+    color:#2b6cb0;
+}
+
+/* Back Button (Big Box Style) */
+.back-btn{
+    position:absolute;
+    top:20px;
+    left:20px;
+    background:#444;
+    color:white;
+    padding:10px 20px;
+    border-radius:8px;
+    text-decoration:none;
+    font-weight:500;
+    transition:0.3s;
+}
+
+.back-btn:hover{
+    background:#222;
+}
+
+/* Container */
+.container{
+    width:500px;
+    margin:100px auto;
+    background:white;
+    padding:40px;
+    border-radius:12px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.08);
+}
+
+.container h2{
+    text-align:center;
+    margin-bottom:25px;
+    color:#333;
+}
+
+/* Note Box */
+.note-box{
+    background:#eef4ff;
+    border-left:4px solid #2b6cb0;
+    padding:12px;
+    margin-bottom:20px;
+    font-size:14px;
+    border-radius:6px;
+}
+
+/* Form */
+.form-group{
+    margin-bottom:18px;
+}
+
+.form-group label{
+    display:block;
+    font-weight:500;
+    margin-bottom:6px;
+}
+
+.form-group input{
+    width:100%;
+    padding:10px;
+    border-radius:6px;
+    border:1px solid #ccc;
+    font-size:14px;
+}
+
+.form-group input:focus{
+    border-color:#2b6cb0;
+    outline:none;
+    box-shadow:0 0 5px rgba(43,108,176,0.3);
+}
+
+/* Buttons */
+.btn{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.3s;
+    text-decoration:none;
+    display:inline-block;
+    text-align:center;
+}
+
+.btn-primary{
+    background:#2b6cb0;
+    color:white;
+}
+
+.btn-primary:hover{
+    background:#1e4f91;
+}
+
+.btn-dark{
+    background:#444;
+    color:white;
+    margin-top:12px;
+}
+
+.btn-dark:hover{
+    background:#222;
+}
+
+@media(max-width:600px){
+    .container{
+        width:90%;
+        margin-top:120px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<a href="registration_dashboard" class="back-btn">
+    <i class="fa-solid fa-arrow-left"></i> Back
+</a>
+
+<div class="header">
+   <center>Scheme Registration</center> 
+</div>
+
+<div class="container">
+
+    <h2>Register New Scheme</h2>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div style="background:#d4edda;color:#155724;padding:10px;border-radius:6px;margin-bottom:15px;">
+            {{ messages[0] }}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+
+        <div class="form-group">
+            <label>Scheme Name</label>
+            <input type="text" name="scheme_name" required>
+        </div>
+
+        <div class="form-group">
+            <label>Year of Start</label>
+            <input type="number" name="year_start" min="2000" max="2099" required>
+        </div>
+
+        <div class="note-box">
+            <strong>Note:</strong> Heads in K Scheme are FATH, SATH, FAPR, SAPR, SLAA.
+        </div>
+
+        <div class="form-group">
+            <label>Head 1</label>
+            <input type="text" name="head1" required>
+        </div>
+
+        <div class="form-group">
+            <label>Head 2</label>
+            <input type="text" name="head2" required>
+        </div>
+
+        <div class="form-group">
+            <label>Head 3</label>
+            <input type="text" name="head3" required>
+        </div>
+
+        <div class="form-group">
+            <label>Head 4</label>
+            <input type="text" name="head4" required>
+        </div>
+
+        <div class="form-group">
+            <label>Head 5</label>
+            <input type="text" name="head5" >
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-plus"></i> Register Scheme
+        </button>
+
+        <a href="view_schemes" class="btn btn-dark">
+            <i class="fa-solid fa-eye"></i> View Schemes
+        </a>
+
+    </form>
+
+</div>
+
+</body>
+</html>

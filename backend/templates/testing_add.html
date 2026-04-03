@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Lab Testing – College 360</title>
+
+  <style>
+    body {
+      font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+      background: linear-gradient(135deg, #eef2f7, #f8fafc);
+      margin: 0;
+    }
+
+    /* ===== HEADER ===== */
+    header {
+      background: linear-gradient(90deg, #1f3c88, #274bb6);
+      color: #fff;
+      padding: 14px 20px;
+      position: relative;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    header h1 {
+      margin: 0;
+      text-align: center;
+      font-size: 22px;
+    }
+
+    .back-btn{
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #ffffff;
+      color: #1f3c88;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 35px auto;
+      background: #fff;
+      padding: 30px 35px;
+      border-radius: 14px;
+      box-shadow: 0 12px 30px rgba(255, 0, 100, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #1f3c88;
+    }
+
+    form {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    input,
+    textarea {
+      padding: 11px;
+      border-radius: 8px;
+      border: 1px solid #1b5db3;
+      font-size: 14px;
+    }
+
+    textarea {
+      resize: none;
+    }
+
+    .full {
+      grid-column: span 3;
+    }
+
+    .btn-group {
+      grid-column: span 3;
+      display: flex;
+      justify-content: center;
+      gap: 22px;
+      margin-top: 15px;
+    }
+
+    button {
+      padding: 12px 26px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 15px;
+    }
+
+    .btn-add {
+      background: linear-gradient(90deg, #43a047, #2e7d32);
+      color: #fff;
+    }
+
+    .btn-view {
+      background: linear-gradient(90deg, #1f3c88, #274bb6);
+      color: #fff;
+    }
+
+    @media(max-width: 900px) {
+      form {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .full,
+      .btn-group {
+        grid-column: span 2;
+      }
+    }
+
+    @media(max-width: 600px) {
+      form {
+        grid-template-columns: 1fr;
+      }
+
+      .full,
+      .btn-group {
+        grid-column: span 1;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header>
+    <button class="back-btn"
+      onclick="window.location.href='{{ url_for('hod_dashboard') }}'">
+      ← Back
+    </button>
+    <h1>Government Polytechnic Yavatmal</h1>
+  </header>
+
+  <!-- ===== FORM ===== -->
+  <div class="container">
+    <h2>IT Assest Inspection and Management Report</h2>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div style="color:green;text-align:center;font-weight:bold;">
+          {{ messages[0] }}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('testing_add') }}">
+
+
+      <div class="form-group">
+        <label>Academic Year</label>
+        <input type="text" name="academic_year" placeholder="2024-25" required>
+      </div>
+
+      <div class="form-group">
+        <label>Tester Name</label>
+        <input type="text" name="tester_name" required>
+      </div>
+
+      <div class="form-group">
+        <label>Tester Contact</label>
+        <input type="tel" name="tester_contact" pattern="[0-9]{10}" required>
+      </div>
+
+      <div class="form-group">
+        <label>Location</label>
+        <input type="text" name="location" required>
+      </div>
+
+      <div class="form-group">
+        <label>Test Date</label>
+        <input type="date" name="test_date" required>
+      </div>
+
+      <div class="form-group">
+        <label>Expense on Testing (₹)</label>
+        <input type="number" step="0.01" name="expense" required>
+      </div>
+
+      <div class="form-group full">
+        <label>Remarks</label>
+        <textarea name="remarks" rows="3"></textarea>
+      </div>
+
+      <div class="btn-group">
+        <button type="submit" class="btn-add">Add Testing</button>
+
+        <button type="button" class="btn-view"
+          onclick="window.location.href='{{ url_for('testing_view') }}'">
+          View Report
+        </button>
+      </div>
+
+    </form>
+  </div>
+
+</body>
+</html>

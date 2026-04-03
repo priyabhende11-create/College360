@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Mechanical Engineering Department</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Segoe UI, Arial;
+            background: #f4f6f8;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            background: #003366;
+            color: white;
+            text-align: center;
+            padding: 22px;
+        }
+
+        /* ===== LAYOUT ===== */
+        .container {
+            padding: 30px
+        }
+
+        .top-section {
+            display: flex;
+            gap: 30px;
+        }
+
+        /* ===== PHOTO ANIMATIONS ===== */
+        .from-left {
+            opacity: 0;
+            transform: translateX(-140px);
+            animation: leftAnim 1.2s forwards;
+        }
+
+        .from-right {
+            opacity: 0;
+            transform: translateX(140px);
+            animation: rightAnim 1.2s forwards;
+        }
+
+        @keyframes leftAnim {
+            to {
+                opacity: 1;
+                transform: translateX(0)
+            }
+        }
+
+        @keyframes rightAnim {
+            to {
+                opacity: 1;
+                transform: translateX(0)
+            }
+        }
+
+        /* ===== HOD CARD ===== */
+        .hod-card {
+            width: 28%;
+            background: white;
+            border-radius: 18px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, .15);
+        }
+
+        .hod-card img {
+            width: 100%;
+            height: 420px;
+            object-fit: cover;
+            border-radius: 14px;
+        }
+
+        .hod-card p {
+            color: #555
+        }
+
+        /* ===== STAFF ===== */
+        .staff-section {
+            width: 72%;
+            background: white;
+            border-radius: 18px;
+            padding: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, .15);
+        }
+
+        .staff-row {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .staff-card {
+            width: 240px;
+            display: flex;
+            gap: 12px;
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 14px;
+        }
+
+        .staff-card img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+        }
+
+        /* ===== ABOUT HEADING ===== */
+        .about-heading {
+            margin: 60px 0 30px;
+            text-align: center;
+            font-family: 'Playfair Display';
+            font-size: 36px;
+            color: #003366;
+        }
+
+        .about-heading span {
+            border-bottom: 3px solid #003366;
+            padding: 0 18px;
+        }
+
+        /* ===== VERTICAL INFO CARDS ===== */
+        .vertical-column {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .info-card {
+            background: white;
+            border-radius: 18px;
+            padding: 28px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, .15);
+            display: flex;
+            gap: 25px;
+        }
+
+        .icon {
+            font-size: 42px;
+            min-width: 60px;
+        }
+
+        /* ===== SCROLL ANIMATION ===== */
+        .animate {
+            opacity: 0;
+            transform: translateY(90px);
+            transition: all .9s ease;
+        }
+
+        .animate.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ===== HEADER ===== -->
+    <div class="header">
+        <h1>⚙️ Department of Mechanical Engineering</h1>
+        <p>Government Polytechnic Yavatmal</p>
+    </div>
+
+    <div class="container">
+
+        <!-- ===== TOP SECTION ===== -->
+        <div class="top-section">
+
+            <!-- HOD -->
+            <div class="hod-card from-left">
+                <img src="https://via.placeholder.com/400x600">
+                <h2>Prof. V. S. Chavan</h2>
+                <p>HOD – Mechanical Engineering<br>M.Tech (Production)</p>
+            </div>
+
+            <!-- STAFF -->
+            <div class="staff-section from-right">
+                <h2>Faculty Members</h2>
+                <div class="staff-row">
+                    <div class="staff-card">
+                        <img src="https://via.placeholder.com/100">
+                        <div>Prof. R. P. Jadhav<br>M.E</div>
+                    </div>
+                    <div class="staff-card">
+                        <img src="https://via.placeholder.com/100">
+                        <div>Prof. A. S. Patil<br>M.Tech</div>
+                    </div>
+                    <div class="staff-card">
+                        <img src="https://via.placeholder.com/100">
+                        <div>Prof. S. M. Deshmukh<br>B.E</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ===== ABOUT ===== -->
+        <div class="about-heading">
+            <span>~ About Department ~</span>
+        </div>
+
+        <div class="vertical-column">
+
+            <div class="info-card animate">
+                <div class="icon">⚙</div>
+                <p>
+                    The Mechanical Engineering Department deals with design, analysis,
+                    manufacturing and maintenance of mechanical systems. The department
+                    emphasizes strong fundamentals, hands-on training and industrial
+                    exposure.
+                </p>
+            </div>
+
+            <div class="info-card animate">
+                <div class="icon">👁</div>
+                <div>
+                    <h3>Vision</h3>
+                    <p>
+                        To produce competent mechanical engineers with innovative
+                        thinking, technical expertise and ethical values to meet
+                        industry and societal needs.
+                    </p>
+                </div>
+            </div>
+
+            <div class="info-card animate">
+                <div class="icon">🎯</div>
+                <div>
+                    <h3>Mission</h3>
+                    <ul>
+                        <li>Provide quality education in mechanical engineering.</li>
+                        <li>Enhance practical skills through workshops and labs.</li>
+                        <li>Encourage innovation, projects and industry interaction.</li>
+                        <li>Develop teamwork, leadership and ethical responsibility.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="info-card animate">
+                <div class="icon">🎓</div>
+                <div>
+                    <h3>Program Outcomes (POs)</h3>
+                    <ul>
+                        <li>Apply mechanical engineering principles effectively.</li>
+                        <li>Design and analyze mechanical components and systems.</li>
+                        <li>Use modern tools, machines and software.</li>
+                        <li>Work efficiently in multidisciplinary teams.</li>
+                        <li>Adapt to emerging technologies and lifelong learning.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="info-card animate">
+                <div class="icon">📘</div>
+                <div>
+                    <h3>What Students Learn</h3>
+                    <ul>
+                        <li>Engineering Mechanics and Strength of Materials</li>
+                        <li>Thermodynamics and Heat Power Engineering</li>
+                        <li>Manufacturing Processes and CNC Machines</li>
+                        <li>CAD / CAM and Industrial Design</li>
+                        <li>Automobile Engineering Basics</li>
+                    </ul>
+                </div>
+            </div>
+
+
+
+        </div>
+
+    </div>
+
+    <!-- ===== SCROLL SCRIPT ===== -->
+    <script>
+        document.querySelectorAll('.animate').forEach(el => {
+            new IntersectionObserver(e => {
+                if (e[0].isIntersecting) {
+                    el.classList.add('show');
+                }
+            }, { threshold: 0.3 }).observe(el);
+        });
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>CLG360 - Staff Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Header */
+        .header {
+            background: #1f3c88;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 22px;
+            font-weight: 600;
+            position: relative;
+        }
+
+        /* Back Button */
+        .back-btn {
+            position: absolute;
+            left: 20px;
+            top: 15px;
+            font-size: 22px;
+            color: white;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            color: gold;
+            transform: translateX(-5px);
+        }
+
+        /* Body */
+        body {
+            background: #ffffff;
+        }
+
+        /* Login Section */
+        .login-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 85vh;
+        }
+
+        /* Login Card */
+        .login-card {
+            width: 380px;
+            padding: 40px;
+            border-radius: 15px;
+            background: #ffffff;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-top: 5px solid #1f3c88;
+        }
+
+        /* Title */
+        .login-card h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #1f3c88;
+        }
+
+        /* Input */
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 40px;
+            border-radius: 30px;
+            border: 1px solid #ddd;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: #1f3c88;
+            box-shadow: 0 0 8px rgba(31, 60, 136, 0.2);
+        }
+
+        /* Icons */
+        .input-group .icon {
+            position: absolute;
+            top: 50%;
+            left: 15px;
+            transform: translateY(-50%);
+        }
+
+        .show-pass {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+
+        /* Button */
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 30px;
+            background: #1f3c88;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .login-btn:hover {
+            background: #162d66;
+            transform: scale(1.03);
+        }
+
+        button {
+            padding: 2px 10px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 15px;
+            background-color: rgb(40, 185, 225)
+        }
+
+        /* Error */
+        .error {
+            text-align: center;
+            color: red;
+            margin-bottom: 15px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 12px;
+            color: gray;
+        }
+    </style>
+
+    <script>
+        function togglePassword() {
+            var x = document.getElementById("password");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+    </script>
+
+</head>
+
+<body>
+
+    <div class="header">
+        <button class="back-btn" onclick="window.location.href='{{ url_for('index') }}'">
+            ← Back
+        </button>
+        CLG360 - Staff Login
+    </div>
+
+    <div class="login-wrapper">
+
+        <div class="login-card">
+
+            <h2>Staff Login</h2>
+
+            {% if error %}
+            <div class="error">{{ error }}</div>
+            {% endif %}
+
+            <form method="POST">
+
+                <div class="input-group">
+                    <span class="icon">👤</span>
+                    <input type="text" name="username" placeholder="Enter Username" required>
+                </div>
+
+                <div class="input-group">
+                    <span class="icon">🔒</span>
+                    <input type="password" name="password" id="password" placeholder="Enter Password" required>
+                    <span class="show-pass" onclick="togglePassword()">👁</span>
+                </div>
+
+                <button type="button" class="btn-view" onclick="window.location.href='{{ url_for('staff_dash') }}'">
+                    Login
+                </button>
+
+            </form>
+
+            <div class="footer">
+                © 2026 CLG360 | Staff Portal
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

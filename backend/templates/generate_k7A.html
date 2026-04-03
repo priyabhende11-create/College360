@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CLG360 | Generate Course</title>
+
+  <!-- CLG360 ACTUAL PROJECT CSS (MATCHING SHARED PAGE) -->
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background-color: #f5f6fa;
+      color: #333;
+    }
+
+
+    /* ===== TOP HEADER ===== */
+    .header {
+      height: 60px;
+      background-color: #1f3c88;
+      /* CLG360 blue from screenshot */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      color: #fff;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .back-btn {
+      position: absolute;
+      left: 20px;
+      background: #28a745;
+      /* Green */
+      border: none;
+      color: #ffffff;
+      font-size: 14px;
+      cursor: pointer;
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.3s ease;
+    }
+
+    .back-btn:hover {
+      background: #218838;
+    }
+
+
+    /* ===== PAGE LAYOUT ===== */
+    .page-container {
+      padding: 40px 20px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .card {
+      background-color: #ffffff;
+      border-radius: 10px;
+      padding: 30px;
+      width: 520px;
+      /* fixed width to keep fields equal */
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .card-title {
+      text-align: center;
+      color: #1f3c88;
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    /* ===== FORM ELEMENTS ===== */
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      height: 42px;
+      padding: 0 12px;
+      border: 1px solid #b5b5b5;
+      border-radius: 4px;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+
+    input::placeholder {
+      color: #555;
+    }
+
+    input:focus,
+    select:focus {
+      outline: none;
+      border-color: #1f3c88;
+    }
+
+    /* ===== BUTTON ===== */
+    .btn-primary {
+      width: 100%;
+      height: 42px;
+      background-color: #1f3c88;
+      border: none;
+      border-radius: 4px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .btn-primary:hover {
+      background-color: #163172;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <form method="get" action="{{ url_for('attaintment_k7') }}">
+
+    <!-- HEADER -->
+    <div class="header">
+      <button type="button" class="back-btn" onclick="window.location.href='{{ url_for('fa_th_analysis') }}'">
+        ← Back
+      </button>
+
+      Generate Course
+    </div>
+
+    <!-- CONTENT -->
+    <div class="page-container">
+      <div class="card">
+        <div class="card-title">Course Configuration</div>
+
+        <!-- Academic Year -->
+
+
+        <label>Academic Year</label>
+        <select name="academic_year" required>
+          {% for y in years %}
+          <option value="{{ y.academic_year }}">{{ y.academic_year }}</option>
+          {% endfor %}
+        </select>
+
+        <input type="hidden" name="dept_id" value="{{ session['dept_id'] }}">
+        <p><b>Program:</b> {{ departments | selectattr("dept_id","equalto",session['dept_id']) |
+          map(attribute="dept_code") | first }}</p>
+
+        <label>Course</label>
+        <select name="course_code" required>
+          {% for c in courses %}
+          <option value="{{ c.course_code }}">{{ c.course_code }}</option>
+          {% endfor %}
+        </select>
+
+        <button type="submit" class="btn-primary">Generate</button>
+  </form>
+
+  <!-- GENERATE BUTTON -->
+
+
+
+
+  </div>
+  </div>
+
+  </form>
+</body>
+
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>All Department MOUs | College 360</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #f4f6f8;
+        }
+
+        /* HEADER */
+        .header {
+            background: #003366;
+            color: white;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        /* BACK BUTTON */
+        .back-btn {
+            position: absolute;
+            left: 20px;
+            background: #28a745;
+            color: white;
+            padding: 6px 14px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        /* CONTAINER */
+        .container {
+            max-width: 1200px;
+            background: white;
+            margin: 25px auto;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #003366;
+        }
+
+        /* TABLE */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background: #003366;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background: #f2f2f2;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <div class="header">
+        <button class="back-btn" onclick="goBack()">← Back</button>
+        GOVERNMENT POLYTECHNIC YAVATMAL
+    </div>
+
+    <!-- CONTENT -->
+    <div class="container">
+        <h2>All Department MOUs</h2>
+        <form method="post" style="margin-bottom:20px;text-align:center;">
+            <select name="dept_id" onchange="this.form.submit()" style="padding:8px;border-radius:5px;">
+                <option value="all">All Departments</option>
+                {% for d in departments %}
+                <option value="{{ d.dept_id }}" {% if selected_dept==d.dept_id|string %}selected{% endif %}>
+                    {{ d.dept_name }}
+                </option>
+                {% endfor %}
+            </select>
+        </form>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Department</th>
+                    <th>MOU Title</th>
+                    <th>Organization</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for m in data %}
+                <tr>
+                    <td>{{ m.dept_name }}</td>
+                    <td>{{ m.title }}</td>
+                    <td>{{ m.organization }}</td>
+                    <td>{{ m.start_date }}</td>
+                    <td>{{ m.end_date }}</td>
+                    <td>{{ m.status }}</td>
+
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5">No MOU Records Found</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function goBack() {
+            window.location.href = "{{ url_for('principal_dashboard') }}";
+        }
+    </script>
+
+</body>
+
+</html>

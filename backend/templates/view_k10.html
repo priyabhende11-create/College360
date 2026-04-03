@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>MSBTE – Student Placement Details</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #eaeaea;
+            font-family: Georgia, "Times New Roman", serif;
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: #1f3c88;
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .back-btn:hover {
+            background: #162e66;
+            color: #fff;
+        }
+
+        .page {
+            background: #fff;
+            width: 210mm;
+            min-height: 297mm;
+            margin: 20px auto;
+            padding: 20mm;
+            box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+            position: relative;
+        }
+
+        h5,
+        h6 {
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        table th,
+        table td {
+            border: 1px solid #444;
+            padding: 7px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .no-border td {
+            border: none;
+            text-align: left;
+            padding: 4px;
+            font-size: 14px;
+        }
+
+        .signature {
+            margin-top: 50px;
+            display: flex;
+            justify-content: space-around;
+            font-size: 14px;
+        }
+
+        .filter-bar {
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .filter-bar select {
+            padding: 4px 8px;
+            margin: 0 10px;
+            font-size: 14px;
+        }
+
+        @media print {
+            body {
+                background: none;
+            }
+
+            .page {
+                box-shadow: none;
+                margin: 0;
+            }
+
+            .back-btn,
+            button,
+            .filter-bar {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="page">
+
+        <!-- BACK BUTTON -->
+        {% if role == 'principal' %}
+        <a href="{{ url_for('act') }}" class="back-btn">⬅ Back</a>
+        {% elif role == 'hod' %}
+        <a href="{{ url_for('add_k10') }}" class="back-btn">⬅ Back</a>
+        {% endif %}
+
+        <!-- 🔽 FILTER BAR -->
+        <form method="get" class="filter-bar">
+            <b>Academic Year :</b>
+            <select name="academic_year" onchange="this.form.submit()">
+                <option value="">All</option>
+                {% for year in years %}
+                <option value="{{ year }}" {% if year==selected_year %}selected{% endif %}>
+                    {{ year }}
+                </option>
+                {% endfor %}
+            </select>
+
+            {% if role == 'principal' %}
+            <b>Department:</b>
+            <select name="dept_id" onchange="this.form.submit()">
+                <option value="">All</option>
+                {% for d in departments %}
+                <option value="{{ d.dept_id }}" {% if selected_dept==d.dept_id|string %}selected{% endif %}>
+                    {{ d.dept_name }}
+                </option>
+                {% endfor %}
+            </select>
+            {% endif %}
+        </form>
+
+        <!-- HEADER -->
+        <div class="center">
+            <h6>For AICTE Diploma Engineering Courses</h6>
+            <h5>Maharashtra State Board of Technical Education, Mumbai</h5>
+            <h5>PLACEMENT DETAILS</h5>
+        </div>
+
+        <br>
+
+        <!-- BASIC INFO -->
+        <table class="no-border">
+            <tr>
+                <!-- <td><b>Programme :</b>
+                    {% if role == 'principal' %}
+                    {{ selected_dept_name or "All Departments" }}
+                    {% else %}
+                    {{ programme }}
+                    {% endif %}
+                </td> -->
+                <td></td>
+            </tr>
+        </table>
+
+        <br>
+
+        <!-- PART A -->
+        <h6 class="center">PART – A : INDUSTRY PLACEMENT DETAILS</h6>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Sr. No.</th>
+                    <th>Name of Industry & Address</th>
+                    <th>Nature of Industry / Service</th>
+                    <th>No. of Students Placed</th>
+                    <th>Salary</th>
+                    <th>Date</th>
+                    <th>Industry</th>
+                    <th>Students Attended</th>
+                    <th>Students Placed</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if part_a %}
+                {% for row in part_a %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ row.industry_name }}<br>{{ row.industry_address }}</td>
+                    <td>{{ row.industry_type }}</td>
+                    <td>{{ row.students_placed }}</td>
+                    <td>{{ row.salary }}</td>
+                    <td>{{ row.visit_date }}</td>
+                    <td>{{ row.industry_name }}</td>
+                    <td>{{ row.students_attended }}</td>
+                    <td>{{ row.students_placed }}</td>
+
+                </tr>
+                {% endfor %}
+                {% else %}
+                <tr>
+                    <td colspan="5">No records found</td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+
+        <br><br>
+
+        <!-- PART B -->
+        <h6 class="center">PART – B : DETAILS OF STUDENT PLACEMENT</h6>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Sr. No.</th>
+                    <th>Name of Student</th>
+                    <th>Nature of Placement</th>
+                    <th>Name of Organization / Industry</th>
+                    <th>Remark</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if part_b %}
+                {% for row in part_b %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ row.student_name }}</td>
+                    <td>{{ row.placement_nature }}</td>
+                    <td>{{ row.organization }}</td>
+                    <td>{{ row.remark }}</td>
+                </tr>
+                {% endfor %}
+                {% else %}
+                <tr>
+                    <td colspan="5">No records found</td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+
+        <!-- SIGNATURE -->
+        <div class="signature">
+            <div>
+                ________________________<br>
+                <b>Signature of TPO</b>
+            </div>
+            <div>
+                ________________________<br>
+                <b>Signature of HOD</b>
+            </div>
+        </div>
+
+        <br>
+
+        <div class="center">
+            <small>Maharashtra State Board of Technical Education, Mumbai</small>
+        </div>
+
+        <div class="text-end mt-3">
+            <button onclick="window.print()" class="btn btn-dark btn-sm">
+                🖨 Print / PDF
+            </button>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

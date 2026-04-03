@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>College360 | Course & Marks</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Arial, sans-serif
+        }
+
+        body {
+            margin: 0;
+            background: #eef1f5
+        }
+
+        /* HEADER */
+        .header {
+            background: #003366;
+            color: #fff;
+            padding: 18px 20px;
+            font-size: 22px;
+            font-weight: 600;
+            text-align: center;
+            position: relative;
+        }
+
+        .back-btn {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: white;
+            color: rgb(227, 134, 134);
+            border: none;
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* MAIN CARD */
+        .container {
+            max-width: 1000px;
+            background: white;
+            margin: 35px auto;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+        }
+
+        h3 {
+            color: #003366;
+            margin-bottom: 18px;
+            border-bottom: 2px solid #e5e5e5;
+            padding-bottom: 6px;
+        }
+
+        /* FORM GRID */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column
+        }
+
+        label {
+            font-weight: 600;
+            margin-bottom: 6px
+        }
+
+        select,
+        input {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        /* BUTTONS */
+        .submit-btn,
+        .save-btn {
+            background: #003366;
+            color: white;
+            padding: 10px 30px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .save-btn {
+            background: #28a745
+        }
+
+        /* COURSE */
+        #courseSection {
+            margin-top: 30px
+        }
+
+        .course-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            background: #fafafa;
+        }
+
+        .course-box input {
+            transform: scale(1.2)
+        }
+
+        /* TABLE */
+        #marksSection {
+            margin-top: 30px
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px
+        }
+
+        th {
+            background: #003366;
+            color: white;
+            padding: 10px;
+            font-size: 14px;
+        }
+
+        td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+        }
+
+        td input {
+            width: 80px;
+            padding: 6px;
+        }
+
+        /* RESPONSIVE */
+        @media(max-width:768px) {
+            .form-grid {
+                grid-template-columns: 1fr
+            }
+
+            td input {
+                width: 65px
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <button class="back-btn" onclick="window.location.href='/act'">← Back</button>
+        GOVERNMENT POLYTECHNIC YAVATMAL
+    </div>
+
+    <div class="container">
+
+        <h3>Course & Marks Entry</h3>
+
+        <form method="POST" action="/k7b">
+            <div class="form-grid">
+                <select name="scheme_id" required>
+                    <option value="">Select Scheme</option>
+                    {% for s in schemes %}
+                    <option value="{{ s.id }}" {% if scheme_id==s.id %}selected{% endif %}>{{ s.scheme_name }}</option>
+                    {% endfor %}
+                </select>
+
+                <select name="year" required>
+                    <option value="">Select Year</option>
+                    {% for y in years %}
+                    <option value="{{ y.academic_year }}" {% if year==y.academic_year %}selected{% endif %}>{{
+                        y.academic_year }}</option>
+                    {% endfor %}
+                </select>
+
+                <select name="semester" required>
+                    <option value="">Select Semester</option>
+                    {% for sem in semesters %}
+                    <option value="{{ sem.semester }}" {% if semester==sem.semester %}selected{% endif %}>{{
+                        sem.semester }}</option>
+                    {% endfor %}
+                </select>
+
+                {% if session.role != 'principal' %}
+                <input type="hidden" name="dept_id" value="{{ session.dept_id }}">
+                {% else %}
+                <select name="dept_id">
+                    {% for d in departments %}
+                    <option value="{{ d.dept_id }}" {% if dept_id==d.dept_id %}selected{% endif %}>{{ d.dept_name }}
+                    </option>
+                    {% endfor %}
+                </select>
+                {% endif %}
+            </div>
+            <button class="submit-btn">Load Subjects</button>
+        </form>
+
+        {% if courses %}
+        <form method="POST" action="/k7b">
+            <input type="hidden" name="scheme_id" value="{{ scheme_id }}">
+            <input type="hidden" name="year" value="{{ year }}">
+            <input type="hidden" name="semester" value="{{ semester }}">
+            <input type="hidden" name="dept_id" value="{{ dept_id }}">
+
+            <h4>Select Subject</h4>
+            {% for s in courses %}
+            <div class="course-box">
+                <input type="radio" name="course_code" value="{{ s.subject_name }}" required> {{ s.subject_name }}
+            </div>
+            {% endfor %}
+            <button class="submit-btn">Display Marks</button>
+        </form>
+        {% endif %}
+
+        {% if marks_fields %}
+        <h4>Marks Fields</h4>
+        <table border="1">
+            <tr>
+                {% for i in range(1,6) %}<th>H{{i}}</th>{% endfor %}
+            </tr>
+            <tr>
+                {% for i in range(1,6) %}
+                <td>{{ marks_fields["head"+i|string] or 0 }}</td>
+                {% endfor %}
+            </tr>
+        </table>
+        {% endif %}
+
+        {% if show_marks %}
+        <h4>Statistics</h4>
+        {% for subject, heads in stats.items() %}
+        <h5>{{ subject }}</h5>
+        <table border="1">
+            <tr>
+                <th>Head</th>
+                <th>Min</th>
+                <th>Max</th>
+                <th>Appeared</th>
+                <th>Passed</th>
+                <th>Pass %</th>
+                <th>Above 60%</th>
+            </tr>
+            {% for head, data in heads.items() %}
+            <tr>
+                <td>{{ head }}</td>
+                {% if data.na %}
+                <td colspan="6">Not Applicable</td>
+                {% else %}
+                <td>{{ data.min }}</td>
+                <td>{{ data.max }}</td>
+                <td>{{ data.appeared }}</td>
+                <td>{{ data.passed }}</td>
+                <td>{{ data.pass_percent }}%</td>
+                <td>{{ data.above60 }}%</td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </table>
+        {% endfor %}
+        {% endif %}
+
+
+    </div>
+
+</body>
+
+</html>

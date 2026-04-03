@@ -1,0 +1,637 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title> GOVERNMENT POLYTECHNIC YAVATMAL </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+
+<!-- Google Font -->
+<!-- <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #f4f6f8;
+        }
+
+        /* HEADER */
+        .header {
+            background: #003366;
+            color: white;
+            padding: 18px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        .back-arrow {
+            position: absolute;
+            left: 20px;
+            color: white;
+            text-decoration: none;
+            font-size: 20px;
+        }
+
+        /* FORM CONTAINER */
+        .form-container {
+            max-width: 1100px;
+            background: white;
+            margin: 40px auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container h2 {
+            text-align: center;
+            color: #003366;
+            margin-bottom: 25px;
+        }
+
+        /* 3 COLUMN GRID */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 6px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        /* FULL WIDTH */
+        .full-width {
+            grid-column: 1 / 4;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+        .btn {
+            padding: 10px 25px;
+            border: none;
+            border-radius: 5px;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .btn-send {
+            background: #003366;
+            color: white;
+        }
+
+        .btn-reset {
+            background: #cccccc;
+        }
+
+        .btn-send:hover {
+            background: #0055aa;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            background: #003366;
+            color: white;
+            font-size: 14px;
+            margin-top: 40px;
+        }
+
+        /* RESPONSIVE */
+        @media(max-width:900px) {
+            .form-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .full-width {
+                grid-column: 1 / 3;
+            }
+        }
+
+        @media(max-width:600px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full-width {
+                grid-column: 1;
+            }
+
+            .alert-success {
+                background-color: #d4edda;
+                color: #155724;
+                padding: 12px;
+                margin-bottom: 15px;
+                border-radius: 6px;
+                text-align: center;
+                font-weight: 600;
+            }
+        }
+    </style>
+</head>
+
+<body> -->
+
+<!-- HEADER -->
+<!-- <div class="header">
+        <a href="index.html" class="back-arrow">←</a>
+        GOVERNMENT POLYTECHNIC YAVATMAL
+    </div> -->
+
+<!-- FORM -->
+<!-- <div class="form-container">
+
+        <h2>Add Department </h2> -->
+
+<!-- ✅ FLASH MESSAGE START -->
+<!-- {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="alert-success">
+            {{ messages[0] }}
+        </div>
+        {% endif %}
+        {% endwith %} -->
+<!-- ✅ FLASH MESSAGE END -->
+
+<!-- <form method="POST" action="{{ url_for('add_dept') }}">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>Department Name</label>
+                    <input type="text" name="deptName" id="deptName" placeholder="Department Name" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Department Code</label>
+                    <input type="text" name="deptCode" id="deptCode" placeholder="Department Code" required>
+                </div>
+
+                <div class="form-group">
+                    <label>HOD Name</label>
+                    <input type="text" name="hodName" id="hodName" placeholder="HOD Name" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Contact Number</label>
+                    <input type="tel" name="contact" id="contact" placeholder="Contact Number" required>
+                </div>
+
+                <div class="form-group">
+                    <label>HOD Email</label>
+                    <input type="email" name="email" id="email" placeholder="HOD Email" required>
+                </div>
+
+
+                <div class="form-group full-width">
+                    <label>Department Description</label>
+                    <textarea id="description" rows="3" placeholder="Department Details"></textarea>
+                </div>
+
+            </div>
+
+            <div class="btn-group">
+                <button type="submit" class="btn btn-send">Send Mail</button>
+                <button type="reset" class="btn btn-reset">Reset</button>
+            </div>
+
+        </form>
+    </div> -->
+
+<!-- FOOTER -->
+<!-- <footer>
+        © 2025 Government Polytechnic Yavatmal | College 360
+    </footer>
+
+    <script>
+        function validateForm() {
+            let ids = ["deptName", "deptCode", "hodName", "contact", "email", "year", "description"];
+            for (let id of ids) {
+                if (document.getElementById(id).value === "") {
+                    alert("Please fill all department details");
+                    return false;
+                }
+            }
+            alert("Department details sent successfully via mail!");
+            return true;
+        }
+    </script>
+
+</body>
+
+</html> -->
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>GOVERNMENT POLYTECHNIC YAVATMAL</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+
+    <!-- Google Font -->
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #f4f6f8;
+        } -->
+
+        <!-- /* HEADER */ -->
+        <!-- .header {
+            background: #003366;
+            color: white;
+            padding: 18px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        .back-arrow {
+            position: absolute;
+            left: 20px;
+            color: white;
+            text-decoration: none;
+            font-size: 22px;
+        }
+
+        /* FORM CONTAINER */
+        .form-container {
+            max-width: 1100px;
+            background: white;
+            margin: 40px auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container h2 {
+            text-align: center;
+            color: #003366;
+            margin-bottom: 20px;
+        }
+
+        /* FLASH MESSAGE */
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        /* GRID */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 6px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .full-width {
+            grid-column: 1 / 4;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+        .btn {
+            padding: 10px 25px;
+            border: none;
+            border-radius: 5px;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .btn-send {
+            background: #003366;
+            color: white;
+        }
+
+        .btn-reset {
+            background: #cccccc;
+        }
+
+        .btn-send:hover {
+            background: #0055aa;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            background: #003366;
+            color: white;
+            font-size: 14px;
+            margin-top: 40px;
+        }
+
+        /* RESPONSIVE */
+        @media(max-width:900px) {
+            .form-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .full-width {
+                grid-column: 1 / 3;
+            }
+        }
+
+        @media(max-width:600px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full-width {
+                grid-column: 1;
+            }
+        }
+    </style>
+</head>
+<script>
+    setTimeout(() => {
+        const alertBox = document.querySelector(".alert-success");
+        if (alertBox) {
+            alertBox.style.display = "none";
+        }
+    }, 2000); // 2 seconds
+</script>
+
+<body>
+
+    HEADER -->
+    <!-- <div class="header">
+        <a href="{{ url_for('index') }}" class="back-arrow"></a>
+        GOVERNMENT POLYTECHNIC YAVATMAL
+    </div> -->
+
+    <!-- FORM -->
+    <!-- <div class="form-container">
+
+        <h2>Add Department</h2> -->
+
+        <!-- FLASH MESSAGE -->
+        <!-- {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="alert-success">
+            {{ messages[0] }}
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        <form method="POST" action="{{ url_for('add_dept') }}">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>Department Name</label>
+                    <input type="text" name="deptName" placeholder="Department Name" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Department Code</label>
+                    <input type="text" name="deptCode" placeholder="Department Code" required>
+                </div>
+
+                <div class="form-group">
+                    <label>HOD Name</label>
+                    <input type="text" name="hodName" placeholder="HOD Name" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Contact Number</label>
+                    <input type="tel" name="contact" placeholder="Contact Number" required>
+                </div>
+
+                <div class="form-group">
+                    <label>HOD Email</label>
+                    <input type="email" name="email" placeholder="HOD Email" required>
+                </div>
+
+                <div class="form-group full-width">
+                    <label>Department Description</label>
+                    <textarea name="description" rows="3" placeholder="Department Details"></textarea>
+                </div>
+
+            </div>
+
+            <div class="btn-group">
+                <button type="submit" class="btn btn-send">Send Mail</button>
+                <button type="reset" class="btn btn-reset">Reset</button>
+            </div>
+
+        </form>
+    </div> -->
+
+    <!-- FOOTER -->
+    <!-- <footer>
+        © 2025 Government Polytechnic Yavatmal | College 360
+    </footer>
+
+</body>
+
+</html> -->
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Add Department | College 360</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{background:#f4f6f8;}
+
+/* HEADER */
+.header{
+    background:#003366;
+    color:white;
+    padding:16px 20px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    font-size:22px;
+    font-weight:600;
+}
+
+/* BACK BUTTON */
+.back-btn{
+    position:absolute;
+    left:20px;
+    background:#7e6ad7;
+    color:white;
+    padding:6px 14px;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+/* CONTAINER */
+.container{
+    max-width:600px;
+    background:white;
+    margin:40px auto;
+    padding:30px;
+    border-radius:10px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+
+h2{
+    text-align:center;
+    color:#003366;
+    margin-bottom:25px;
+}
+
+.form-group{
+    margin-bottom:20px;
+}
+
+label{
+    font-weight:500;
+    display:block;
+    margin-bottom:6px;
+}
+
+input{
+    width:100%;
+    padding:10px;
+    border:1px solid #ccc;
+    border-radius:5px;
+}
+
+.btn{
+    width:100%;
+    background:#003366;
+    color:white;
+    padding:12px;
+    border:none;
+    border-radius:5px;
+    font-size:15px;
+    cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <button class="back-btn" onclick="goBack()">Back</button>
+    GOVERNMENT POLYTECHNIC YAVATMAL
+</div>
+
+<div class="container">
+<h2>Add Department</h2>
+
+<form method="POST" action="{{ url_for('add_dept') }}">
+
+<div class="form-group">
+    <label>Department Name</label>
+    <input type="text" name="dept_name" required>
+</div>
+
+<div class="form-group">
+    <label>Department Code</label>
+    <input type="text" name="dept_code" required>
+</div>
+
+<button class="btn">Add Department</button>
+
+</form>
+</div>
+
+<script>
+function addDepartment(){
+    if(deptName.value==="" || deptCode.value===""){
+        alert("Please fill all fields");
+        return false;
+    }
+
+    let list = JSON.parse(localStorage.getItem("deptList")) || [];
+
+    list.push({
+        name: deptName.value,
+        code: deptCode.value
+    });
+
+    localStorage.setItem("deptList", JSON.stringify(list));
+
+    alert("Department Added Successfully");
+    window.location.href="department-view.html";
+    return false;
+}
+
+function goBack(){
+    window.location.href="{{ url_for('principal_dashboard') }}"; // home/dashboard page
+}
+</script>
+
+</body>
+</html>

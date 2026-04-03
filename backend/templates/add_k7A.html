@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>FA-TH Analysis Final</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #4795e4;
+
+        }
+
+        .section {
+            background: #b2cfec;
+            padding: 8px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        table th,
+        table td {
+            text-align: center;
+            vertical-align: middle;
+            font-size: 13px;
+        }
+
+        .footer {
+            font-size: 12px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* CLG360 Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #1f3c88;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .header .title {
+            text-align: center;
+        }
+
+        .header button {
+            margin-left: 5px;
+        }
+
+        /* ===== ATTAINMENT BUTTON BOTTOM ===== */
+        .attainment-bottom {
+            margin-top: 30px;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        .attainment-btn {
+            background: #1f3c88;
+            /* CLG360 blue */
+            color: white;
+            border: none;
+            padding: 12px 35px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .attainment-btn:hover {
+            background: #163172;
+        }
+    </style>
+</head>
+
+
+
+<body>
+
+
+    <div class="container-fluid bg-white p-4">
+
+
+        <form method="POST" action="{{ url_for('save_fa_th') }}" onsubmit="showMessage()">
+            <div class="container-fluid bg-white p-4">
+
+                <div class="header">
+                    <div>
+                        <button type="button" class="btn btn-light btn-sm"
+                            onclick="window.location.href='{{ url_for('act') }}'">
+                            ⬅ Back
+                        </button>
+
+
+
+
+                    </div>
+                    <div class="title">
+                        <h5 class="mb-0">SUGGESTIVE FORMAT</h5>
+                        <h6 class="mb-0">ANALYSIS OF FA-TH CLASS TEST 1 / TEST 2 RESULT</h6>
+                        <p class="mb-0 fw-bold">Government Polytechnic Yavatmal</p>
+                    </div>
+                    <div></div> <!-- Empty div for spacing -->
+                </div>
+
+                <label>Scheme</label>
+
+                <select name="scheme_id" id="scheme_id" required>
+
+                    <option value="">Select Scheme</option>
+
+                    {% for s in schemes %}
+                    <option value="{{s.id}}">
+                        {{s.scheme_name}}
+                    </option>
+                    {% endfor %}
+
+                </select>
+
+                </select>
+
+                <!-- BASIC DETAILS -->
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><b>Academic Year</b></p>
+
+                        <!-- ✅ UPDATED ACADEMIC YEAR INPUT -->
+                        <input type="text" name="academic_year" class="form-control form-control-sm w-50"
+                            placeholder="2025-26" pattern="^[0-9]{4}-[0-9]{2}$"
+                            title="Academic Year must be in format 2025-26" required>
+
+                        <br>
+                        <input type="hidden" name="dept_id" value="{{ session['dept_id'] }}">
+                        <p><b>Program:</b> {{ departments | selectattr("dept_id","equalto",session['dept_id']) |
+                            map(attribute="dept_code") | first }}</p>
+
+                        <select name="semester" class="form-select form-select-sm w-50"
+                            onchange="window.location.href='?semester=' + this.value" required>
+
+                            <option value="">Select Semester</option>
+
+                            {% for i in range(1,7) %}
+                            <option value="{{ i }}" {% if selected_sem and selected_sem|int==i %}selected{% endif %}>
+                                {{ i }}
+                            </option>
+                            {% endfor %}
+
+                        </select>
+
+                        <!-- <p><b>Course Outcomes:</b>
+                            <select name="semester" class="form-select form-select-sm w-75">
+                                <option>CO1, CO2, CO3, CO4</option>
+                                <option>CO1, CO2, CO3, CO4, CO5</option>
+                                <option>CO1, CO2, CO3</option>
+                            </select>
+                        </p> -->
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <p><b>Exam:</b>
+                            <select name="exam" class="form-select form-select-sm w-50">
+                                <option>Test-01</option>
+                                <option>Test-02</option>
+                            </select>
+                        </p>
+
+                        <label><b>Course Code</b></label>
+
+                        <select name="course_code" id="course_code" required>
+
+                            <option value="">Select Course</option>
+
+                        </select>
+
+                        <input type="hidden" name="course_title" id="course_title">
+
+
+                        <!-- <p><b>Course Name:</b></p>
+                        <select name="course_title" class="form-select form-select-sm w-75" name="course_title">
+                            {% for c in courses %}
+                            <option value="{{ c.course_title }}">{{ c.course_title }}</option>
+                            {% endfor %}
+                        </select> -->
+
+
+                        <p><b>Name of Teacher:</b></p>
+                        <select name="staff_id" class="form-select form-select-sm w-75" name="staff_id">
+                            {% for s in staff %}
+                            <option value="{{ s.staff_id }}">{{ s.staff_name }}</option>
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+                </div>
+                <!-- FORMAT SELECTION -->
+                <div class="attainment-bottom">
+                    <label class="me-3 fw-bold">Select Format:</label>
+
+                    <input type="radio" name="format" id="format1" value="1">
+                    Format 1 (Q1 + Q2)
+
+                    <input type="radio" name="format" id="format2" value="2" checked class="ms-3">
+                    Format 2 (Q1 + Q2 + Q3)
+
+                </div>
+
+
+                <!-- STUDENT WISE ANALYSIS -->
+                <div class="section">Student Wise CO Analysis</div>
+
+                <div class="table-responsive">
+                    <table class="table table-bordered align-middle text-center">
+
+                        <thead>
+                            <tr>
+                                <th rowspan="2">Enrollment No</th>
+                                <th rowspan="2">Student Name</th>
+
+
+                                <th colspan="8">Ques 1</th>
+                                <th colspan="8">Ques 2</th>
+                                <th colspan="3" class="q3-col">Ques 3</th>
+
+
+                                <th rowspan="2">Total</th>
+
+                            </tr>
+
+                            <tr>
+                                <!-- Q1 -->
+                                <th>a</th>
+                                <th>b</th>
+                                <th>c</th>
+                                <th>d</th>
+                                <th>e</th>
+                                <th>f</th>
+                                <th>g</th>
+                                <th>h</th>
+
+                                <!-- Q2 -->
+                                <th>a</th>
+                                <th>b</th>
+                                <th>c</th>
+                                <th>d</th>
+                                <th>e</th>
+                                <th>f</th>
+                                <th>g</th>
+                                <th>h</th>
+
+                                <!-- Q3 -->
+                                <th class="q3-col">a</th>
+                                <th class="q3-col">b</th>
+                                <th class="q3-col">c</th>
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            {% if students|length == 0 %}
+                            <tr>
+                                <td colspan="21" class="text-danger fw-bold">
+                                    No students registered for this semester
+                                </td>
+                            </tr>
+                            {% else %}
+
+                            {% for s in students %}
+                            <tr>
+
+                                <!-- Enrollment -->
+                                <td>
+                                    {{ s.enrollment_no }}
+                                    <input type="hidden" name="enrollment_no[]" value="{{ s.enrollment_no }}">
+                                </td>
+
+                                <!-- Student Name -->
+                                <td>{{ s.student_name }}</td>
+
+                                <!-- Q1 -->
+                                <td><input type="number" name="q1a[]" min="0" max="2" step="1"
+                                        oninput="this.value=this.value.replace(/[^0-2]/g,'').slice(0,1)"
+                                        class="form-control form-control-sm"></td>
+
+                                <td><input type="number" name="q1b[]" min="0" max="2" step="1"
+                                        oninput="this.value=this.value.replace(/[^0-2]/g,'').slice(0,1)"
+                                        class="form-control form-control-sm"></td>
+                                <td><input type="number" name="q1c[]" min="0" max="2" step="1"
+                                        oninput="this.value=this.value.replace(/[^0-2]/g,'').slice(0,1)"
+                                        class="form-control form-control-sm"></td>
+                                <td><input type="number" name="q1d[]" min="0" max="2" step="1"
+                                        oninput="this.value=this.value.replace(/[^0-2]/g,'').slice(0,1)"
+                                        class="form-control form-control-sm"></td>
+                                <td><input type="number" name="q1e[]" min="0" max="2" step="1"
+                                        oninput="this.value=this.value.replace(/[^0-2]/g,'').slice(0,1)"
+                                        class="form-control form-control-sm"></td>
+                                <td><input type="number" name="q1f[]" min="0" max="2" step="1"
+                                        oninput="this.value=this.value.replace(/[^0-2]/g,'').slice(0,1)"
+                                        class="form-control form-control-sm"></td>
+                                <td><input type="number" name="q1g[]" min="0" max="2" step="1"
+                                        oninput="this.value=this.value.replace(/[^0-2]/g,'').slice(0,1)"
+                                        class="form-control form-control-sm"></td>
+                                <td><input type="number" name="q1h[]" min="0" max="2" step="1"
+                                        oninput="this.value=this.value.replace(/[^0-2]/g,'').slice(0,1)"
+                                        class="form-control form-control-sm"></td>
+
+                                <!-- Q2 -->
+                                <td><input type="number" name="q2a[]" min="0" max="4" step="1"
+                                        oninput="this.value=this.value.replace(/[^0-4]/g,'').slice(0,1)"
+                                        class="form-control form-control-sm"></td>
+                                <td><input type="number" name="q2b[]" min="0" max="4" step="1"
+                                        oninput="this.value=this.value.replace(/[^0-4]/g,'').slice(0,1)"
+                                        class="form-control form-control-sm"></td>
+                                <td><input type="number" name="q2c[]" min="0" max="4" step="1"
+                                        oninput="this.value=this.value.replace(/[^0-4]/g,'').slice(0,1)"
+                                        class="form-control form-control-sm"></td>
+                                <td><input type="number" name="q2d[]" min="0" max="4" step="1"
+                                        oninput="this.value=this.value.replace(/[^0-4]/g,'').slice(0,1)"
+                                        class="form-control form-control-sm"></td>
+                                <td><input type="number" name="q2e[]" min="0" max="4" step="1"
+                                        oninput="this.value=this.value.replace(/[^0-4]/g,'').slice(0,1)"
+                                        class="form-control form-control-sm"></td>
+                                <td><input type="number" name="q2f[]" min="0" max="4" step="1"
+                                        oninput="this.value=this.value.replace(/[^0-4]/g,'').slice(0,1)"
+                                        class="form-control form-control-sm"></td>
+                                <td><input type="number" name="q2g[]" min="0" max="4" step="1"
+                                        oninput="this.value=this.value.replace(/[^0-4]/g,'').slice(0,1)"
+                                        class="form-control form-control-sm"></td>
+                                <td><input type="number" name="q2h[]" min="0" max="4" step="1"
+                                        oninput="this.value=this.value.replace(/[^0-4]/g,'').slice(0,1)"
+                                        class="form-control form-control-sm"></td>
+
+                                <!-- Q3 -->
+                                <td class="q3-col"><input type="number" name="q3a[]" min="0" max="6" step="1"
+                                        oninput="this.value=this.value.replace(/[^0-6]/g,'').slice(0,1)"
+                                        class="form-control form-control-sm"></td>
+                                <td class="q3-col"><input type="number" name="q3b[]" min="0" max="6" step="1"
+                                        oninput="this.value=this.value.replace(/[^0-6]/g,'').slice(0,1)"
+                                        class="form-control form-control-sm"></td>
+                                <td class="q3-col"><input type="number" name="q3c[]" min="0" max="6" step="1"
+                                        oninput="this.value=this.value.replace(/[^0-6]/g,'').slice(0,1)"
+                                        class="form-control form-control-sm"></td>
+
+                                <!-- Total -->
+                                <td>
+                                    <input type="number" name="total[]" class="form-control form-control-sm total-box"
+                                        randomly>
+                                </td>
+
+                            </tr>
+                            {% endfor %}
+
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- ATTAINMENT BUTTON (BOTTOM) -->
+                <a href="{{ url_for('generate') }}" class="btn btn-primary">
+                    Go To Next Page
+                </a>
+                <div id="successMsg" style="display:none; background:#d4edda;
+                    color:#155724;
+                    padding:10px;
+                    border-radius:6px;
+                    margin-bottom:15px;
+                    font-weight:500;">
+                    ✅ Data Saved Successfully!
+                </div>
+                <button type="submit" class="btn btn-success btn-sm">
+                    💾 Save
+
+                </button>
+                <a href="{{ url_for('view_fa_th') }}" class="btn btn-primary">
+                    view
+                </a>
+
+
+
+                <!-- FOOTER -->
+                <div class="footer mt-4">
+                    <p>Maharashtra State Board of Technical Education, Mumbai</p>
+                    <p>Note: Use separate proforma for Test-01 & Test-02</p>
+                </div>
+
+
+            </div>
+
+
+            <script>
+
+                document.addEventListener("DOMContentLoaded", function () {
+
+                    const schemeDropdown = document.getElementById("scheme_id")
+                    const courseDropdown = document.getElementById("course_code")
+                    const courseTitle = document.getElementById("course_title")
+
+                    // 🔵 LOAD COURSES WHEN SCHEME CHANGES
+
+                    schemeDropdown.addEventListener("change", function () {
+
+                        let scheme_id = this.value
+
+                        courseDropdown.innerHTML = "<option>Select Course</option>"
+
+                        if (!scheme_id) return
+
+                        fetch("/get_courses/" + scheme_id)
+
+                            .then(res => res.json())
+
+                            .then(data => {
+
+                                data.forEach(course => {
+
+                                    let option = document.createElement("option")
+
+                                    option.value = course.course_code
+                                    option.text = course.course_code + " - " + course.course_title
+
+                                    option.dataset.title = course.course_title
+
+                                    courseDropdown.appendChild(option)
+
+                                })
+
+                            })
+
+                    })
+
+                    // 🔵 AUTO COURSE TITLE
+
+                    courseDropdown.addEventListener("change", function () {
+
+                        let title = this.options[this.selectedIndex].dataset.title
+
+                        courseTitle.value = title || ""
+
+                    })
+
+
+                    // ================================
+                    // 🔵 MARKS CALCULATION SCRIPT
+                    // ================================
+
+                    let isUpdating = false
+
+                    function sumTopN(row, prefix, count) {
+
+                        let values = []
+
+                        row.querySelectorAll("input[name^='" + prefix + "']").forEach(input => {
+
+                            let val = input.value.trim()
+
+                            if (val !== "" && !isNaN(val)) {
+                                values.push(Number(val))
+                            }
+
+                        })
+
+                        values.sort((a, b) => b - a)
+
+                        return values.slice(0, count).reduce((a, b) => a + b, 0)
+
+                    }
+
+                    function calculateRow(row) {
+
+                        if (isUpdating) return
+
+                        const format1 = document.getElementById("format1").checked
+
+                        let total = 0
+
+                        if (format1) {
+
+                            total += sumTopN(row, "q1", 5)
+                            total += sumTopN(row, "q2", 5)
+
+                        } else {
+
+                            total += sumTopN(row, "q1", 3)
+                            total += sumTopN(row, "q2", 3)
+                            total += sumTopN(row, "q3", 2)
+
+                        }
+
+                        if (total > 30) total = 30
+
+                        row.querySelector(".total-box").value = total
+
+                    }
+
+                    function updateFormat() {
+
+                        isUpdating = true
+
+                        const format1 = document.getElementById("format1").checked
+
+                        document.querySelectorAll(".q3-col").forEach(col => {
+
+                            col.style.display = format1 ? "none" : ""
+
+                        })
+
+                        if (format1) {
+
+                            document.querySelectorAll("input[name^='q3']").forEach(input => {
+
+                                input.value = ""
+
+                            })
+
+                        }
+
+                        isUpdating = false
+
+                        document.querySelectorAll("tbody tr").forEach(row => {
+
+                            calculateRow(row)
+
+                        })
+
+                    }
+
+                    document.querySelectorAll("tbody tr").forEach(row => {
+
+                        row.querySelectorAll("input[type='number']").forEach(input => {
+
+                            input.addEventListener("input", function () {
+
+                                calculateRow(row)
+
+                            })
+
+                        })
+
+                    })
+
+                    document.getElementById("format1").addEventListener("change", updateFormat)
+                    document.getElementById("format2").addEventListener("change", updateFormat)
+
+                    updateFormat()
+
+                })
+
+
+                // ==========================
+                // 🔵 RESET FUNCTION
+                // ==========================
+
+                function resetAllFields() {
+
+                    document.querySelectorAll("tbody input[type='number']").forEach(input => {
+
+                        input.value = ""
+
+                    })
+
+                }
+
+                function handleFormatChange() {
+
+                    const format1 = document.getElementById("format1").checked
+
+                    document.querySelectorAll(".q3-col").forEach(col => {
+
+                        col.style.display = format1 ? "none" : ""
+
+                    })
+
+                    resetAllFields()
+
+                }
+
+                window.onload = function () {
+
+                    document.getElementById("format1").addEventListener("change", handleFormatChange)
+                    document.getElementById("format2").addEventListener("change", handleFormatChange)
+
+                    handleFormatChange()
+
+                }
+
+            </script>
+
+</html>

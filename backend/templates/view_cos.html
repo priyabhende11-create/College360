@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>CLG360 - View Course Outcomes</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f4f6f9;
+    }
+
+    /* Header */
+    .header {
+      background: #1f3c88;
+      color: white;
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header button {
+      background: #28a745;
+      /* Green */
+      border: none;
+      color: white;
+      font-size: 14px;
+      cursor: pointer;
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-weight: 500;
+      transition: background 0.3s ease;
+    }
+
+    .header button:hover {
+      background: #218838;
+    }
+
+    /* Container */
+    .container {
+      max-width: 95%;
+      margin: 30px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+    }
+
+    /* Table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    th,
+    td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      vertical-align: top;
+      text-align: center;
+    }
+
+    th {
+      background: #1f3c88;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background: #f2f2f2;
+    }
+
+    td.outcome {
+      text-align: left;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Header -->
+  <div class="header">
+    <button onclick="window.location.href='/add_cos'">⬅ Back</button>
+    <h3>CLG360 – Course Outcomes</h3>
+    <span></span>
+  </div>
+
+
+  <!-- Content -->
+  <div class="container">
+    <form method="GET">
+      <label>Filter by Scheme</label>
+      <select name="scheme_id" onchange="this.form.submit()">
+        <option value="">All</option>
+        {% for s in schemes %}
+        <option value="{{ s.id }}" {% if selected_scheme==s.id|string %}selected{% endif %}>
+          {{ s.scheme_name }}
+        </option>
+        {% endfor %}
+      </select>
+    </form>
+
+    <table>
+      <tr>
+        <th>Year</th>
+        <th>Semester</th>
+        <th>Course Code</th>
+        <th>Department</th>
+        <th>Course Title</th>
+        <th>CO1</th>
+        <th>CO2</th>
+        <th>CO3</th>
+        <th>CO4</th>
+        <th>CO5</th>
+      </tr>
+
+      {% for c in cos %}
+      <tr>
+        <td>{{ c.year }}</td>
+        <td>{{ c.semester }}</td>
+        <td>{{ c.course_code }}</td>
+        <td>{{ c.dept_id }}</td>
+        <td>{{ c.course_title }}</td>
+        <td class="outcome">{{ c.co1 }}</td>
+        <td class="outcome">{{ c.co2 }}</td>
+        <td class="outcome">{{ c.co3 }}</td>
+        <td class="outcome">{{ c.co4 }}</td>
+        <td class="outcome">{{ c.co5 }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+
+  </div>
+
+</body>
+
+</html>

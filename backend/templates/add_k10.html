@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Placement Entry</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+body{background:#f4f6f8;font-family:Arial}
+header{
+    background:#1f3c88;color:#fff;padding:15px;
+    display:flex;align-items:center;justify-content:space-between;
+}
+.header-title{font-size:20px;font-weight:bold}
+.container{margin-top:30px}
+.card{padding:20px;margin-bottom:20px;background:#fff;box-shadow:0 2px 5px rgba(0,0,0,0.1)}
+.flash-msg{margin-top:10px;color:green;font-weight:bold;text-align:center}
+.save-btn{width:100%;margin-top:10px}
+</style>
+</head>
+<body>
+
+<header>
+    <a href="{{ url_for('act') }}" class="btn btn-light btn-sm">Back</a>
+    <div class="header-title">College 360 - Placement Entry</div>
+    <a href="{{ url_for('view_k10') }}" class="btn btn-info btn-sm">View</a>
+</header>
+
+<div class="container">
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<div class="flash-msg">{{ messages[0] }}</div>
+{% endif %}
+{% endwith %}
+
+
+<form method="POST">
+<div class="row">
+
+<!-- ================= PART-A ================= -->
+<div class="col-md-6">
+<div class="card">
+<h5>PART-A: Industry Placement</h5>
+
+<div class="mb-2">
+<label>Academic Year</label>
+<input type="text" name="a_academic_year" class="form-control" >
+</div>
+
+<div class="mb-2">
+<input value="{{ dept_name }}" readonly>
+</div>
+
+<div class="mb-2">
+<label>Date</label>
+<input type="date" name="a_date" class="form-control">
+</div>
+
+<div class="mb-2">
+<label>Industry Name</label>
+<input type="text" name="industry_name" class="form-control" >
+</div>
+
+<div class="mb-2">
+<label>Industry Address</label>
+<input type="text" name="industry_address" class="form-control">
+</div>
+
+<div class="mb-2">
+<label>Industry Type</label>
+<input type="text" name="industry_type" class="form-control">
+</div>
+
+<div class="mb-2">
+<label>No. of Students Attended</label>
+<input type="number" name="students_attended" class="form-control">
+</div>
+
+<div class="mb-2">
+<label>No. of Students Placed</label>
+<input type="number" name="students_placed" class="form-control">
+</div>
+
+<div class="mb-2">
+<label>Salary</label>
+<input type="text" name="salary" class="form-control">
+</div>
+
+<button type="submit" name="save_part" value="A" class="btn btn-primary save-btn">
+Save PART-A
+</button>
+
+</div>
+</div>
+
+<!-- ================= PART-B ================= -->
+<div class="col-md-6">
+<div class="card">
+<h5>PART-B: Student Placement</h5>
+
+<div class="mb-2">
+<label>Academic Year</label>
+<input type="text" name="b_academic_year" class="form-control" >
+</div>
+
+<div class="mb-2">
+<input value="{{ dept_name }}" readonly>
+</div>
+
+<div class="mb-2">
+<label>Student Name</label>
+<input type="text" name="student_name" class="form-control" >
+</div>
+
+<div class="mb-2">
+<label>Nature of Placement</label>
+<input type="text" name="placement_nature" class="form-control">
+</div>
+
+<div class="mb-2">
+<label>Industry Name</label>
+<input type="text" name="organization" class="form-control">
+</div>
+
+<div class="mb-2">
+<label>Remark</label>
+<input type="text" name="remark" class="form-control">
+</div>
+
+<button type="submit" name="save_part" value="B" class="btn btn-success save-btn">
+Save PART-B
+</button>
+
+</div>
+</div>
+
+</div>
+</form>
+</div>
+
+<script>
+window.addEventListener('DOMContentLoaded', () => {
+    const flashMsg = document.querySelector('.flash-msg');
+    if(flashMsg){
+        setTimeout(() => {
+            flashMsg.style.transition = "opacity 1s";
+            flashMsg.style.opacity = "0";
+            setTimeout(()=> flashMsg.remove(), 1000);
+        }, 3000);
+    }
+});
+</script>
+
+</body>
+</html>

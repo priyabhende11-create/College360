@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>K11 Add Faculty / Staff Training | College360</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif
+    }
+
+    body {
+      margin: 0;
+      background: #f4f6f8
+    }
+
+    header {
+      background: #1f3c88;
+      color: #fff;
+      padding: 14px 20px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+    }
+
+    .back-btn,
+    .view-btn {
+      background: #fff;
+      color: #1f3c88;
+      padding: 6px 12px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .header-center {
+      text-align: center
+    }
+
+    .inst-name {
+      font-size: 18px;
+      font-weight: bold
+    }
+
+    .card {
+      width: 95%;
+      margin: 30px auto;
+      background: #fff;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 15px
+    }
+
+    .top-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .horizontal-form {
+      display: grid;
+      grid-template-columns: 2fr 3fr 1.5fr 1.5fr 1.5fr 2fr 2fr;
+      gap: 10px;
+    }
+
+    input {
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      width: 100%;
+      font-size: 13px;
+    }
+
+    .label-row {
+      display: grid;
+      grid-template-columns: 2fr 3fr 1.5fr 1.5fr 1.5fr 2fr 2fr;
+      gap: 10px;
+      font-size: 13px;
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+
+    button {
+      margin-top: 25px;
+      background: #1f3c88;
+      color: #fff;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 6px;
+      font-size: 15px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <a href="/act" class="back-btn">⬅ Back</a>
+    <div class="header-center">
+      <div class="inst-name">Government Polytechnic Yavatmal</div>
+    </div>
+    <a href="{{ url_for('view_k11') }}" class="view-btn">👁 View Report</a>
+  </header>
+
+  <div class="card">
+    <h2> Staff Training</h2>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div style="color:green; margin-bottom:15px;">
+      {{ messages[0] }}
+    </div>
+    {% endif %}
+    {% endwith %}
+    <!-- IMPORTANT -->
+    <form method="POST" enctype="multipart/form-data">
+
+      <div class="top-form">
+        <input name="academic_year" placeholder="Academic Year" required>
+        <input value="{{ dept_name }}" readonly>
+      </div>
+
+      <div class="label-row">
+        <div>Name & Designation</div>
+        <div>Training Details</div>
+        <div>Mode</div>
+        <div>Duration</div>
+        <div>Date</div>
+        <div>Organizing Body</div>
+        <div>Organizing Institute</div>
+      </div>
+
+      <div class="horizontal-form">
+        <input name="name_designation">
+        <input name="training_details">
+        <input name="mode">
+        <input name="duration">
+        <input type="date" name="date">
+        <input name="organizing_body">
+        <input name="organizing_institute">
+      </div>
+
+      <br><br>
+      <label><b>Upload Multiple Photos:</b></label>
+      <input type="file" name="photo" multiple accept="image/*">
+
+      <button class="btn btn-primary w-100 save-btn">Save Record</button>
+
+    </form>
+  </div>
+  <script>
+    function previewImages(event) {
+      const preview = document.getElementById("preview");
+      preview.innerHTML = "";
+
+      const files = event.target.files;
+
+      for (let i = 0; i < files.length; i++) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const img = document.createElement("img");
+          img.src = e.target.result;
+          img.style.width = "80px";
+          img.style.margin = "5px";
+          img.style.borderRadius = "5px";
+          preview.appendChild(img);
+        };
+        reader.readAsDataURL(files[i]);
+      }
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Add Industrial Visit</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Segoe UI, Arial
+        }
+
+        body {
+            margin: 0;
+            background: #f2f4f8
+        }
+
+        /* ===== HEADER ===== */
+        .clg-header {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            align-items: center;
+            background: #385398;
+            /* ✅ BLUE HEADER */
+            color: #fff;
+            padding: 12px 20px;
+        }
+
+        .left {
+            text-align: left
+        }
+
+        .center {
+            text-align: center
+        }
+
+        .right {
+            text-align: right
+        }
+
+        .back-btn {
+            background: white;
+            color: #e28c8c;
+            padding: 6px 14px;
+            border-radius: 5px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            background: #bee6c7;
+        }
+
+        .view-btn {
+            background: #0d6efd;
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 5px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .view-btn:hover {
+            background: #0b5ed7;
+        }
+
+        /* SUCCESS MESSAGE */
+        .success-msg {
+            width: 85%;
+            margin: 20px auto;
+            padding: 12px;
+            background: #d4edda;
+            color: #155724;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        /* CARD */
+        .card {
+            width: 85%;
+            margin: 25px auto;
+            background: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1)
+        }
+
+        /* FORM */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        label {
+            font-weight: 600
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px
+        }
+
+        textarea {
+            resize: none
+        }
+
+        .save {
+            margin-top: 20px;
+            background: #1f3c88;
+            color: #fff;
+            padding: 10px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .page-title {
+            text-align: center;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ===== HEADER ===== -->
+    <header class="clg-header">
+        <div class="left">
+            <a href="{{ back_url }}" class="back-btn">← Back</a>
+        </div>
+
+        <div class="center">
+            <h2>Government Polytechnic Yavatmal</h2>
+        </div>
+
+        <div class="right">
+            <a href="{{ view_url }}" class="view-btn">View</a>
+        </div>
+    </header>
+
+    <!-- SUCCESS MESSAGE -->
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="success-msg">
+        {{ messages[0] }}
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    <div class="card">
+
+        <div class="page-title">Industrial Visit Details</div>
+
+        <form method="post" enctype="multipart/form-data">
+            <div class="grid">
+
+                <div>
+                    <label>Academic Year</label>
+                    <input name="academic_year" required placeholder="2025-26">
+                </div>
+
+                <div>
+                    <label>Programme (Department)</label>
+                    <input value="{{ dept_name }}" readonly>
+                </div>
+
+                <div>
+                    <label>Industry Address</label>
+                    <textarea name="industry_address" required></textarea>
+                </div>
+
+                <div>
+                    <label>Date of Visit</label>
+                    <input type="date" name="visit_date">
+                </div>
+
+                <div>
+                    <label>Semester</label>
+                    <input name="semester">
+                </div>
+
+                <div>
+                    <label>Name of Industry</label>
+                    <input name="industry_name">
+                </div>
+
+                <div>
+                    <label>Name of Coordinator</label>
+                    <input name="coordinator_name">
+                </div>
+
+                <div>
+                    <label>No. of Beneficiaries</label>
+                    <input type="number" name="beneficiaries">
+                </div>
+
+                <div>
+                    <label>Mapping with PO/PSO</label>
+                    <input name="mapping_level">
+                </div>
+
+                <div style="grid-column:1/3">
+                    <label>Relevance to Course</label>
+                    <textarea name="relevance" rows="3"></textarea>
+                </div>
+                <div>
+                    <label>Upload Photo</label>
+                    <input type="file" name="photo" accept="image/*" multiple>
+                </div>
+
+            </div>
+
+            <button class="save">Save</button>
+        </form>
+    </div>
+
+</body>
+
+</html>

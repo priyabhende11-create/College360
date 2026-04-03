@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>CLG360 – Staff Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI";
+            background: #f4f6fb;
+        }
+
+        /* HEADER */
+
+        .header {
+            height: 90px;
+            background: linear-gradient(90deg, #1f3c88, #274bdb);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .header-back {
+            position: absolute;
+            left: 20px;
+            background: white;
+            color: #1f3c88;
+            padding: 6px 14px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+            position: fixed;
+            top: 90px;
+            left: 0;
+            width: 230px;
+            height: 100%;
+            background: white;
+            padding-top: 20px;
+            box-shadow: 4px 0 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 22px;
+            text-decoration: none;
+            color: #1f3c88;
+        }
+
+        .sidebar a:hover {
+            background: #eef2ff;
+        }
+
+        .logout {
+            background: #fee2e2;
+            color: #b91c1c;
+            margin: 15px;
+            border-radius: 8px;
+            justify-content: center;
+        }
+
+        /* MAIN */
+
+        .main {
+            margin-left: 230px;
+            padding: 40px;
+        }
+
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 18px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+            max-width: 700px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+
+        <a href="{{ url_for('index') }}" class="header-back">
+            <i class="fas fa-arrow-left"></i> Back
+        </a>
+
+        <h2>CLG360 – Staff Dashboard</h2>
+
+    </div>
+
+    <!-- SIDEBAR -->
+
+    <div class="sidebar">
+
+        <div class="sidebar">
+
+            {% for d in departments %}
+
+            <a href="{{ url_for('staff_tasks', dept_id=d.dept_id) }}">
+                {{ d.dept_name }}
+            </a>
+
+            {% endfor %}
+
+        </div>
+
+        <a href="{{ url_for('logout') }}" class="logout">
+            <i class="fas fa-right-from-bracket"></i> Logout
+        </a>
+
+    </div>
+
+
+
+    <!-- MAIN -->
+
+    <div class="main">
+
+        <div class="card">
+
+            <h2>Welcome {{ staff_name }}</h2>
+
+            <p>
+                Select your department from sidebar to view assigned tasks.
+            </p>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Add MOU</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins}
+body{background:#f4f6f8}
+
+/* ===== HEADER ===== */
+.header{
+    background:#003366;
+    color:#fff;
+    padding:18px;
+    text-align:center;
+    position:relative;
+}
+.header h1{font-size:22px;font-weight:600}
+.back-btn{
+    position:absolute;
+    left:20px;
+    top:50%;
+    transform:translateY(-50%);
+    background:white;
+    color:#cf7575;
+    padding:7px 14px;
+    border-radius:6px;
+    text-decoration:none;
+    font-size:14px;
+}
+
+/* ===== LAYOUT ===== */
+.container{
+    display:flex;
+    gap:30px;
+    justify-content:center;
+    margin:30px;
+}
+
+/* ===== CARD ===== */
+.card{
+    background:#fff;
+    padding:25px;
+    border-radius:10px;
+    box-shadow:0 6px 15px rgba(0,0,0,0.15);
+}
+.form-card{width:380px}
+.table-card{width:600px}
+
+input,textarea{
+    width:100%;
+    padding:10px;
+    border:1px solid #ccc;
+    border-radius:5px;
+    margin-bottom:12px;
+}
+button{
+    width:100%;
+    padding:12px;
+    border:none;
+    background:#003366;
+    color:white;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+/* ===== TABLE ===== */
+table{width:100%;border-collapse:collapse}
+th,td{padding:8px;border:1px solid #ccc;text-align:center}
+th{background:#003366;color:white}
+
+.badge{
+    padding:5px 10px;
+    border-radius:15px;
+    color:white;
+    font-size:12px;
+    text-decoration:none;
+}
+.active{background:#28a745}
+.inactive{background:#dc3545}
+
+.btn{
+    padding:5px 8px;
+    color:white;
+    border-radius:4px;
+    text-decoration:none;
+    font-size:13px;
+}
+.edit{background:#ffc107}
+.del{background:#dc3545}
+
+.flash{
+    background:#d4edda;
+    padding:10px;
+    margin-bottom:10px;
+    border-radius:5px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">
+    <a href="{{ url_for('hod_dashboard') }}" class="back-btn">
+        <i class="fas fa-arrow-left"></i> Back
+    </a>
+    <h1>Government Polytechnic Yavatmal</h1>
+</div>
+
+<div class="container">
+
+<!-- ADD / UPDATE -->
+<div class="card form-card">
+<h3>{{ 'Update MOU' if edit_mou else 'Add MOU' }}</h3>
+
+{% with messages=get_flashed_messages() %}
+{% if messages %}
+<div class="flash">{{messages[0]}}</div>
+{% endif %}
+{% endwith %}
+
+<form method="post">
+<input type="hidden" name="mou_id" value="{{ edit_mou.mou_id if edit_mou }}">
+
+<input name="title" placeholder="MOU organizaton admin" value="{{ edit_mou.title if edit_mou }}" required>
+<input name="organization" placeholder="Organization" value="{{ edit_mou.organization if edit_mou }}" required>
+<input type="date" name="start_date" value="{{ edit_mou.start_date if edit_mou }}" required>
+<input type="date" name="end_date" value="{{ edit_mou.end_date if edit_mou }}" required>
+<textarea name="description" rows="4">{{ edit_mou.description if edit_mou }}</textarea>
+
+<button type="submit">{{ 'Update MOU' if edit_mou else 'Add MOU' }}</button>
+</form>
+</div>
+
+<!-- VIEW -->
+<div class="card table-card">
+<h3>View MOU</h3>
+<table>
+<tr>
+<th>Title</th>
+<th>Org</th>
+<th>Status</th>
+<th>Action</th>
+</tr>
+
+{% for m in mou_list %}
+<tr>
+<td>{{m.title}}</td>
+<td>{{m.organization}}</td>
+<td>
+<a href="/hod/mou/status/{{m.mou_id}}"
+   class="badge {{ 'active' if m.status=='Active' else 'inactive' }}">
+   {{m.status}}
+</a>
+</td>
+<td>
+<a href="/hod/mou/edit/{{m.mou_id}}" class="btn edit">Edit</a>
+<a href="/hod/mou/delete/{{m.mou_id}}" class="btn del"
+onclick="return confirm('Delete MOU?')">Delete</a>
+</td>
+</tr>
+{% endfor %}
+</table>
+</div>
+
+</div>
+</body>
+</html>

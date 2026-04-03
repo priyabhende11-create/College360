@@ -1,0 +1,275 @@
+<!-- <!DOCTYPE html>
+<html>
+
+<head>
+    <title>HOD & Staff List</title> -->
+
+    <!-- Bootstrap -->
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+
+    <!-- Icons -->
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+    <div class="container mt-4">
+
+        <h3 class="mb-4 text-center">HOD & Staff List</h3>
+
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="alert alert-success text-center">
+            {{ messages[0] }}
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Department</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for row in data %}
+                <tr>
+                    <td>{{ row.dept_name }}</td>
+                    <td>{{ row.staff_name }}</td>
+                    <td>{{ row.email }}</td>
+
+                    <td>
+                        {% if row.role == 'hod' %}
+                        <span class="badge bg-success">HOD</span>
+                        {% else %}
+                        <span class="badge bg-secondary">Staff</span>
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        {% if row.role == 'hod' %}
+                        <a href="{{ url_for('resend_hod_email', staff_id=row.staff_id) }}"
+                            class="btn btn-sm btn-primary">
+                            Send Email
+                        </a>
+                        {% else %}
+                        <a href="{{ url_for('send_staff_email', staff_id=row.staff_id) }}"
+                            class="btn btn-sm btn-warning">
+                            Send Email
+                        </a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table> -->
+        <!-- 👇 BUTTONS ONLY AT BOTTOM -->
+        <!-- <div class="text-center mt-3">
+            <a id="viewBtn" class="btn btn-info disabled">View</a>
+            <a id="changeBtn" class="btn btn-primary disabled">Change</a>
+        </div>
+
+        <script>
+            function selectStaff(id) {
+                let viewBtn = document.getElementById("viewBtn");
+                let changeBtn = document.getElementById("changeBtn");
+
+                viewBtn.href = "/view_staff/" + id;
+                changeBtn.href = "/edit_staff/" + id;
+
+                viewBtn.classList.remove("disabled");
+                changeBtn.classList.remove("disabled");
+            }
+        </script
+    </div >
+</body >
+
+</html > -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOD & Staff List - Government Polytechnic Yavatmal</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        /* Header styling */
+        header {
+            background-color: #1f3c88;
+            color: #fff;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* College name centered */
+        .college-name {
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        /* Back arrow box */
+        .back-box {
+            position: absolute;
+            left: 20px;
+            background-color: #28a745;
+            padding: 6px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .back-box i {
+            margin-right: 5px;
+            font-size: 1.2rem;
+        }
+
+        /* Page title inside container */
+        .page-title {
+            color: #1f3c88;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-size: 1.6rem;
+            text-align: center;
+        }
+
+        /* Table styling */
+        table thead {
+            background-color: #1f3c88;
+            color: white;
+        }
+
+        table tbody tr.table-active {
+            background-color: #d0e2ff;
+        }
+
+        /* Buttons styling */
+        .btn:disabled {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+
+    <!-- Header with back arrow -->
+    <header>
+        <a class="back-box" href="{{ url_for('assign_hod_page') }}">
+            <i class="bi bi-arrow-left-circle-fill"></i> Back
+        </a>
+        <div class="college-name">Government Polytechnic Yavatmal</div>
+    </header>
+
+    <div class="container mt-4">
+
+        <!-- Page title -->
+        <h3 class="page-title">HOD & Staff List</h3>
+
+        <!-- Flash messages -->
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="alert alert-success text-center">
+            {{ messages[0] }}
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        <!-- Staff Table -->
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>Department</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for row in data %}
+                    <tr id="row{{ row.staff_id }}" onclick="selectStaff({{ row.staff_id }})" style="cursor:pointer">
+                        <td>{{ row.dept_name }}</td>
+                        <td>{{ row.staff_name }}</td>
+                        <td>{{ row.email }}</td>
+                        <td>
+                            {% if row.role == 'hod' %}
+                            <span class="badge bg-success">HOD</span>
+                            {% else %}
+                            <span class="badge bg-secondary">Staff</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if row.role == 'hod' %}
+                            <a href="{{ url_for('resend_hod_email', staff_id=row.staff_id) }}"
+                                class="btn btn-sm btn-primary">
+                                Send Email
+                            </a>
+                            {% else %}
+                            <a href="{{ url_for('send_staff_email', staff_id=row.staff_id) }}"
+                                class="btn btn-sm btn-warning">
+                                Send Email
+                            </a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="text-center mt-3">
+            <a id="viewBtn" class="btn btn-info disabled me-2">View</a>
+            <a id="changeBtn" class="btn btn-primary disabled">Change</a>
+        </div>
+
+    </div>
+
+    <!-- Script to select staff -->
+    <script>
+        function selectStaff(staffId) {
+            // Remove highlight from all rows
+            document.querySelectorAll("tbody tr").forEach(tr => {
+                tr.classList.remove("table-active");
+            });
+
+            // Highlight selected row
+            document.getElementById("row" + staffId).classList.add("table-active");
+
+            // Activate buttons
+            let viewBtn = document.getElementById("viewBtn");
+            let changeBtn = document.getElementById("changeBtn");
+
+            viewBtn.href = "/view_staff/" + staffId;
+            changeBtn.href = "/edit_staff/" + staffId;
+
+            viewBtn.classList.remove("disabled");
+            changeBtn.classList.remove("disabled");
+        }
+    </script>
+
+</body>
+
+</html>

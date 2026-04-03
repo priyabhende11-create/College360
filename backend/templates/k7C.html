@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>K7 Part C Report</title>
+
+    <style>
+        body {
+            font-family: "Times New Roman";
+            margin: 40px;
+        }
+
+        .clg-header {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            align-items: center;
+            background: #1f3c88;
+            color: #fff;
+            padding: 20px 25px;
+        }
+
+        .clg-header h2 {
+            margin: 0;
+            font-size: 20px
+        }
+
+        .header {
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid black;
+            padding: 6px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .footer {
+            margin-top: 50px;
+        }
+
+        .print-btn {
+            margin-top: 30px;
+        }
+
+        @media print {
+            .print-btn {
+                display: none;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+    <header class="clg-header">
+        <div>
+            <a href="{{ url_for('act') }}" class="back-btn"
+                style="background:oklab(255,255,255);color:rgb(255,255,255);border:none;">⬅ Back</a>
+        </div>
+        <div style="text-align:center;">
+            <h2>College 360</h2>
+        </div>
+        <div></div>
+    </header>
+
+    <div class="header">
+        <h4>K7 (PART C)</h4>
+        <h4>TH_FA AND TH_SA ANALYSIS</h4>
+        <p>For AICTE Diploma Engineering Courses</p>
+        <p>Maharashtra State Board of Technical Education</p>
+    </div>
+
+    <br>
+
+    <form method="GET" action="{{ url_for('k7c') }}">
+
+        <label>Academic Year:</label>
+        <select name="academic_year" required>
+            <option value="">Select Year</option>
+            {% for y in years %}
+            <option value="{{ y.academic_year }}" {% if academic_year==y.academic_year %} selected {% endif %}>
+                {{ y.academic_year }}
+            </option>
+            {% endfor %}
+        </select>
+
+        <label>Semester:</label>
+        <select name="semester" required>
+            <option value="">Select Semester</option>
+            <option value="5" {% if semester=="5" %}selected{% endif %}>5</option>
+            <option value="6" {% if semester=="6" %}selected{% endif %}>6</option>
+        </select>
+
+        <button type="submit">Generate Report</button>
+
+    </form>
+
+    <table>
+        <tr>
+            <th>Sr. No.</th>
+            <th>COURSE TITLE</th>
+            <th>FA_TH SCORE INDEX<br>(LAST TWO TERMS)</th>
+            <th>SA_TH SCORE INDEX</th>
+            <th>DIFFERENCE</th>
+            <th>If difference is greater than 20% Give remarks</th>
+        </tr>
+
+        {% for row in data %}
+        <tr>
+            <td>{{ row.sr }}</td>
+            <td style="text-align:left;">{{ row.course_title }}</td>
+            <td>{{ row.fa_index }}</td>
+            <td>{{ row.sa_index }}</td>
+            <td>{{ row.difference }}</td>
+            <td>{{ row.remark }}</td>
+        </tr>
+        {% endfor %}
+
+        {% for i in range(10 - data|length) %}
+        <tr>
+            <td>&nbsp;</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+    <div class="footer">
+
+        <br><br>
+
+        <table style="border:none;">
+            <tr style="border:none;">
+                <td style="border:none; text-align:left;">
+                    Signature of Academic Co-ordinator<br><br>
+                    Name
+                </td>
+
+                <td style="border:none; text-align:right;">
+                    Signature of HoD<br><br>
+                    Name
+                </td>
+            </tr>
+        </table>
+
+        <br><br>
+    </div>
+
+    <button class="print-btn" onclick="window.print()">🖨 Print</button>
+
+</body>
+
+</html>

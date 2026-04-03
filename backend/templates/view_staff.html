@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Staff - Government Polytechnic Yavatmal</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        /* Header styling */
+        header {
+            background-color: #1f3c88;
+            color: #fff;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* College name centered */
+        .college-name {
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        /* Back arrow box */
+        .back-box {
+            position: absolute;
+            left: 20px;
+            background-color: #28a745;
+            padding: 6px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .back-box i {
+            margin-right: 5px;
+            font-size: 1.2rem;
+        }
+
+        /* Page title styling */
+        .page-title {
+            color: #1f3c88;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            font-size: 1.6rem;
+            text-align: center;
+        }
+
+        /* Table styling */
+        table th {
+            width: 35%;
+        }
+
+        table td, table th {
+            vertical-align: middle !important;
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+
+    <!-- Header with back arrow -->
+    <header>
+        <a class="back-box" href="{{ url_for('view_hod_staff') }}">
+            <i class="bi bi-arrow-left-circle-fill"></i> Back
+        </a>
+        <div class="college-name">Government Polytechnic Yavatmal</div>
+    </header>
+
+    <div class="container mt-4">
+
+        <!-- Page title -->
+        <h3 class="page-title">Staff Full Details</h3>
+
+        <div class="row">
+            <div class="col-md-4 text-center">
+                {% if staff.photo %}
+                    <img src="{{ url_for('static', filename='uploads/' ~ staff.photo) }}"
+                         class="img-thumbnail" width="200">
+                {% else %}
+                    <img src="https://via.placeholder.com/200" class="img-thumbnail">
+                {% endif %}
+            </div>
+
+            <div class="col-md-8">
+                <table class="table table-bordered">
+                    <tr><th>Name</th><td>{{ staff.staff_name }}</td></tr>
+                    <tr><th>Email</th><td>{{ staff.email }}</td></tr>
+                    <tr><th>Contact</th><td>{{ staff.contact }}</td></tr>
+                    <tr><th>Qualification</th><td>{{ staff.qualification }}</td></tr>
+                    <tr><th>Address</th><td>{{ staff.address }}</td></tr>
+                    <tr><th>Department</th><td>{{ staff.dept_name }}</td></tr>
+                    <tr><th>Role</th>
+                        <td>
+                            {% if staff.role == 'hod' %}
+                                <span class="badge bg-success">HOD</span>
+                            {% else %}
+                                <span class="badge bg-secondary">Staff</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        
+
+    </div>
+
+</body>
+</html>

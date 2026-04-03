@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>CLG360 - Register</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f6f9;
+    }
+
+    /* Header */
+    .header {
+      background: #1f3c88;
+      color: white;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* .header button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    } */
+    .back-btn {
+      background: white;
+      /* Green */
+      color: rgb(231, 142, 142);
+      border: none;
+      padding: 8px 18px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      transition: background 0.3s ease;
+    }
+
+    .back-btn:hover {
+      background: #a8caaf;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 10px;
+    }
+
+    h2 {
+      margin-bottom: 25px;
+      color: #1f3c88;
+    }
+
+    /* Cards */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 25px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 30px 20px;
+      text-align: center;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+    }
+
+    .card-icon {
+      font-size: 40px;
+      margin-bottom: 15px;
+      color: #1f3c88;
+    }
+
+    .card-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .card-desc {
+      font-size: 14px;
+      color: #555;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Header -->
+  <div class="header">
+    <button class="back-btn" onclick="window.location.href='/act'">
+      ⬅ Back
+    </button>
+    <h3>CLG360 – Register</h3>
+    <span></span>
+  </div>
+
+  <!-- Content -->
+  <div class="container">
+    <h2>Select Register Type</h2>
+
+    <div class="card-grid">
+
+      <!-- Students -->
+      <div class="card" onclick="window.location.href='/students'">
+        <div class="card-icon">🎓</div>
+        <div class="card-title">Students</div>
+        <div class="card-desc">
+          Register and manage student details
+        </div>
+      </div>
+
+      <!-- Courses -->
+      <div class="card" onclick="window.location.href='/courses'">
+        <div class="card-icon">📘</div>
+        <div class="card-title">Courses</div>
+        <div class="card-desc">
+          Create and manage courses
+        </div>
+      </div>
+
+      <!-- Course Outcomes -->
+      <div class="card" onclick="window.location.href='/add_cos'">
+        <div class="card-icon">📊</div>
+        <div class="card-title">Course Outcomes</div>
+        <div class="card-desc">
+          Define and manage COs
+        </div>
+      </div>
+      <div class="card" onclick="window.location.href='/register_scheme'">
+        <div class="card-icon">📊</div>
+        <div class="card-title">Scheme Registration</div>
+        <div class="card-desc">
+          Register scheme
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+
+</html>

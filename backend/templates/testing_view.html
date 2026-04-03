@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lab Testing Report – College 360</title>
+
+    <style>
+        body {
+            font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+            background: linear-gradient(135deg, #eef2f7, #f8fafc);
+            margin: 0;
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            background: linear-gradient(90deg, #1f3c88, #274bb6);
+            color: #fff;
+            padding: 14px 20px;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        header h1 {
+            margin: 0;
+            text-align: center;
+            font-size: 22px;
+        }
+
+        .back-btn {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #ffffff;
+            color: #1f3c88;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* ===== CONTAINER ===== */
+        .container {
+            max-width: 1200px;
+            margin: 35px auto;
+            background: #fff;
+            padding: 30px 35px;
+            border-radius: 14px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #1f3c88;
+        }
+
+        /* ===== FILTER ===== */
+        .filter-box {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+
+        select {
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .btn-filter {
+            background: #1f3c88;
+            color: #fff;
+        }
+
+        /* ===== TABLE ===== */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        th,
+        td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background: #1f3c88;
+            color: #fff;
+        }
+
+        /* ===== PRINT ===== */
+        .print-box {
+            text-align: right;
+            margin-top: 20px;
+        }
+
+        .btn-print {
+            background: #43a047;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ===== HEADER ===== -->
+    <header>
+        <button class="back-btn" onclick="window.location.href='{{ url_for('testing_add') }}'">
+            ← Back
+        </button>
+        <h1>Government Polytechnic Yavatmal</h1>
+    </header>
+
+    <!-- ===== REPORT ===== -->
+    <div class="container">
+        <h2>Testing Report</h2>
+
+        <!-- FILTER -->
+        
+
+<form method="get" style="margin-bottom:15px;">
+    {% if session.role == "principal" %}
+        <label><b>Department:</b></label>
+        <select name="dept_id" onchange="this.form.submit()">
+            <option value="">All</option>
+            {% for d in departments %}
+            <option value="{{ d.dept_id }}"
+                {% if selected_dept == d.dept_id|string %}selected{% endif %}>
+                {{ d.dept_name }}
+            </option>
+            {% endfor %}
+        </select>
+    {% endif %}
+    {% if session.role == "principal" or session.role == "hod" %}
+    <center><label><b>Academic Year:</b></label>
+    <select name="academic_year" onchange="this.form.submit()">
+        <option value="">All</option>
+        {% for y in academic_years %}
+        <option value="{{ y }}"
+            {% if y == selected_year %}selected{% endif %}>
+            {{ y }}
+        </option>
+        {% endfor %}
+    </select>
+    </center>
+
+</form>
+
+{% endif %}
+        <!-- <button type="submit" class="btn-filter">View</button> -->
+        </form>
+
+        <!-- TABLE -->
+        <table>
+            <tr>
+                <th>Sr.No</th>
+                <th>Dept</th>
+                <th>Academic Year</th>
+                <th>Tester Name</th>
+                <th>Contact</th>
+                <th>Location</th>
+                <th>Test Date</th>
+                <th>Expense (₹)</th>
+                <th>Remarks</th>
+            </tr>
+
+            {% for r in records %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ r.dept_name }}</td>
+                <td>{{ r.academic_year }}</td>
+                <td>{{ r.tester_name }}</td>
+                <td>{{ r.tester_contact }}</td>
+                <td>{{ r.location }}</td>
+                <td>{{ r.test_date }}</td>
+                <td>{{ r.expense }}</td>
+                <td>{{ r.remarks }}</td>
+            </tr>
+            {% endfor %}
+
+            {% if records|length == 0 %}
+            <tr>
+                <td colspan="8" style="color:red;font-weight:bold">
+                    No Records Found
+                </td>
+            </tr>
+            {% endif %}
+        </table>
+
+        <!-- PRINT -->
+        <div class="print-box">
+            <button onclick="window.print()" class="btn-print">
+                🖨 Print / Save PDF
+            </button>
+        </div>
+
+    </div>
+</body>
+</html>

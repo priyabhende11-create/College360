@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>K14 | Extra Curricular Activity</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: linear-gradient(to right, #eef2f7, #e3e9f2);
+            font-family: Segoe UI;
+        }
+
+        header {
+            background: #1f3c88;
+            color: #fff;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .main-card {
+            background: #fff;
+            margin: 30px auto;
+            padding: 25px;
+            width: 85%;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #1f3c88;
+            border-bottom: 2px solid #1f3c88;
+            padding-bottom: 5px;
+        }
+
+        .save-btn {
+            background: #1f3c88;
+            border: none;
+        }
+
+        .save-btn:hover {
+            background: #162c66;
+        }
+
+        .flash-msg {
+            text-align: center;
+            color: green;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <a href="{{ url_for('act') }}" class="btn btn-light btn-sm">⬅ Back</a>
+        <div class="header-title">K14 – EXTRA CURRICULAR ACTIVITY ENTRY</div>
+        <a href="{{ url_for('view_k14') }}" class="btn btn-warning btn-sm">View Report</a>
+    </header>
+
+    <div class="main-card">
+
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="flash-msg">{{ messages[0] }}</div>
+        {% endif %}
+        {% endwith %}
+
+        <form method="POST" enctype="multipart/form-data">
+
+            <div class="section-title">Basic Information</div>
+
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label>Academic Year</label>
+                    <input name="academic_year" class="form-control" required>
+                </div>
+
+                <div class="col-md-4">
+                    <label>Date</label>
+                    <input type="date" name="activity_date" class="form-control">
+                </div>
+
+                <div class="col-md-4">
+                    <label>Type of Activity</label>
+                    <select name="activity_type" class="form-select" required>
+                        <option value="">Select</option>
+                        <option>Sports</option>
+                        <option>Cultural</option>
+                        <option>Technical Event</option>
+                        <option>Seminar</option>
+                        <option>Workshop</option>
+                        <option>Competition</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label>Activity Details</label>
+                <textarea name="activity_details" class="form-control" rows="2"></textarea>
+                <label>Programme</label>
+                <input value="{{ dept_name }}" readonly>
+
+            </div>
+
+            <div class="section-title">Organizing Details</div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label>Organizing</label>
+                    <select name="organizing" id="organizing" class="form-select" onchange="toggleOther()">
+                        <option value="Institute">Institute</option>
+                        <option value="MSBTE">MSBTE</option>
+                        <option value="DTE">DTE</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6">
+                    <label>Other Organization</label>
+                    <input type="text" name="organizing_other" id="organizing_other" class="form-control"
+                        placeholder="Enter organization name" style="display:none;">
+                </div>
+            </div>
+
+            <div class="section-title">Participant Details</div>
+
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label>Student Name</label>
+                    <input name="participant_name" class="form-control">
+                </div>
+
+                <div class="col-md-4">
+                    <label>Enrollment No</label>
+                    <input name="enrollment_no" class="form-control">
+                </div>
+
+                <div class="col-md-4">
+                    <label>Award / Prize</label>
+                    <input name="award_prize" class="form-control">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label>Relevance to PO / PSO</label>
+                    <input name="relevance_po" class="form-control">
+                </div>
+
+                <div>
+                    <label>Upload Photos</label>
+                    <input type="file" name="photo" accept="image/*" multiple class="form-control">
+                </div>
+
+
+            </div>
+
+            <button class="btn btn-primary w-100 save-btn">Save Record</button>
+
+        </form>
+    </div>
+
+    <script>
+        function toggleOther() {
+            let value = document.getElementById("organizing").value;
+            let box = document.getElementById("organizing_other");
+            box.style.display = (value === "Other") ? "block" : "none";
+            if (value !== "Other") { box.value = ""; }
+        }
+    </script>
+
+</body>
+
+</html>

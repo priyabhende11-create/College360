@@ -1,0 +1,168 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Edit Testing | College 360</title>
+
+<style>
+body{
+    font-family: "Segoe UI", sans-serif;
+    background: linear-gradient(to right, #74ebd5, #acb6e5);
+    margin: 0;
+}
+
+.form-box{
+    width: 420px;
+    background: white;
+    margin: 60px auto;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+h2{
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 20px;
+}
+
+label{
+    font-weight: bold;
+    display: block;
+    margin-top: 10px;
+    color: #555;
+}
+
+input, textarea{
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+textarea{
+    resize: none;
+    height: 80px;
+}
+
+.btn-group{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.save-btn{
+    background: #27ae60;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.save-btn:hover{
+    background: #219150;
+}
+
+.cancel-btn{
+    background: #e74c3c;
+    color: white;
+    text-decoration: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+}
+
+.cancel-btn:hover{
+    background: #c0392b;
+}
+</style>
+
+</head>
+<body>
+
+<div class="form-box">
+    <h2>Edit Testing Record</h2>
+
+    <form method="POST">
+
+        <label>Tester Name</label>
+        <input type="text" name="tester_name"
+               value="{{ record.tester_name }}" required>
+
+        <label>Contact Number</label>
+        <input type="text" name="tester_contact"
+               value="{{ record.tester_contact }}" required>
+
+        <label>Testing Date</label>
+        <input type="date" name="test_date"
+               value="{{ record.test_date }}" required>
+
+        <label>Expense (₹)</label>
+        <input type="number" name="expense"
+               value="{{ record.expense }}" required>
+
+        <label>Remarks</label>
+        <textarea name="remarks">{{ record.remarks }}</textarea>
+
+        <div class="btn-group">
+            <button type="submit" class="save-btn">Update</button>
+            <a href="/testing/report" class="cancel-btn">Cancel</a>
+        </div>
+
+    </form>
+</div>
+
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Edit Testing</title>
+  <style>
+    body{font-family:Arial;background:#f4f6f8;margin:0}
+    header{background:#1f3c88;color:#fff;padding:10px;text-align:center}
+    .container{max-width:800px;margin:30px auto;background:#fff;
+      padding:25px;border-radius:12px}
+    label{font-weight:bold}
+    input,textarea{width:100%;padding:10px;margin:8px 0}
+    button{background:#4caf50;color:white;padding:10px;border:none;
+      border-radius:6px}
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>Government Polytechnic Yavatmal</h1>
+</header>
+
+<div class="container">
+  <h2>Edit Lab Testing</h2>
+
+  <form method="POST">
+    <label>Tester Name</label>
+    <input name="tester_name" value="{{ record.tester_name }}" required>
+
+    <label>Contact</label>
+    <input name="tester_contact" value="{{ record.tester_contact }}" required>
+
+    <label>Date</label>
+    <input type="date" name="test_date" value="{{ record.test_date }}" required>
+
+    <label>Expense</label>
+    <input name="expense" value="{{ record.expense }}" required>
+
+    <label>Remarks</label>
+    <textarea name="remarks">{{ record.remarks }}</textarea>
+
+    <br><br>
+    <button type="submit">Update</button>
+  </form>
+</div>
+
+</body>
+</html>

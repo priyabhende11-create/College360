@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Computer Engineering Department</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"> -->
+  <style>
+    body {
+      margin: 0;
+      font-family: Segoe UI;
+      background: #f4f6f8
+    }
+
+    .header {
+      background: #003366;
+      color: #fff;
+      padding: 22px;
+      text-align: center
+    }
+
+    .container {
+      padding: 30px
+    }
+
+    .top-section {
+      display: flex;
+      gap: 30px
+    }
+
+    .from-left {
+      opacity: 0;
+      transform: translateX(-120px);
+      animation: left 1s forwards
+    }
+
+    .from-right {
+      opacity: 0;
+      transform: translateX(120px);
+      animation: right 1s forwards
+    }
+
+    @keyframes left {
+      to {
+        opacity: 1;
+        transform: translateX(0)
+      }
+    }
+
+    @keyframes right {
+      to {
+        opacity: 1;
+        transform: translateX(0)
+      }
+    }
+
+    .hod-card,
+    .staff-section,
+    .info-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, .15)
+    }
+
+    .hod-card {
+      width: 28%;
+      text-align: center
+    }
+
+    .hod-card img {
+      width: 100%;
+      height: 420px;
+      object-fit: cover;
+      border-radius: 12px
+    }
+
+    .staff-section {
+      width: 72%
+    }
+
+    .staff-row {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap
+    }
+
+    .staff-card {
+      width: 240px;
+      display: flex;
+      gap: 12px;
+      background: #f8f9fa;
+      padding: 12px;
+      border-radius: 12px
+    }
+
+    .staff-card img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%
+    }
+
+    .about-heading {
+      text-align: center;
+      margin: 60px 0 30px;
+      font-family: 'Playfair Display';
+      font-size: 36px;
+      color: #003366
+    }
+
+    .about-heading span {
+      border-bottom: 3px solid #003366;
+      padding: 0 18px
+    }
+
+    .vertical-column {
+      display: flex;
+      flex-direction: column;
+      gap: 30px
+    }
+
+    .info-card {
+      display: flex;
+      gap: 25px
+    }
+
+    .icon {
+      font-size: 42px;
+      min-width: 60px
+    }
+
+    .animate {
+      opacity: 0;
+      transform: translateY(80px);
+      transition: .8s
+    }
+
+    .animate.show {
+      opacity: 1;
+      transform: translateY(0)
+    }
+
+    .dept-title {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      font-family: 'Playfair Display', serif;
+    }
+
+    .dept-title i {
+      font-size: 38px;
+      color: #ffd166;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="header">
+    <h1 class="dept-title">
+      <i class="fa-solid fa-computer"></i>
+      🖥️ Department of Computer Engineering
+    </h1>
+    <p>Government Polytechnic Yavatmal</p>
+  </div>
+
+  <div class="container">
+
+    <div class="top-section">
+      <div class="hod-card from-left">
+        <img src="https://via.placeholder.com/400x600">
+        <h2>Prof.S. S. Mete</h2>
+        <p>HOD – Computer Engineering<br>M.Tech (Computer Science)</p>
+      </div>
+
+      <div class="staff-section from-right">
+        <h2>Faculty Members</h2>
+        <div class="staff-row">
+          <div class="staff-card"><img src="https://via.placeholder.com/100">
+            <div>Prof. B. P. Bhagat<br>M.E</div>
+          </div>
+
+          <div class="staff-card"><img src="https://via.placeholder.com/100">
+            <div>Prof. R. R. Meshram<br>M.Tech</div>
+          </div>
+
+          <div class="staff-card"><img src="https://via.placeholder.com/100">
+            <div>Prof. P. S. Gupta<br>M.E</div>
+          </div>
+
+          <div class="staff-card"><img src="https://via.placeholder.com/100">
+            <div>Prof. S. S. Dohe<br>M.E</div>
+          </div>
+
+          <div class="staff-card"><img src="https://via.placeholder.com/100">
+            <div>Prof. S. P. Bahale<br>M.E</div>
+          </div>
+
+          <div class="staff-card"><img src="https://via.placeholder.com/100">
+            <div>Prof. S. P. Rangari<br>M.E</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="about-heading"><span>~ About Department ~</span></div>
+
+    <div class="vertical-column">
+      <div class="info-card animate">
+        <div class="icon">💻</div>
+        <p>Computer Engineering deals with software development, hardware systems, networking and modern
+          computing technologies.</p>
+      </div>
+      <div class="info-card animate">
+        <div class="icon">👁</div>
+        <h3>Vision</h3>
+        <p>To produce skilled computer engineers.</p>
+      </div>
+      <div class="info-card animate">
+        <div class="icon">🎯</div>
+        <h3>Mission</h3>
+        <p>Quality education and industry exposure.</p>
+      </div>
+      <div class="info-card animate">
+        <div class="icon">🎓</div>
+        <h3>POs</h3>
+        <p>Problem solving, teamwork, ethics</p>
+      </div>
+      <div class="info-card animate">
+        <div class="icon">📘</div>
+        <h3>What Students Learn</h3>
+        <p>Programming, DBMS, Networking, Web Tech</p>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    document.querySelectorAll('.animate').forEach(el => {
+      new IntersectionObserver(e => e[0].isIntersecting && el.classList.add('show'), { threshold: .3 }).observe(el)
+    })
+  </script>
+</body>
+
+</html>

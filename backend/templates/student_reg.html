@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>CLG360 - Register Your Student</title>
+
+    <style>
+        /* ===== Base ===== */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+        }
+
+        /* ===== HEADER (NEW CLEAN DESIGN) ===== */
+        .header {
+            background: #1f3c88;
+            padding: 15px 25px;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: center;
+            color: white;
+        }
+
+        .header-title {
+            text-align: center;
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .back-btn {
+            background: white;
+            /* GREEN like previous page */
+            color: rgb(205, 123, 123);
+            border: none;
+            padding: 8px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #bdeec8;
+            /* Darker green on hover */
+        }
+
+
+        /* ===== SUCCESS MESSAGE ===== */
+        #successMsg {
+            display: none;
+            margin: 20px 30px;
+            padding: 12px;
+            background: #d4edda;
+            color: #155724;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        /* ===== CONTENT ===== */
+        .container {
+            display: flex;
+            gap: 30px;
+            padding: 30px;
+        }
+
+        /* ===== CARDS ===== */
+        .card {
+            background: #ffffff;
+            width: 50%;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+        }
+
+        .card h3 {
+            text-align: center;
+            color: #1f3c88;
+            margin-bottom: 15px;
+        }
+
+        input,
+        select,
+        button {
+            width: 100%;
+            padding: 8px;
+            margin: 6px 0;
+            font-size: 14px;
+        }
+
+        button.primary {
+            background: #1f3c88;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button.secondary {
+            background: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ===== HEADER ===== -->
+    <div class="header">
+        <button class="back-btn" onclick="window.location.href='/registration_dashboard'">
+            ⬅ Back
+        </button>
+
+        <div class="header-title">
+            Register Your Student
+        </div>
+
+        <button class="back-btn" onclick="window.location.href='/view_students'">
+            👁 View
+        </button>
+    </div>
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div id="successMsg" style="display:block;">
+        {{ messages[0] }}
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    <!-- ===== SUCCESS MESSAGE ===== -->
+    <div id="successMsg">
+        ✅ Operation completed successfully
+    </div>
+
+    <!-- ===== PAGE CONTENT ===== -->
+    <div class="container">
+
+        <!-- ===== MANUAL ENTRY ===== -->
+        <div class="card">
+            <h3>Manual Student Entry</h3>
+
+            <form method="POST" action="/add_student" id="studentForm">
+
+
+                <input name="academic_year" placeholder="Academic Year (2025-26)" required>
+
+                <select name="diploma_year" required>
+                    <option value="">Select Year</option>
+                    <option value="1">1st Year</option>
+                    <option value="2">2nd Year</option>
+                    <option value="3">3rd Year</option>
+                </select>
+                <select name="semester" required>
+                    <option value="">Select semester</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                </select>
+
+                <select name="scheme" required>
+                    <option value="">Select Scheme</option>
+                    {% for scheme in schemes %}
+                    <option value="{{ scheme.scheme_name }}">
+                        {{ scheme.scheme_name }}
+                        {% if scheme.year_start %}
+                        ({{ scheme.year_start }})
+                        {% endif %}
+                    </option>
+                    {% endfor %}
+                </select>
+
+                <input name="enrollment_no" placeholder="Enrollment No" required>
+                <input name="student_name" placeholder="Student Name" required>
+                <input name="dept" placeholder="Department" required>
+                <input name="contact" placeholder="Contact">
+                <input name="email" placeholder="Email">
+
+                <hr>
+
+                <input name="father_name" placeholder="Father Name">
+                <input name="mother_name" placeholder="Mother Name">
+                <input name="father_email" placeholder="Father Email">
+                <input name="father_contact" placeholder="Father Contact">
+
+                <button type="submit" class="primary">
+                    Save Student
+                </button>
+
+            </form>
+        </div>
+
+        <!-- ===== BULK UPLOAD ===== -->
+        <div class="card">
+            <h3>Bulk Upload</h3>
+
+            <a href="/download_student_template">
+                <button type="button" class="secondary">
+                    📥 Download Excel Template
+                </button>
+            </a>
+
+            <form method="POST" action="/bulk_upload_students" enctype="multipart/form-data">
+                <input type="file" name="file" required>
+                <button type="submit">Upload Excel</button>
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- ===== SUCCESS MESSAGE SCRIPT ===== -->
+    <script>
+        const params = new URLSearchParams(window.location.search);
+
+        if (params.get("success") === "1") {
+            const msg = document.getElementById("successMsg");
+            msg.style.display = "block";
+
+            setTimeout(() => {
+                msg.style.display = "none";
+                const form = document.getElementById("studentForm");
+                if (form) form.reset();
+            }, 3000);
+        }
+    </script>
+
+</body>
+
+</html>

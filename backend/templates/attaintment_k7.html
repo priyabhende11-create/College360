@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>CLG360 | CT Attainment
+    <button class="view-btn" onclick="window.location.href='ct_attainment_view.html'">View</button>
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- CLG360 INLINE CSS -->
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background-color: #f5f6fa;
+    }
+
+    /* Header */
+    .header {
+      height: 60px;
+      background-color: #1f3c88;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 18px;
+      font-weight: 600;
+      position: relative;
+    }
+
+    .back-btn {
+      position: absolute;
+      left: 20px;
+      background: #28a745;
+      border: none;
+      color: #ffffff;
+      font-size: 14px;
+      cursor: pointer;
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.3s ease;
+    }
+
+    .back-btn:hover {
+      background: #218838;
+    }
+
+
+    .view-btn {
+      position: absolute;
+      right: 20px;
+      background-color: #ffffff;
+      color: #1f3c88;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 4px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .view-btn:hover {
+      background-color: #e6eaf5;
+    }
+
+    /* Page Layout */
+    .page-container {
+      padding: 40px 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .card {
+      width: 900px;
+      background-color: #ffffff;
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .info-row {
+      display: flex;
+      gap: 30px;
+      margin-bottom: 20px;
+      font-weight: 600;
+      color: #1f3c88;
+    }
+
+    /* Table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    th,
+    td {
+      border: 1px solid #cfcfcf;
+      padding: 10px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    th {
+      background-color: #eef1f8;
+      font-weight: 600;
+    }
+
+    input[type="text"] {
+      width: 80px;
+      height: 32px;
+      border: 1px solid #b5b5b5;
+      border-radius: 4px;
+      text-align: center;
+    }
+
+    /* Button */
+    .btn-primary {
+      margin-top: 20px;
+      background-color: #1f3c88;
+      color: #fff;
+      border: none;
+      padding: 10px 30px;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-primary:hover {
+      background-color: #163172;
+    }
+
+    .success-msg {
+      margin-top: 15px;
+      color: #198754;
+      font-weight: 600;
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <div class="header">
+    CT Attainment
+
+    <button class="back-btn" onclick="window.location.href='{{ url_for('generate') }}'">
+      ← Back
+    </button>
+
+    <button class="view-btn" onclick="window.location.href='{{ url_for('view_attaintment_k7') }}'">
+      View
+    </button>
+  </div>
+
+
+  <!-- CONTENT -->
+  <div class="page-container">
+    <div class="card">
+
+      <!-- Info -->
+      <!-- <div class="info-row">
+        <div>Academic Year: <span id="year">2025-26</span></div>
+        <div>Course Code: <span id="course">CS101</span></div>
+      </div> -->
+
+      <!-- Table -->
+      <form method="post">
+
+
+
+        <input type="hidden" name="academic_year" value="{{ academic_year }}">
+        <input type="hidden" name="dept_id" value="{{ dept_id }}">
+        <input type="hidden" name="course_code" value="{{ course_code }}">
+
+
+        <table>
+          <thead>
+            <tr>
+              <th>Question</th>
+              <th>Total (K7)</th>
+              <th>CO No</th>
+            </tr>
+          </thead>
+
+          <tbody id="tableBody">
+
+            <!-- Q1 -->
+            <tr>
+              <td>Q1a</td>
+              <td>{{ totals.Q1a }}</td>
+              <td>
+                <input type="text" name="co[]" placeholder="">
+                <input type="hidden" name="question[]" value="Q1a">
+                <!-- <input type="hidden" name="total[]" value="{{ totals.Q1a or 0}}"> -->
+              </td>
+            </tr>
+
+            <tr>
+              <td>Q1b</td>
+              <td>{{ totals.Q1b }}</td>
+              <td>
+                <input type="text" name="co[]" placeholder="">
+                <input type="hidden" name="question[]" value="Q1b">
+                <!-- <input type="hidden" name="total[]" value="{{ totals.Q1b or 0}}"> -->
+              </td>
+            </tr>
+
+            <tr>
+              <td>Q1c</td>
+              <td>{{ totals.Q1c }}</td>
+              <td>
+                <input type="text" name="co[]" placeholder="">
+                <input type="hidden" name="question[]" value="Q1c">
+                <!-- <input type="hidden" name="total[]" value="{{ totals.Q1c or 0 }}"> -->
+              </td>
+            </tr>
+
+            <tr>
+              <td>Q1d</td>
+              <td>{{ totals.Q1d }}</td>
+              <td>
+                <input type="text" name="co[]" placeholder="">
+                <input type="hidden" name="question[]" value="Q1d">
+                <!-- <input type="hidden" name="total[]" value="{{ totals.Q1d or 0}}"> -->
+              </td>
+            </tr>
+
+            <tr>
+              <td>Q1e</td>
+              <td>{{ totals.Q1e }}</td>
+              <td>
+                <input type="text" name="co[]" placeholder="">
+                <input type="hidden" name="question[]" value="Q1e">
+                <!-- <input type="hidden" name="total[]" value="{{ totals.Q1e or 0}}"> -->
+              </td>
+            </tr>
+
+            <tr>
+              <td>Q1f</td>
+              <td>{{ totals.Q1f }}</td>
+              <td>
+                <input type="text" name="co[]" placeholder="">
+                <input type="hidden" name="question[]" value="Q1f">
+                <!-- <input type="hidden" name="total[]" value="{{ totals.Q1f or 0}}"> -->
+              </td>
+            </tr>
+            <tr>
+              <td>Q1g</td>
+              <td>{{ totals.Q1g }}</td>
+              <td>
+                <input type="text" name="co[]" placeholder="">
+                <input type="hidden" name="question[]" value="Q1g">
+                <!-- <input type="hidden" name="total[]" value="{{ totals.Q1g or 0}}"> -->
+              </td>
+            </tr>
+            <tr>
+              <td>Q1h</td>
+              <td>{{ totals.Q1h }}</td>
+              <td>
+                <input type="text" name="co[]" placeholder="">
+                <input type="hidden" name="question[]" value="Q1h">
+                <!-- <input type="hidden" name="total[]" value="{{ totals.Q1h or 0 }}"> -->
+              </td>
+            </tr>
+
+
+
+            <!-- Q2 -->
+            <tr>
+              <td>Q2a</td>
+              <td>{{ totals.Q2a }}</td>
+              <td>
+                <input type="text" name="co[]" placeholder="">
+                <input type="hidden" name="question[]" value="Q2a">
+                <!-- <input type="hidden" name="total[]" value="{{ totals.Q2a or 0}}"> -->
+              </td>
+            </tr>
+            <tr>
+              <td>Q2b</td>
+              <td>{{ totals.Q2b }}</td>
+              <td>
+                <input type="text" name="co[]" placeholder="">
+                <input type="hidden" name="question[]" value="Q2b">
+                <!-- <input type="hidden" name="total[]" value="{{ totals.Q2b or 0}}"> -->
+              </td>
+            </tr>
+            <tr>
+              <td>Q2c</td>
+              <td>{{ totals.Q2c }}</td>
+              <td>
+                <input type="text" name="co[]" placeholder="">
+                <input type="hidden" name="question[]" value="Q2c">
+                <!-- <input type="hidden" name="total[]" value="{{ totals.Q2c or 0 }}"> -->
+              </td>
+            </tr>
+            <tr>
+              <td>Q2d</td>
+              <td>{{ totals.Q2d }}</td>
+              <td>
+                <input type="text" name="co[]" placeholder="">
+                <input type="hidden" name="question[]" value="Q2d">
+                <!-- <input type="hidden" name="total[]" value="{{ totals.Q2d or 0 }}"> -->
+              </td>
+            </tr>
+            <tr>
+              <td>Q2e</td>
+              <td>{{ totals.Q2e }}</td>
+              <td>
+                <input type="text" name="co[]" placeholder="">
+                <input type="hidden" name="question[]" value="Q2e">
+                <!-- <input type="hidden" name="total[]" value="{{ totals.Q2e or 0}}"> -->
+              </td>
+            </tr>
+            <tr>
+              <td>Q2f</td>
+              <td>{{ totals.Q2f }}</td>
+              <td>
+                <input type="text" name="co[]" placeholder="">
+                <input type="hidden" name="question[]" value="Q2f">
+                <!-- <input type="hidden" name="total[]" value="{{ totals.Q2f or 0}}"> -->
+              </td>
+            </tr>
+            <tr>
+              <td>Q2g</td>
+              <td>{{ totals.Q2g }}</td>
+              <td>
+                <input type="text" name="co[]" placeholder="">
+                <input type="hidden" name="question[]" value="Q2g">
+                <!-- <input type="hidden" name="total[]" value="{{ totals.Q2g or 0 }}"> -->
+              </td>
+            </tr>
+            <tr>
+              <td>Q2h</td>
+              <td>{{ totals.Q2h }}</td>
+              <td>
+                <input type="text" name="co[]" placeholder="">
+                <input type="hidden" name="question[]" value="Q2h">
+                <!-- <input type="hidden" name="total[]" value="{{ totals.Q2h or 0}}"> -->
+              </td>
+            </tr>
+
+            <tr>
+              <td>Q3a</td>
+              <td>{{ totals.Q3a }}</td>
+              <td>
+                <input type="text" name="co[]" placeholder="">
+                <input type="hidden" name="question[]" value="Q3a">
+                <!-- <input type="hidden" name="total[]" value="{{ totals.Q3a or 0 }}"> -->
+              </td>
+            </tr>
+            <tr>
+              <td>Q3b</td>
+              <td>{{ totals.Q3b }}</td>
+              <td>
+                <input type="text" name="co[]" placeholder="">
+                <input type="hidden" name="question[]" value="Q3b">
+                <!-- <input type="hidden" name="total[]" value="{{ totals.Q3b or 0}}"> -->
+              </td>
+            </tr>
+
+            <tr>
+              <td>Q3c</td>
+              <td>{{ totals.Q3c }}</td>
+              <td>
+                <input type="text" name="co[]" placeholder="">
+                <input type="hidden" name="question[]" value="Q3c">
+                <!-- <input type="hidden" name="total[]" value="{{ totals.Q3c or 0}}"> -->
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+        <!-- CO SUMMARY -->
+        <div class="section mt-4">CO Wise Distribution</div>
+
+        <table class="table table-bordered w-50">
+          <thead>
+            <tr>
+              <th>CO</th>
+              <th>Total</th>
+              <th>Percentage</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>CO1</td>
+              <td id="co1-total">0</td>
+              <td id="co1-per">0%</td>
+            </tr>
+            <tr>
+              <td>CO2</td>
+              <td id="co2-total">0</td>
+              <td id="co2-per">0%</td>
+            </tr>
+            <tr>
+              <td>CO3</td>
+              <td id="co3-total">0</td>
+              <td id="co3-per">0%</td>
+            </tr>
+            <tr>
+              <td>CO4</td>
+              <td id="co4-total">0</td>
+              <td id="co4-per">0%</td>
+            </tr>
+          </tbody>
+        </table>
+
+
+        <!-- Save -->
+        <button type="submit" class="btn-primary">Save</button>
+        <div class="success-msg" id="successMsg">CT Attainment Saved Successfully</div>
+      </form>
+
+    </div>
+  </div>
+  <script>
+
+    function calculateCOAttainment() {
+
+      let totalStudents = {{ total_students }};
+      let rows = document.querySelectorAll("#tableBody tr");
+
+    let coData = {
+      CO1: { obtained: 0, expected: 0 },
+      CO2: { obtained: 0, expected: 0 },
+      CO3: { obtained: 0, expected: 0 },
+      CO4: { obtained: 0, expected: 0 }
+    };
+
+    rows.forEach(row => {
+
+      let question = row.querySelector("input[name='question[]']").value;
+      let coInput = row.querySelector("input[name='co[]']").value.trim().toUpperCase();
+
+      let obtained = parseFloat(row.cells[1].innerText) || 0;
+
+      let maxMarks = 0;
+
+      // question type
+      if (question.startsWith("Q1")) {
+        maxMarks = 2;
+      }
+      else if (question.startsWith("Q2")) {
+        maxMarks = 4;
+      }
+      else if (question.startsWith("Q3")) {
+        maxMarks = 6;
+      }
+
+      // expected marks
+      let expected = maxMarks * totalStudents;
+
+      if (coInput && coData[coInput]) {
+
+        coData[coInput].obtained += obtained;
+        coData[coInput].expected += expected;
+
+      }
+
+    });
+
+    // calculate percentage
+    Object.keys(coData).forEach(co => {
+
+      let obtained = coData[co].obtained;
+      let expected = coData[co].expected;
+
+      let percent = 0;
+
+      if (expected > 0) {
+        percent = ((obtained / expected) * 100).toFixed(2);
+      }
+
+      document.getElementById(co.toLowerCase() + "-total").innerText = obtained;
+      document.getElementById(co.toLowerCase() + "-per").innerText = percent + "%";
+
+    });
+
+}
+
+
+    // event when CO typed
+    document.querySelectorAll("input[name='co[]']").forEach(input => {
+      input.addEventListener("input", calculateCOAttainment);
+    });
+
+    // run on page load
+    window.onload = calculateCOAttainment;
+
+  </script>
+</body>
+
+</html>

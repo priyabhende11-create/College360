@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>HOD List | Government Polytechnic Yavatmal</title>
+<style>
+*{box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
+body{margin:0;background:#f4f6f8}
+header{background:#1f3c88;color:#fff;padding:18px;text-align:center}
+header h1{margin:0;font-size:24px}header p{margin-top:5px;font-size:14px;opacity:0.9}
+.container{max-width:950px;margin:35px auto;background:#fff;padding:25px;border-radius:14px;box-shadow:0 10px 25px rgba(0,0,0,0.1)}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.back-btn{background:#6b7280;color:white;border:none;padding:8px 14px;border-radius:6px;cursor:pointer}
+h2{color:#1f3c88;margin-top:0}
+table{width:100%;margin-top:10px;border-collapse:collapse}
+th,td{padding:12px;border-bottom:1px solid #ddd;text-align:center}
+th{background:#eef2f7}
+.send-btn, .change-btn{background:#1f3c88;color:#fff;border:none;padding:6px 12px;border-radius:6px;cursor:pointer;margin:2px}
+.change-btn{background:#f59e0b}
+</style>
+</head>
+<body>
+<header>
+  <h1>Government Polytechnic Yavatmal</h1>
+  <p>HOD List – Principal Panel</p>
+</header>
+<div class="container">
+  <div class="top">
+    <button class="back-btn" onclick="window.location.href='{{ url_for('assign_hod') }}'">⬅ Back</button>
+    <strong>HOD List</strong>
+  </div>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, msg in messages %}
+        <div style="background:#e8f5e9;color:#2e7d32;padding:12px;border-radius:8px;margin-bottom:10px">{{ msg }}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <h2>Department & HOD List</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Department</th>
+        <th>HOD Name</th>
+        <th>Email</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% if hod_assignments %}
+        {% for dept_id, h in hod_assignments.items() %}
+        <tr>
+          <td>{{ h.dept_name }}</td>
+          <td>{{ h.hod_name }}</td>
+          <td>{{ h.email }}</td>
+          <td>
+            <a class="send-btn" href="{{ url_for('send_mail', dept_id=dept_id) }}">Send Mail</a>
+            <a class="change-btn" href="{{ url_for('change_hod', dept_id=dept_id) }}">Change HOD</a>
+          </td>
+        </tr>
+        {% endfor %}
+      {% else %}
+        <tr><td colspan="4" style="text-align:center;color:#777">No HOD assigned yet</td></tr>
+      {% endif %}
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>College 360 – Activity Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #eef2f7;
+        }
+
+        /* HEADER */
+        .header {
+            position: relative;
+            background: linear-gradient(90deg, #003366, #0055aa);
+            color: white;
+            padding: 22px;
+            text-align: center;
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        /* BACK BUTTON */
+        .back-btn {
+            position: absolute;
+            left: 20px;
+            top: 18px;
+            background: white;
+            /* GREEN */
+            color: rgb(222, 125, 125);
+            border: none;
+            padding: 8px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 500;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #9dc6a6;
+            /* Darker green on hover */
+        }
+
+        /* DASHBOARD GRID */
+        .dashboard {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        /* CARD LINK */
+        .card-link {
+            text-decoration: none;
+        }
+
+        /* CARD */
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px 20px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: 0.3s;
+            border-top: 6px solid #003366;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.15);
+        }
+
+        /* CARD CONTENT */
+        .card h2 {
+            color: #003366;
+            font-size: 28px;
+            margin-bottom: 12px;
+        }
+
+        .card p {
+            color: #555;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 15px;
+            color: #666;
+            margin-top: 40px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <!-- HEADER -->
+    <div class="header">
+        <a href="{{ back_url }}" class="back-btn">← Back</a>
+        GOVERNMENT POLYTECHNIC YAVATMAL
+    </div>
+
+
+    <!-- DASHBOARD -->
+    <div class="dashboard">
+
+        <!-- Registration Card -->
+        <div class="col-md-3">
+            {% if session.get("role") != "principal" %}
+            <a href="{{ url_for('registration_dashboard') }}" class="card-link">
+                <div class="card">
+                    <h2>REG</h2>
+                    <p>Student & Subject Registration</p>
+                </div>
+            </a>
+            {% endif %}
+        </div>
+
+        {% if session.get("role") != "principal" %}
+        <a href="{{ url_for('fa_th_analysis') }}" class="card-link">
+            <div class="card">
+                <h2>K7A</h3>
+                    <p>Analysis of FATH Test1 /Test2 Result</p>
+            </div>
+        </a>{% endif %}
+
+        {% if session.get("role") != "principal" %}
+        <a href="{{ url_for('k7b') }}" class="card-link">
+            <div class="card">
+                <h2>K7B</h3>
+                    <p>Analisis of Terms and Examination Result</p>
+            </div>
+        </a>
+        {% endif %}
+
+        <a href="{{ url_for('k7c') }}" class="card-link">
+            <div class="card">
+                <h2>K7C</h3>
+                    <p>TH_FA AND TH-SA ANALYSIS
+                        (Final Year Score Index)
+                    </p>
+            </div>
+        </a>
+
+        <a href="{{ url_for('api_page') }}" class="card-link">
+            <div class="card">
+                <h2>K7F</h3>
+                    <p>Academic Performance Index Report
+                    </p>
+            </div>
+        </a>
+
+
+        <a href="{{ url_for('activity_k8_redirect') }}" class="card-link">
+            <div class="card">
+                <h2>K8</h3>
+                    <p>Details of Industrial Visit</p>
+            </div>
+        </a>
+
+
+
+        <!-- K9 -->
+        <a href="{{ url_for('activity_k9_redirect') }}" class="card-link">
+            <div class="card">
+                <h2>K9</h2>
+                <p>Details of Expert Lectures</p>
+            </div>
+        </a>
+
+        <!-- K10 -->
+        <a href="{{ url_for('activity_k10') }}" class="card-link">
+            <div class="card">
+                <h2>K10</h2>
+                <p>Placement Details</p>
+            </div>
+        </a>
+
+        <!-- K11 -->
+        <a href="{{ url_for('activity_k11') }}" class="card-link">
+            <div class="card">
+                <h2>K11</h2>
+                <p>Details of Faculty or Staff Training</p>
+            </div>
+        </a>
+
+        <!-- ✅ K13 (FIXED) -->
+        <a href="{{ url_for('activity_k13') }}" class="card-link">
+            <div class="card">
+                <h2>K13</h2>
+                <p>Details of Co-curriculur Activity</p>
+            </div>
+        </a>
+
+        <!-- K14 -->
+        <a href="{{ url_for('activity_k14') }}" class="card-link">
+            <div class="card">
+                <h2>K14</h2>
+                <p>Details of Extra Curricular Activity</p>
+            </div>
+        </a>
+
+        <a href="{{ url_for('gazette_add') }}" class="card-link">
+            <div class="card">
+                <h2>GZ</h2>
+                <p>Add / Upload Results</p>
+            </div>
+        </a>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        © 2025 Government Polytechnic Yavatmal | College 360 ERP
+    </footer>
+
+</body>
+
+</html>

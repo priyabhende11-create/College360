@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Civil Engineering Department</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Segoe UI, sans-serif;
+            background: #f4f6f8;
+        }
+
+        /* HEADER */
+        .header {
+            background: #003366;
+            color: white;
+            padding: 22px;
+            text-align: center;
+        }
+
+        /* CONTAINER */
+        .container {
+            padding: 30px;
+        }
+
+        /* TOP SECTION */
+        .top-section {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+        }
+
+        /* ===== ENTRY ANIMATIONS ===== */
+        .from-left {
+            opacity: 0;
+            transform: translateX(-120px);
+            animation: slideLeft 1s ease forwards;
+        }
+
+        .from-right {
+            opacity: 0;
+            transform: translateX(120px);
+            animation: slideRight 1s ease forwards;
+        }
+
+        @keyframes slideLeft {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideRight {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* ===== HOD ===== */
+        .hod-card {
+            width: 28%;
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            text-align: center;
+        }
+
+        .hod-card img {
+            width: 100%;
+            height: 420px;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        .hod-card h2 {
+            margin: 15px 0 6px;
+            color: #003366;
+        }
+
+        /* ===== STAFF ===== */
+        .staff-section {
+            width: 72%;
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .staff-row {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .staff-card {
+            width: 240px;
+            display: flex;
+            gap: 12px;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            transition: 0.3s;
+        }
+
+        .staff-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .staff-card img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+        }
+
+        /* ABOUT HEADING */
+        .about-heading {
+            text-align: center;
+            margin: 60px 0 30px;
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            color: #003366;
+        }
+
+        .about-heading span {
+            border-bottom: 3px solid #003366;
+            padding: 0 18px;
+        }
+
+        /* ===== VERTICAL COLUMN ===== */
+        .vertical-column {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        /* INFO CARD */
+        .info-card {
+            width: 100%;
+            background: #fff;
+            border-radius: 18px;
+            padding: 30px;
+            box-shadow: 0 10px 22px rgba(0, 0, 0, 0.15);
+            display: flex;
+            gap: 25px;
+        }
+
+        /* ICON */
+        .icon {
+            font-size: 42px;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        /* CONTENT */
+        .info-content h3 {
+            margin-top: 0;
+            color: #003366;
+        }
+
+        .info-content p,
+        .info-content li {
+            color: #444;
+            line-height: 1.8;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        /* ===== SCROLL ANIMATION ===== */
+        .animate {
+            opacity: 0;
+            transform: translateY(100px);
+            transition: all 0.9s ease;
+        }
+
+        .animate.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <div class="header">
+        <h1>🧱 Department of Civil Engineering</h1>
+        <p>Government Polytechnic Yavatmal</p>
+    </div>
+
+    <div class="container">
+
+        <!-- TOP SECTION -->
+        <div class="top-section">
+
+            <!-- HOD (LEFT ENTRY) -->
+            <div class="hod-card from-left">
+                <img src="https://via.placeholder.com/400x600">
+                <h2>Dr. A. B. Patil</h2>
+                <p>HOD - Civil Engineering <br>Ph.D. (Structural Engineering)</p>
+                
+            </div>
+
+            <!-- STAFF (RIGHT ENTRY) -->
+            <div class="staff-section from-right">
+                <h2 style="color:#003366;">Faculty Members</h2>
+                <div class="staff-row">
+                    <div class="staff-card">
+                        <img src="https://via.placeholder.com/100">
+                        <div>
+                            <b>Prof. S. R. Deshmukh</b>
+                            <p>M.Tech (Civil)</p>
+                        </div>
+                    </div>
+                    <div class="staff-card">
+                        <img src="https://via.placeholder.com/100">
+                        <div>
+                            <b>Prof. P. K. Joshi</b>
+                            <p>M.E (Environmental)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ABOUT -->
+        <div class="about-heading">
+            <span>~ About Department ~</span>
+        </div>
+
+        <div class="vertical-column">
+
+            <div class="info-card animate">
+                <div class="icon">🏛</div>
+                <div class="info-content">
+                    <p>
+                        Civil Engineering Department focuses on planning, designing,
+                        construction and maintenance of infrastructure systems.
+                    </p>
+                </div>
+            </div>
+
+            <div class="info-card animate">
+                <div class="icon">👁</div>
+                <div class="info-content">
+                    <h3>Vision</h3>
+                    <p>To develop technically sound and ethical civil engineers.</p>
+                </div>
+            </div>
+
+            <div class="info-card animate">
+                <div class="icon">🎯</div>
+                <div class="info-content">
+                    <h3>Mission</h3>
+                    <ul>
+                        <li>Quality education</li>
+                        <li>Practical training</li>
+                        <li>Industry exposure</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="info-card animate">
+                <div class="icon">🎓</div>
+                <div class="info-content">
+                    <h3>Program Outcomes (POs)</h3>
+                    <ul>
+                        <li>Engineering problem solving</li>
+                        <li>Modern tool usage</li>
+                        <li>Professional ethics</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="info-card animate">
+                <div class="icon">📘</div>
+                <div class="info-content">
+                    <h3>What Students Learn</h3>
+                    <ul>
+                        <li>Building Construction</li>
+                        <li>Surveying</li>
+                        <li>Environmental Engineering</li>
+                        <li>Transportation Engineering</li>
+                    </ul>
+                </div>
+            </div>
+
+
+
+        </div>
+
+    </div>
+
+    <script>
+        const cards = document.querySelectorAll('.animate');
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('show');
+                }
+            });
+        }, { threshold: 0.3 });
+        cards.forEach(c => observer.observe(c));
+    </script>
+
+</body>
+
+</html>

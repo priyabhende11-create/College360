@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>CLG360 - View Courses</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f4f6f9;
+    }
+
+    /* ===== HEADER ===== */
+    .header {
+      background: #1f3c88;
+      color: white;
+      height: 55px;
+      position: relative;
+    }
+
+    .back-btn {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #28a745;
+      /* Green */
+      color: white;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      transition: background 0.3s ease;
+    }
+
+    .back-btn:hover {
+      background: #218838;
+    }
+
+    .title {
+      text-align: center;
+      line-height: 55px;
+      margin: 0;
+      font-weight: 500;
+    }
+
+    /* ===== CONTAINER ===== */
+    .container {
+      max-width: 95%;
+      margin: 30px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: center;
+    }
+
+    th {
+      background: #1f3c88;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background: #f2f2f2;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <div class="header">
+    <button class="back-btn" onclick="window.location.href='/courses'">
+      ⬅ Back
+    </button>
+    <h3 class="title">CLG360 – Course List</h3>
+  </div>
+
+  <!-- ===== CONTENT ===== -->
+  <div class="container">
+    <form method="GET">
+      <label><b>Filter by Scheme:</b></label>
+      <select name="scheme_id" onchange="this.form.submit()">
+        <option value="">All</option>
+        {% for s in schemes %}
+        <option value="{{ s.id }}" {% if selected_scheme==s.id|string %}selected{% endif %}>
+          {{ s.scheme_name }}
+        </option>
+        {% endfor %}
+      </select>
+    </form>
+
+    <br>
+    <table>
+      {% if courses %}
+      <tr>
+        <th>Course Code</th>
+        <th>Course Title</th>
+        <th>Year</th>
+        <th>Department</th>
+        <th>Semester</th>
+
+        <th>{{ courses[0].head1 }}</th>
+        <th>{{ courses[0].head2 }}</th>
+        <th>{{ courses[0].head3 }}</th>
+        <th>{{ courses[0].head4 }}</th>
+        <th>{{ courses[0].head5 }}</th>
+      </tr>
+
+      {% for c in courses %}
+      <tr>
+        <td>{{ c.course_code }}</td>
+        <td>{{ c.course_title }}</td>
+        <td>{{ c.year }}</td>
+        <td>{{ c.dept_name }}</td>
+        <td>{{ c.semester }}</td>
+
+        <td>{{ c.head1_marks }}</td>
+        <td>{{ c.head2_marks }}</td>
+        <td>{{ c.head3_marks }}</td>
+        <td>{{ c.head4_marks }}</td>
+        <td>{{ c.head5_marks }}</td>
+      </tr>
+      {% endfor %}
+
+      {% else %}
+      <tr>
+        <td colspan="10">No courses found</td>
+      </tr>
+      {% endif %}
+    </table>
+  </div>
+
+</body>
+
+</html>

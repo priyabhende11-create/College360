@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>CLG360 - API Automation</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            margin: 0;
+            background: #fff;
+        }
+
+        .header {
+            background: #003366;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 20px;
+            position: relative;
+        }
+
+        .back-btn {
+            position: absolute;
+            left: 15px;
+            top: 12px;
+            background: white;
+            color: #0d6efd;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .container {
+            padding: 30px;
+        }
+
+        select,
+        input {
+            padding: 6px;
+            margin-right: 10px;
+        }
+
+        button {
+            padding: 8px 15px;
+            background: #198754;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background: #e9ecef;
+        }
+
+        /* 🔥 PRINT STYLE */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+
+            #printSection,
+            #printSection * {
+                visibility: visible;
+            }
+
+            #printSection {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <button class="back-btn" onclick="history.back()">← Back</button>
+        COLLEGE 360 - Academic Performance Index
+    </div>
+
+    <div class="container">
+
+        <form method="POST">
+            Academic Year:
+            <input type="text" name="academic_year" required>
+
+            Semester:
+            <input type="number" name="semester" required>
+
+            {% if session.role == "principal" %}
+            Department:
+            <select name="dept_id">
+                <option value="all">All Departments</option>
+                {% for dept in departments %}
+                <option value="{{ dept[0] }}">{{ dept[1] }}</option>
+                {% endfor %}
+            </select>
+            {% endif %}
+
+            <button type="submit">Generate API</button>
+        </form>
+
+        {% if api is not none %}
+
+        <br>
+
+        <h2 style="text-align:center;">Academic Performance Index Report</h2>
+
+        <table>
+            <tr>
+                <th>API</th>
+                <td>{{ api|round(2) }}</td>
+            </tr>
+            <tr>
+                <th>Average API</th>
+                <td>{{ avg_api|round(2) }}</td>
+            </tr>
+            <tr>
+                <th>First Year (2.5 × Avg)</th>
+                <td>{{ fy_perf|round(2) }}</td>
+            </tr>
+            <tr>
+                <th>Second Year (2.0 × Avg)</th>
+                <td>{{ sy_perf|round(2) }}</td>
+            </tr>
+            <tr>
+                <th>Third Year (1.5 × Avg)</th>
+                <td>{{ ty_perf|round(2) }}</td>
+            </tr>
+        </table>
+
+        <br><br>
+
+        <p><b>Signature of HOD</b> _______________________</p>
+        <p><b>Signature of Principal</b> _______________________</p>
+
+        <button onclick="window.print()">🖨 Print</button>
+
+        <!-- 🔥 PRINT SECTION -->
+        <div id="printSection">
+
+
+        </div>
+
+        {% endif %}
+
+    </div>
+</body>
+
+</html>

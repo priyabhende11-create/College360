@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>CLG360 - Course Form</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f4f6f9;
+    }
+
+    .header {
+      background: #1f3c88;
+      color: white;
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* .header button {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+      } */
+    .back-btn,
+    .view-btn {
+      background: white;
+      /* Green */
+      color: rgb(210, 135, 135);
+      border: none;
+      padding: 8px 18px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      transition: background 0.3s ease;
+    }
+
+    .back-btn:hover,
+    .view-btn:hover {
+      background: #b9dfc1;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 30px auto;
+      background: white;
+      padding: 25px;
+      border-radius: 8px;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 15px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+    }
+
+    .row {
+      display: flex;
+      gap: 25px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .small-box {
+      width: 120px;
+    }
+
+    .actions {
+      text-align: right;
+      margin-top: 25px;
+    }
+
+    .save-btn {
+      padding: 10px 20px;
+      background: #1f3c88;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .success {
+      margin-top: 15px;
+      color: green;
+      font-weight: bold;
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="header">
+    <button class="back-btn" onclick="window.location.href='/registration_dashboard'">
+      ⬅ Back
+    </button>
+
+    <h3>CLG360 – Course Management</h3>
+
+    <button class="view-btn" onclick="window.location.href='/view'">
+      👁 View
+    </button>
+  </div>
+
+
+  <div class="container">
+
+    <form id="courseForm" method="POST" action="/save">
+      <label>Scheme</label>
+      <select name="scheme_id" id="schemeSelect" required>
+        <option value="">Select</option>
+        {% for s in schemes %}
+        <option value="{{ s.id }}">{{ s.scheme_name }}</option>
+        {% endfor %}
+      </select>
+
+      <label>Department</label>
+      <input type="text" name="dept_name" value="{{ dept_name }}">
+      <option value=""></option> {% for d in departments %} <option value="{{ d.dept_name }}">{{ d.dept_name }}
+      </option> {% endfor %}
+      </select>
+
+      <label>Course Code</label>
+      <input type="text" name="course_code" required>
+
+      <label>Course Title</label>
+      <input type="text" name="course_title" required>
+
+      <label>Year</label>
+      <select name="year" required>
+        <option value="">Select</option>
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>
+      </select>
+
+      <label>Semester</label>
+      <select name="semester" required>
+        <option value="">Select</option>
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+        <option>6</option>
+      </select>
+
+      <div id="headsSection" class="head-section">
+        <div>
+          <label id="label1"></label>
+          <input type="number" name="head1_marks">
+        </div>
+        <div>
+          <label id="label2"></label>
+          <input type="number" name="head2_marks">
+        </div>
+        <div>
+          <label id="label3"></label>
+          <input type="number" name="head3_marks">
+        </div>
+        <div>
+          <label id="label4"></label>
+          <input type="number" name="head4_marks">
+        </div>
+        <div>
+          <label id="label5"></label>
+          <input type="number" name="head5_marks">
+        </div>
+      </div>
+
+      <div class="actions">
+        <button type="submit" class="save-btn">Save</button>
+      </div>
+
+    </form>
+
+    <div class="success" id="successMsg">
+      ✅ Course details saved successfully.
+    </div>
+
+  </div>
+
+  <script>
+    document.getElementById("schemeSelect").addEventListener("change", function () {
+
+      let schemeId = this.value;
+
+      if (!schemeId) {
+        document.getElementById("headsSection").style.display = "none";
+        return;
+      }
+
+      fetch("/get_scheme_heads/" + schemeId)
+        .then(response => response.json())
+        .then(data => {
+
+          document.getElementById("headsSection").style.display = "block";
+
+          document.getElementById("label1").innerText = data.head1 || "";
+          document.getElementById("label2").innerText = data.head2 || "";
+          document.getElementById("label3").innerText = data.head3 || "";
+          document.getElementById("label4").innerText = data.head4 || "";
+          document.getElementById("label5").innerText = data.head5 || "";
+        });
+    });
+  </script>
+</body>
+
+</html>

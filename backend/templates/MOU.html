@@ -1,0 +1,559 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MOU Dashboard | College 360</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins', sans-serif;
+}
+body{
+    background:#f4f6f8;
+}
+
+/* HEADER */
+.header{
+    background:#003366;
+    color:white;
+    padding:18px;
+    text-align:center;
+    font-size:22px;
+    font-weight:600;
+    position:relative;
+}
+
+/* VIEW BUTTON TOP RIGHT */
+.view-btn{
+    position:absolute;
+    right:20px;
+    top:50%;
+    transform:translateY(-50%);
+    background:#28a745;
+    color:white;
+    padding:8px 16px;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+    font-size:14px;
+}
+
+.view-btn:hover{
+    background:#218838;
+}
+
+/* CONTAINER */
+.container{
+    max-width:1200px;
+    background:white;
+    margin:25px auto;
+    padding:25px;
+    border-radius:10px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+
+h2{
+    text-align:center;
+    color:#003366;
+    margin-bottom:20px;
+}
+
+/* FORM GRID */
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+}
+
+.form-group{
+    display:flex;
+    flex-direction:column;
+}
+
+.form-group label{
+    font-weight:500;
+    margin-bottom:6px;
+}
+
+.form-group input,
+.form-group textarea{
+    padding:10px;
+    border:1px solid #ccc;
+    border-radius:5px;
+}
+
+.full-width{
+    grid-column:1 / 4;
+}
+
+/* BUTTONS */
+.btn-group{
+    margin-top:20px;
+    text-align:center;
+}
+
+.btn{
+    padding:10px 22px;
+    border:none;
+    border-radius:5px;
+    font-size:14px;
+    cursor:pointer;
+    margin:5px;
+}
+
+.btn-save{ background:#003366; color:white; }
+.btn-reset{ background:#ccc; }
+
+/* TABLE */
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:25px;
+    display:none;
+}
+
+th,td{
+    border:1px solid #ccc;
+    padding:10px;
+    text-align:center;
+    font-size:14px;
+}
+
+th{
+    background:#003366;
+    color:white;
+}
+
+.action{
+    padding:5px 10px;
+    border:none;
+    border-radius:4px;
+    cursor:pointer;
+}
+
+.view{ background:#28a745; color:white; }
+.delete{ background:#dc3545; color:white; }
+
+footer{
+    text-align:center;
+    background:#003366;
+    color:white;
+    padding:15px;
+    margin-top:30px;
+}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+    .form-grid{ grid-template-columns:repeat(2,1fr); }
+    .full-width{ grid-column:1/3; }
+}
+@media(max-width:600px){
+    .form-grid{ grid-template-columns:1fr; }
+    .full-width{ grid-column:1; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    GOVERNMENT POLYTECHNIC YAVATMAL
+    <button class="view-btn" onclick="toggleTable()">View MOU</button>
+</div>
+
+<div class="container">
+
+<h2>MOU Entry </h2>
+
+<form onsubmit="return addMOU()">
+
+<div class="form-grid">
+
+<div class="form-group">
+<label>MOU ID</label>
+<input type="text" id="mouId">
+</div>
+
+<div class="form-group">
+<label>Organization ID</label>
+<input type="text" id="orgId">
+</div>
+
+<div class="form-group">
+<label>Organization Name</label>
+<input type="text" id="name">
+</div>
+
+<div class="form-group">
+<label>Department ID</label>
+<input type="text" id="deptId">
+</div>
+
+<div class="form-group">
+<label>Date of MOU</label>
+<input type="date" id="mouDate">
+</div>
+
+<div class="form-group">
+<label>Validation Period (Years)</label>
+<input type="number" id="validation">
+</div>
+
+<div class="form-group full-width">
+<label>Remark</label>
+<textarea id="remark" rows="3"></textarea>
+</div>
+
+</div>
+
+<div class="btn-group">
+<button class="btn btn-save" type="submit">Save MOU</button>
+<button class="btn btn-reset" type="reset">Reset</button>
+</div>
+
+</form>
+
+MOU LIST TABLE -->
+<!-- <table id="mouTable">
+<thead>
+<tr>
+<th>MOU ID</th>
+<th>Org ID</th>
+<th>Name</th>
+<th>Dept</th>
+<th>Date</th>
+<th>Validation</th>
+<th>Actions</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+
+</div>
+
+<footer>
+© 2025 Government Polytechnic Yavatmal | College 360
+</footer>
+
+<script>
+let mouList = [];
+
+function addMOU(){
+    let fields = ["mouId","orgId","name","deptId","mouDate","validation","remark"];
+    for(let f of fields){
+        if(document.getElementById(f).value===""){
+            alert("Please fill all fields");
+            return false;
+        }
+    }
+
+    mouList.push({
+        mouId:mouId.value,
+        orgId:orgId.value,
+        name:name.value,
+        deptId:deptId.value,
+        date:mouDate.value,
+        validation:validation.value,
+        remark:remark.value
+    });
+
+    alert("MOU Added Successfully");
+    document.querySelector("form").reset();
+    loadTable();
+    return false;
+}
+
+function toggleTable(){
+    let table = document.getElementById("mouTable");
+    table.style.display = table.style.display==="none" ? "table" : "none";
+}
+
+function loadTable(){
+    let tbody = document.querySelector("#mouTable tbody");
+    tbody.innerHTML="";
+    mouList.forEach((m,index)=>{
+        tbody.innerHTML+=`
+        <tr>
+            <td>${m.mouId}</td>
+            <td>${m.orgId}</td>
+            <td>${m.name}</td>
+            <td>${m.deptId}</td>
+            <td>${m.date}</td>
+            <td>${m.validation}</td>
+            <td>
+                <button class="action view" onclick="viewMOU(${index})">View</button>
+                <button class="action delete" onclick="deleteMOU(${index})">Delete</button>
+            </td>
+        </tr>`;
+    });
+}
+
+function viewMOU(i){
+    let m = mouList[i];
+    alert(
+        "MOU ID: "+m.mouId+
+        "\nOrg ID: "+m.orgId+
+        "\nName: "+m.name+
+        "\nDept ID: "+m.deptId+
+        "\nDate: "+m.date+
+        "\nValidation: "+m.validation+" Years"+
+        "\nRemark: "+m.remark
+    );
+}
+
+function deleteMOU(i){
+    if(confirm("Delete this MOU?")){
+        mouList.splice(i,1);
+        loadTable();
+    }
+}
+</script>
+
+</body>
+</html> -->
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>MOU Entry | College 360</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #f4f6f8;
+        }
+
+        /* HEADER */
+        .header {
+            background: #003366;
+            color: white;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        /* BACK BUTTON LEFT */
+        .header .back-btn {
+            position: absolute;
+            left: 20px;
+            background: #28a745;
+            color: white;
+            padding: 6px 14px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        /* VIEW BUTTON RIGHT */
+        .header .view-btn {
+            position: absolute;
+            right: 20px;
+            background: #28a745;
+            color: white;
+            padding: 6px 14px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        /* CONTAINER */
+        .container {
+            max-width: 1200px;
+            background: white;
+            margin: 25px auto;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #003366;
+            margin-bottom: 20px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+
+        .form-group input,
+        textarea {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .full-width {
+            grid-column: 1/4;
+        }
+
+        .btn-group {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 10px 22px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn-save {
+            background: #003366;
+            color: white;
+        }
+
+        .btn-reset {
+            background: #ccc;
+        }
+
+        footer {
+            text-align: center;
+            background: #003366;
+            color: white;
+            padding: 15px;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER WITH BACK + VIEW -->
+    <div class="header">
+        <button class="back-btn" onclick="goBack()"> Back</button>
+        GOVERNMENT POLYTECHNIC YAVATMAL
+        <button class="view-btn" onclick="window.location.href='{{ url_for('principal_mou') }}'">
+            View MOU
+        </button>
+    </div>
+
+    <div class="container">
+        <h2>MOU Entry</h2>
+
+        <form onsubmit="return addMOU()">
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>MOU ID</label>
+                    <input type="text" id="mouId">
+                </div>
+
+                <div class="form-group">
+                    <label>Organization ID</label>
+                    <input type="text" id="orgId">
+                </div>
+
+                <div class="form-group">
+                    <label>Organization Name</label>
+                    <input type="text" id="name">
+                </div>
+
+                <div class="form-group">
+                    <label>Department ID</label>
+                    <input type="text" id="deptId">
+                </div>
+
+                <div class="form-group">
+                    <label>Date of MOU</label>
+                    <input type="date" id="mouDate">
+                </div>
+
+                <div class="form-group">
+                    <label>Validation (Years)</label>
+                    <input type="number" id="validation">
+                </div>
+
+                <div class="form-group full-width">
+                    <label>Remark</label>
+                    <textarea id="remark" rows="3"></textarea>
+                </div>
+
+            </div>
+
+            <div class="btn-group">
+                <button class="btn btn-save" type="submit">Save MOU</button>
+                <button class="btn btn-reset" type="reset">Reset</button>
+            </div>
+        </form>
+    </div>
+
+    <footer>© 2025 Government Polytechnic Yavatmal | College 360</footer>
+
+    <script>
+        function addMOU() {
+            let fields = ["mouId", "orgId", "name", "deptId", "mouDate", "validation", "remark"];
+            for (let f of fields) {
+                if (document.getElementById(f).value === "") {
+                    alert("Please fill all fields");
+                    return false;
+                }
+            }
+
+            let mouList = JSON.parse(localStorage.getItem("mouList")) || [];
+
+            mouList.push({
+                mouId: mouId.value,
+                orgId: orgId.value,
+                name: name.value,
+                deptId: deptId.value,
+                date: mouDate.value,
+                validation: validation.value,
+                remark: remark.value
+            });
+
+            localStorage.setItem("mouList", JSON.stringify(mouList));
+            alert("MOU Saved Successfully");
+            document.querySelector("form").reset();
+            return false;
+        }
+
+        function goToView() {
+            window.location.href = "mou-view.html";
+        }
+
+        function goBack() {
+            window.location.href = "home.html";
+        }
+    </script>
+
+</body>
+
+</html>

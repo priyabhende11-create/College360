@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>K10 Placement Report</title>
+<style>
+body{font-family:"Times New Roman";margin:30px}
+table{width:100%;border-collapse:collapse}
+th,td{border:1px solid black;padding:6px;text-align:center}
+.no-border td{border:none}
+.page-break{page-break-before:always}
+</style>
+</head>
+<body>
+
+<button onclick="window.print()">Print / Save PDF</button>
+
+<h3 align="center">PLACEMENT DETAILS</h3>
+
+<table class="no-border">
+<tr><td><b>Institute:</b> {{ institute }}</td></tr>
+<tr><td><b>Academic Year:</b> {{ academic_year }}</td></tr>
+<tr><td><b>Programme:</b> {{ programme }}</td></tr>
+</table>
+
+<table>
+<tr>
+<th>Sr</th><th>Industry</th><th>Type</th><th>No. Students</th><th>Salary</th>
+</tr>
+{% for c in part_a %}
+<tr>
+<td>{{ loop.index }}</td>
+<td>{{ c.company_name }}</td>
+<td>{{ c.industry_type }}</td>
+<td>{{ c.count }}</td>
+<td>{{ c.salary }}</td>
+</tr>
+{% endfor %}
+</table>
+
+<div class="page-break"></div>
+
+<h3 align="center">DETAILS OF STUDENT PLACEMENT</h3>
+
+<table>
+<tr>
+<th>Sr</th><th>Student</th><th>Placement Type</th><th>Organization</th><th>Remark</th>
+</tr>
+{% for s in part_b %}
+<tr>
+<td>{{ loop.index }}</td>
+<td>{{ s.student_name }}</td>
+<td>{{ s.placement_type }}</td>
+<td>{{ s.company_name }}</td>
+<td>{{ s.remark }}</td>
+</tr>
+{% endfor %}
+</table>
+
+</body>
+</html>

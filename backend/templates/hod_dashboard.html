@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>HOD Dashboard – Government Polytechnic Yavatmal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #eef2f7;
+        }
+
+        /* ================= HEADER ================= */
+        .header {
+            height: 100px;
+            background: linear-gradient(90deg, #1f3c88, #274bdb);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Green back arrow box */
+        .header-back {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background-color: white;
+            color: rgb(212, 131, 131);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 15px;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .header-back i {
+            font-size: 16px;
+        }
+
+        .header-back:hover {
+            background-color:white;
+        }
+
+        .header-title {
+            font-weight: 600;
+            letter-spacing: 0.6px;
+        }
+
+        /* ================= SIDEBAR ================= */
+        .sidebar {
+            position: fixed;
+            top: 100px;
+            left: 0;
+            width: 240px;
+            height: calc(100% - 100px);
+            background: #f9fafb;
+            padding-top: 20px;
+            transition: 0.35s ease;
+            box-shadow: 3px 0 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 22px;
+            color: #1f3c88;
+            text-decoration: none;
+            font-size: 15px;
+            border-left: 4px solid transparent;
+            transition: 0.25s;
+        }
+
+        .sidebar a i {
+            width: 22px;
+            font-size: 16px;
+        }
+
+        .sidebar a:hover {
+            background: #eef2ff;
+            border-left: 4px solid #274bdb;
+            padding-left: 26px;
+        }
+
+        .sidebar .logout {
+            background: #fee2e2;
+            color: #b91c1c;
+            margin: 15px;
+            border-radius: 8px;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .sidebar .logout:hover {
+            background: #fecaca;
+        }
+
+        /* ================= MAIN ================= */
+        .main {
+            margin-left: 240px;
+            padding: 45px;
+            transition: 0.35s;
+        }
+
+        /* Row layout */
+        .dashboard-row {
+            display: flex;
+            gap: 30px;
+            align-items: stretch;
+            flex-wrap: wrap;
+        }
+
+        /* Welcome Card */
+        .card {
+            flex: 1;
+            min-width: 350px;
+            background: #fff;
+            padding: 45px;
+            border-radius: 18px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .card h1 {
+            color: #1f3c88;
+            margin-bottom: 15px;
+        }
+
+        .card p {
+            color: #4b5563;
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        /* Profile Card */
+        .profile-card {
+            width: 280px;
+            background: #fff;
+            padding: 30px 25px;
+            border-radius: 18px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Vertical Photo */
+        .hod-photo {
+            width: 100%;
+            height: 380px;
+            object-fit: cover;
+            border-radius: 16px;
+            border: 3px solid #274bdb;
+            margin-top: 25px;
+        }
+
+        /* Info */
+        .profile-info {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .profile-info h3 {
+            color: #1f3c88;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .profile-info p {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        /* ================= TOGGLE ================= */
+        .sidebar.hide {
+            left: -240px;
+        }
+
+        .main.full {
+            margin-left: 0;
+        }
+
+        /* ================= MOBILE ================= */
+        @media(max-width:768px) {
+            .main {
+                margin-left: 0;
+                padding: 25px;
+            }
+
+            .sidebar {
+                left: -240px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+    <div class="header">
+        <!-- Back arrow -->
+        <a href="{{ url_for('index') }}" class="header-back">
+            <i class="fas fa-arrow-left"></i> Back
+        </a>
+
+        <h2 class="header-title">Government Polytechnic Yavatmal</h2>
+    </div>
+
+    <!-- ================= SIDEBAR ================= -->
+    <div class="sidebar" id="sidebar">
+        <a href="{{ url_for('employee_add') }}">
+            <i class="fas fa-user-plus"></i> Add Staff
+        </a>
+        <a href="{{ url_for('assign_task') }}"><i class="fas fa-tasks"></i> Assign Task</a>
+        
+        <a href="{{ url_for('hod_mou_add') }}"><i class="fas fa-file-signature"></i>MOU</a>
+
+        <a href="{{ url_for('testing_redirect') }}"><i class="fa-solid fa-flask"></i> Testing</a>
+        
+
+
+        <a href="{{ url_for('act') }}">
+            <i class="fas fa-chart-line"></i> Activities
+        </a>
+        <a href="hod_login" class="logout" onclick="logout()">
+            <i class="fas fa-right-from-bracket"></i> Logout
+        </a>
+    </div>
+
+    <!-- ================= MAIN ================= -->
+    <div class="main" id="main">
+        <div class="dashboard-row">
+
+            <!-- Welcome Card -->
+            <div class="card">
+                <h2>Welcome {{ dept_name }} Department HOD</h2>
+                <!-- <h1>Welcome On Board, HOD 👋</h1> -->
+                <p>
+                    Manage your department efficiently using the side navigation.
+                    You can add staff, assign tasks, manage MOUs, coordinate with TPO,
+                    and track departmental activities from one place.
+                </p>
+                <p>Wishing you a productive and successful day.</p>
+            </div>
+
+
+        </div>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            document.getElementById("sidebar").classList.toggle("hide");
+            document.getElementById("main").classList.toggle("full");
+        }
+
+        function logout() {
+            alert("Logout successful");
+            window.location.href = "{{ url_for('logout') }}";
+        }
+    </script>
+
+</body>
+
+</html>
