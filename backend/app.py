@@ -4063,4 +4063,8 @@ def mark_complete(task_id):
 app.run(debug=True)
 # ================= RUN =================
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    import os
+    # Render कडून पोर्ट मिळवण्यासाठी, नसेल तर १०००० वापरण्यासाठी
+    port = int(os.environ.get("PORT", 10000))
+    # host='0.0.0.0' मुळे ॲप बाहेरून ॲक्सेस करता येईल
+    app.run(host='0.0.0.0', port=port)
