@@ -4060,7 +4060,7 @@ def mark_complete(task_id):
     db.commit()
 
     return redirect(request.referrer)
-app.run(debug=True)
+
 # ================= RUN =================
 if __name__ == "__main__":
     import os
