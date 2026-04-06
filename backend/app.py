@@ -4071,5 +4071,4 @@ if __name__ == "__main__":
     import os
     # Render कडून पोर्ट मिळवण्यासाठी, नसेल तर १०००० वापरण्यासाठी
     port = int(os.environ.get("PORT", 10000))
-    # host='0.0.0.0' मुळे ॲप बाहेरून ॲक्सेस करता येईल
-    app.run(host='0.0.0.0', port=port)
+    app.run(host="0.0.0.0", port=port)
