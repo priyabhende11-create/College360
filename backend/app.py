@@ -43,7 +43,7 @@ from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 
 def send_email(to_email, username, password):
-    # मजकूर साध्या स्ट्रिंगमध्ये ठेवा
+    # मजकूर साध्या फॉरमॅटमध्ये
     email_body = (
         f"You are appointed as Head of Department.\n\n"
         f"Username: {username}\n"
@@ -52,24 +52,24 @@ def send_email(to_email, username, password):
     )
 
     message = Mail(
-        from_email='priyabhende11@gmail.com',  # तुमचा व्हेरिफाईड सेंडर ईमेल
+        from_email='priyabhende11@gmail.com',
         to_emails=to_email,
         subject='HOD Login Credentials - College360',
         plain_text_content=email_body
     )
 
     try:
-        # तुमची पूर्ण API Key इथे पेस्ट केली आहे
-        # टीप: की च्या शेवटी 'cI' किंवा इतर कोणतेही जादा अक्षरे नसल्याची खात्री करा
+        # तुमची खरी API Key (शुद्ध केलेली)
+        # की च्या शेवटी कोणतेही जादा अक्षरे (उदा. cI) नसावेत याची खात्री करा
         api_key = 'SG.gESNgXC3TxK-t1jkTlvUsw.8BOs9gzzyGkSrcVHF5cqcto3XnihWTy2b3Awy63ZZ'
-        sg = SendGridAPIClient(api_key)
         
+        sg = SendGridAPIClient(api_key)
         response = sg.send(message)
         
         print(f"✅ Email sent successfully! Status Code: {response.status_code}")
         
     except Exception as e:
-        # जर 'Unauthorized' एरर आला, तर याचा अर्थ की (Key) मध्ये चूक आहे
+        # जर तरीही 401 आला, तर नवीन API Key जनरेट करणे उत्तम
         print(f"❌ SendGrid Error: {str(e)}")
 # ================= HOME =================
 @app.route("/")
