@@ -56,10 +56,10 @@ Login URL: https://college360-app.onrender.com/hod_login
         from_email='priyabhende11@gmail.com',
         to_emails=to_email,
         subject='HOD Login Credentials - College360',
-        plain_text_content=email_body 
+        plain_text_content=email_body.encode('utf-8').decode('latin-1')
     )
     try:
-        sg = SendGridAPIClient('तुमचा_SG_API_KEY_येथे_टाका')
+        sg = SendGridAPIClient('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')
         response = sg.send(message)
         print("✅ Email sent successfully via SendGrid!")
     except Exception as e:
