@@ -52,10 +52,11 @@ Username: {username}
 Password: {password}
 
 Login URL:
-http://127.0.0.1:5000/hod_login
+https://college360-app.onrender.com/hod_login
 """)
 
-        server = smtplib.SMTP("smtp.gmail.com", 587)
+        # सुधारेलेली ओळ:
+        server = smtplib.SMTP("smtp.gmail.com", 587, timeout=20)
         server.starttls()
         server.login("priyabhende11@gmail.com", "iyybmdhxirlrbycz")
         server.send_message(msg)
