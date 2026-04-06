@@ -43,33 +43,25 @@ from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 
 def send_email(to_email, username, password):
-    # मजकूर साध्या फॉरमॅटमध्ये
-    email_body = (
-        f"You are appointed as Head of Department.\n\n"
-        f"Username: {username}\n"
-        f"Password: {password}\n\n"
-        f"Login URL: https://college360-app.onrender.com/hod_login"
-    )
+    # Render मधून लपवलेली की मिळवा
+    api_key = os.environ.get('SENDGRID_API_KEY') 
+    
+    if not api_key:
+        print("❌ Error: API Key not found in Environment Variables")
+        return
 
     message = Mail(
         from_email='priyabhende11@gmail.com',
         to_emails=to_email,
-        subject='HOD Login Credentials - College360',
-        plain_text_content=email_body
+        subject='College360 Login Credentials',
+        plain_text_content=f"Username: {username}\nPassword: {password}"
     )
 
     try:
-        # तुमची खरी API Key (शुद्ध केलेली)
-        # की च्या शेवटी कोणतेही जादा अक्षरे (उदा. cI) नसावेत याची खात्री करा
-        api_key = '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'
-        
         sg = SendGridAPIClient(api_key)
-        response = sg.send(message)
-        
-        print(f"✅ Email sent successfully! Status Code: {response.status_code}")
-        
+        sg.send(message)
+        print("✅ Email sent successfully!")
     except Exception as e:
-        # जर तरीही 401 आला, तर नवीन API Key जनरेट करणे उत्तम
         print(f"❌ SendGrid Error: {str(e)}")
 # ================= HOME =================
 @app.route("/")
