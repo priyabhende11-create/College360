@@ -39,33 +39,24 @@ def generate_password():
 
 # ================= EMAIL =================
 def send_email(to_email, username, password):
+    import smtplib
+    from email.message import EmailMessage
+
     try:
         msg = EmailMessage()
         msg["Subject"] = "HOD Login Credentials - College360"
         msg["From"] = "priyabhende11@gmail.com"
         msg["To"] = to_email
+        msg.set_content(f"Username: {username}\nPassword: {password}\nURL: https://college360-app.onrender.com/hod_login")
 
-        msg.set_content(f"""
-You are appointed as Head of Department.
-
-Username: {username}
-Password: {password}
-
-Login URL:
-https://college360-app.onrender.com/hod_login
-""")
-
-        # सुधारेलेली ओळ:
-        server = smtplib.SMTP("smtp.gmail.com", 587, timeout=20)
-        server.starttls()
-        server.login("priyabhende11@gmail.com", "iyybmdhxirlrbycz")
-        server.send_message(msg)
-        server.quit()
-
+        # SMTP ऐवजी SMTP_SSL वापरा आणि Port 465 निवडा
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465, timeout=20) as server:
+            server.login("priyabhende11@gmail.com", "iyybmdhxirlrbycz")
+            server.send_message(msg)
+        
         print("✅ Email sent successfully")
-
     except Exception as e:
-        print("❌ Email Error:", e)
+        print(f"❌ Email Error: {e}")
 
 # ================= HOME =================
 @app.route("/")
