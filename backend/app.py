@@ -38,25 +38,34 @@ def generate_password():
     return ''.join(random.choices(string.ascii_letters + string.digits, k=8))
 
 # ================= EMAIL =================
+import os
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
+
 def send_email(to_email, username, password):
-    import smtplib
-    from email.message import EmailMessage
+    # तुमची पूर्ण Render URL वापरा
+    login_url = "https://college360-app.onrender.com/hod_login"
+    
+    message = Mail(
+        from_email='priyabhende11@gmail.com',  # तुमचा व्हेरिफाईड ईमेल
+        to_emails=to_email,
+        subject='HOD Login Credentials - College360',
+        plain_text_content=f"""
+You are appointed as Head of Department.
 
+Username: {username}
+Password: {password}
+
+Login URL: {login_url}
+"""
+    )
     try:
-        msg = EmailMessage()
-        msg["Subject"] = "HOD Login Credentials - College360"
-        msg["From"] = "priyabhende11@gmail.com"
-        msg["To"] = to_email
-        msg.set_content(f"Username: {username}\nPassword: {password}\nURL: https://college360-app.onrender.com/hod_login")
-
-        # SMTP ऐवजी SMTP_SSL वापरा आणि Port 465 निवडा
-        with smtplib.SMTP_SSL("smtp.gmail.com", 465, timeout=20) as server:
-            server.login("priyabhende11@gmail.com", "iyybmdhxirlrbycz")
-            server.send_message(msg)
-        
-        print("✅ Email sent successfully")
+        # 'तुमचा_SG_API_KEY_इथे_पेस्ट_करा' च्या जागी तुमची कॉपी केलेली की टाका
+        sg = SendGridAPIClient('SG.तुमची_कॉपी_केलेली_की_येथे_टाका') 
+        response = sg.send(message)
+        print("✅ Email sent successfully via SendGrid!")
     except Exception as e:
-        print(f"❌ Email Error: {e}")
+        print(f"❌ SendGrid Error: {e}")
 
 # ================= HOME =================
 @app.route("/")
