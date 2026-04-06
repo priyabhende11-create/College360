@@ -61,7 +61,7 @@ def send_email(to_email, username, password):
     try:
         # तुमची खरी API Key (शुद्ध केलेली)
         # की च्या शेवटी कोणतेही जादा अक्षरे (उदा. cI) नसावेत याची खात्री करा
-        api_key = 'SG.gESNgXC3TxK-t1jkTlvUsw.8BOs9gzzyGkSrcVHF5cqcto3XnihWTy2b3Awy63ZZ'
+        api_key = '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'
         
         sg = SendGridAPIClient(api_key)
         response = sg.send(message)
