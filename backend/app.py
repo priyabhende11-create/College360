@@ -43,28 +43,34 @@ from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 
 def send_email(to_email, username, password):
-    email_body = f"""
-You are appointed as Head of Department.
-
-Username: {username}
-Password: {password}
-
-Login URL: https://college360-app.onrender.com/hod_login
-"""
+    # मजकूर साध्या स्ट्रिंगमध्ये ठेवा
+    email_body = (
+        f"You are appointed as Head of Department.\n\n"
+        f"Username: {username}\n"
+        f"Password: {password}\n\n"
+        f"Login URL: https://college360-app.onrender.com/hod_login"
+    )
 
     message = Mail(
-        from_email='priyabhende11@gmail.com',
+        from_email='priyabhende11@gmail.com',  # तुमचा व्हेरिफाईड सेंडर ईमेल
         to_emails=to_email,
         subject='HOD Login Credentials - College360',
-        plain_text_content=email_body.encode('utf-8').decode('latin-1')
+        plain_text_content=email_body
     )
-    try:
-        sg = SendGridAPIClient('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')
-        response = sg.send(message)
-        print("✅ Email sent successfully via SendGrid!")
-    except Exception as e:
-        print(f"❌ SendGrid Error: {str(e)}")
 
+    try:
+        # तुमची पूर्ण API Key इथे पेस्ट केली आहे
+        # टीप: की च्या शेवटी 'cI' किंवा इतर कोणतेही जादा अक्षरे नसल्याची खात्री करा
+        api_key = 'SG.gESNgXC3TxK-t1jkTlvUsw.8BOs9gzzyGkSrcVHF5cqcto3XnihWTy2b3Awy63ZZ'
+        sg = SendGridAPIClient(api_key)
+        
+        response = sg.send(message)
+        
+        print(f"✅ Email sent successfully! Status Code: {response.status_code}")
+        
+    except Exception as e:
+        # जर 'Unauthorized' एरर आला, तर याचा अर्थ की (Key) मध्ये चूक आहे
+        print(f"❌ SendGrid Error: {str(e)}")
 # ================= HOME =================
 @app.route("/")
 def index():
