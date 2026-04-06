@@ -43,29 +43,27 @@ from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 
 def send_email(to_email, username, password):
-    # तुमची पूर्ण Render URL वापरा
-    login_url = "https://college360-app.onrender.com/hod_login"
-    
-    message = Mail(
-        from_email='priyabhende11@gmail.com',  # तुमचा व्हेरिफाईड ईमेल
-        to_emails=to_email,
-        subject='HOD Login Credentials - College360',
-        plain_text_content=f"""
+    email_body = f"""
 You are appointed as Head of Department.
 
 Username: {username}
 Password: {password}
 
-Login URL: {login_url}
+Login URL: https://college360-app.onrender.com/hod_login
 """
+
+    message = Mail(
+        from_email='priyabhende11@gmail.com',
+        to_emails=to_email,
+        subject='HOD Login Credentials - College360',
+        plain_text_content=email_body 
     )
     try:
-        # 'तुमचा_SG_API_KEY_इथे_पेस्ट_करा' च्या जागी तुमची कॉपी केलेली की टाका
-        sg = SendGridAPIClient('SG.तुमची_कॉपी_केलेली_की_येथे_टाका') 
+        sg = SendGridAPIClient('तुमचा_SG_API_KEY_येथे_टाका')
         response = sg.send(message)
         print("✅ Email sent successfully via SendGrid!")
     except Exception as e:
-        print(f"❌ SendGrid Error: {e}")
+        print(f"❌ SendGrid Error: {str(e)}")
 
 # ================= HOME =================
 @app.route("/")
