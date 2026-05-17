@@ -7,104 +7,265 @@
 
     <style>
         /* ===== Base ===== */
-        body {
+        * {
             margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f4f6f9;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        /* ===== HEADER (NEW CLEAN DESIGN) ===== */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f2f5;
+        }
+
+        /* ===== HEADER ===== */
         .header {
-            background: #1f3c88;
-            padding: 15px 25px;
-            display: grid;
-            grid-template-columns: auto 1fr auto;
+            background: linear-gradient(135deg, #1f3c88 0%, #2a4ba0 100%);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
             align-items: center;
             color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
         .header-title {
-            text-align: center;
-            font-size: 18px;
-            font-weight: 500;
+            font-size: 22px;
+            font-weight: 600;
+            letter-spacing: 1px;
         }
 
-        .back-btn {
-            background: white;
-            /* GREEN like previous page */
-            color: rgb(205, 123, 123);
-            border: none;
-            padding: 8px 18px;
-            border-radius: 20px;
+        .back-btn, .view-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 8px 20px;
+            border-radius: 25px;
             cursor: pointer;
             font-size: 14px;
             font-weight: 500;
-            transition: 0.3s;
+            transition: all 0.3s ease;
         }
 
-        .back-btn:hover {
-            background: #bdeec8;
-            /* Darker green on hover */
+        .back-btn:hover, .view-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
         }
 
+        /* ===== FLASH MESSAGES ===== */
+        .flash-message {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 9999;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            animation: slideIn 0.5s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
 
-        /* ===== SUCCESS MESSAGE ===== */
-        #successMsg {
-            display: none;
-            margin: 20px 30px;
-            padding: 12px;
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .flash-success {
             background: #d4edda;
             color: #155724;
-            border-radius: 6px;
-            text-align: center;
-            font-weight: 500;
+            border-left: 4px solid #28a745;
         }
 
-        /* ===== CONTENT ===== */
-        .container {
-            display: flex;
-            gap: 30px;
+        .flash-danger {
+            background: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+
+        .flash-warning {
+            background: #fff3cd;
+            color: #856404;
+            border-left: 4px solid #ffc107;
+        }
+
+        /* ===== MAIN CONTAINER ===== */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
             padding: 30px;
         }
 
         /* ===== CARDS ===== */
-        .card {
-            background: #ffffff;
-            width: 50%;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+        .cards-wrapper {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
         }
 
-        .card h3 {
-            text-align: center;
-            color: #1f3c88;
+        .card {
+            flex: 1;
+            min-width: 450px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, #1f3c88 0%, #2a4ba0 100%);
+            color: white;
+            padding: 15px 20px;
+        }
+
+        .card-header h3 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .card-body {
+            padding: 25px;
+        }
+
+        /* ===== FORM STYLES ===== */
+        .form-row {
             margin-bottom: 15px;
         }
 
-        input,
-        select,
-        button {
-            width: 100%;
-            padding: 8px;
-            margin: 6px 0;
-            font-size: 14px;
+        .form-row label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
         }
 
-        button.primary {
+        .form-row label .required {
+            color: #dc3545;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #1f3c88;
+            box-shadow: 0 0 0 3px rgba(31,60,136,0.1);
+        }
+
+        .form-divider {
+            border-top: 1px dashed #ddd;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .form-divider span {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 0 10px;
+            font-size: 12px;
+            color: #888;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
             background: #1f3c88;
             color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
+            width: 100%;
         }
 
-        button.secondary {
+        .btn-primary:hover {
+            background: #152e6b;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
             background: #6c757d;
             color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+        }
+
+        .btn-block {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .file-input {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            background: #f9f9f9;
+        }
+
+        .info-note {
+            background: #e7f3ff;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            color: #1f3c88;
+            margin-top: 15px;
+        }
+
+        .info-note ul {
+            margin: 5px 0 0 20px;
+        }
+
+        hr {
+            margin: 15px 0;
+        }
+
+        @media (max-width: 1000px) {
+            .cards-wrapper {
+                flex-direction: column;
+            }
+            .card {
+                min-width: auto;
+            }
+            .header {
+                flex-direction: column;
+                gap: 10px;
+            }
         }
     </style>
 </head>
@@ -116,120 +277,254 @@
         <button class="back-btn" onclick="window.location.href='/registration_dashboard'">
             ⬅ Back
         </button>
-
         <div class="header-title">
-            Register Your Student
+            📝 Register Your Student
         </div>
-
-        <button class="back-btn" onclick="window.location.href='/view_students'">
-            👁 View
+        <button class="view-btn" onclick="window.location.href='/view_students'">
+            👁 View Students
         </button>
     </div>
 
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-    <div id="successMsg" style="display:block;">
-        {{ messages[0] }}
-    </div>
-    {% endif %}
+    <!-- ===== FLASH MESSAGES ===== -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash-message flash-{{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
     {% endwith %}
 
-    <!-- ===== SUCCESS MESSAGE ===== -->
-    <div id="successMsg">
-        ✅ Operation completed successfully
+    <!-- ===== MAIN CONTENT ===== -->
+    <div class="main-container">
+
+        <div class="cards-wrapper">
+
+            <!-- ===== MANUAL ENTRY CARD ===== -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>✏️ Manual Student Entry</h3>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="/add_student" id="studentForm">
+                        
+                        <div class="form-row">
+                            <label>Academic Year <span class="required">*</span></label>
+                            <input name="academic_year" placeholder="e.g., 2025-26" required>
+                        </div>
+
+                        <div class="form-row">
+                            <label>Diploma Year <span class="required">*</span></label>
+                            <select name="diploma_year" required>
+                                <option value="">-- Select Diploma Year --</option>
+                                <option value="1">1st Year</option>
+                                <option value="2">2nd Year</option>
+                                <option value="3">3rd Year</option>
+                            </select>
+                        </div>
+
+                        <div class="form-row">
+                            <label>Semester <span class="required">*</span></label>
+                            <select name="semester" required>
+                                <option value="">-- Select Semester --</option>
+                                <option value="1">Semester 1</option>
+                                <option value="2">Semester 2</option>
+                                <option value="3">Semester 3</option>
+                                <option value="4">Semester 4</option>
+                                <option value="5">Semester 5</option>
+                                <option value="6">Semester 6</option>
+                            </select>
+                        </div>
+
+                        <div class="form-row">
+                            <label>Scheme <span class="required">*</span></label>
+                            <select name="scheme" required>
+                                <option value="">-- Select Scheme --</option>
+                                {% for scheme in schemes %}
+                                <option value="{{ scheme.scheme_name }}">
+                                    {{ scheme.scheme_name }}
+                                    {% if scheme.year_start %}
+                                    ({{ scheme.year_start }})
+                                    {% endif %}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-row">
+                            <label>Enrollment No <span class="required">*</span></label>
+                            <input name="enrollment_no" placeholder="e.g., 2025CS001" required>
+                        </div>
+
+                        <div class="form-row">
+                            <label>Student Name <span class="required">*</span></label>
+                            <input name="student_name" placeholder="Full Name" required>
+                        </div>
+
+                        <div class="form-row">
+                            <label>Department</label>
+                            <input name="dept" placeholder="e.g., Computer Science">
+                        </div>
+
+                        <div class="form-row">
+                            <label>Contact Number</label>
+                            <input name="contact" placeholder="Mobile Number">
+                        </div>
+
+                        <div class="form-row">
+                            <label>Email ID</label>
+                            <input name="email" placeholder="student@example.com" type="email">
+                        </div>
+
+                        <div class="form-divider">
+                            <span>Parents Information</span>
+                        </div>
+
+                        <div class="form-row">
+                            <label>Father Name</label>
+                            <input name="father_name" placeholder="Father's Full Name">
+                        </div>
+
+                        <div class="form-row">
+                            <label>Mother Name</label>
+                            <input name="mother_name" placeholder="Mother's Full Name">
+                        </div>
+
+                        <div class="form-row">
+                            <label>Father Email</label>
+                            <input name="father_email" placeholder="father@example.com" type="email">
+                        </div>
+
+                        <div class="form-row">
+                            <label>Father Contact</label>
+                            <input name="father_contact" placeholder="Father's Mobile">
+                        </div>
+
+                        <hr>
+
+                        <button type="submit" class="btn btn-primary">
+                            💾 Save Student
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- ===== BULK UPLOAD CARD ===== -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>📎 Bulk Upload Students</h3>
+                </div>
+                <div class="card-body">
+                    
+                    <div class="info-note">
+                        <strong>ℹ️ Important Note:</strong>
+                        <ul>
+                            <li>Academic Year, Diploma Year, Semester, Scheme will be <strong>automatically applied</strong> from below selections</li>
+                            <li>Excel file should have columns: <strong>enrollment_no, student_name, dept, contact, email, father_name, mother_name, father_email, father_contact</strong></li>
+                            <li>Only <strong>enrollment_no</strong> and <strong>student_name</strong> are mandatory in Excel</li>
+                        </ul>
+                    </div>
+
+                    <hr>
+
+                    <!-- Bulk Upload Form with Manual Fields -->
+                    <form method="POST" action="/bulk_upload_students" enctype="multipart/form-data">
+                        
+                        <div class="form-row">
+                            <label>Academic Year <span class="required">*</span></label>
+                            <input type="text" name="academic_year" placeholder="e.g., 2025-26" required>
+                        </div>
+
+                        <div class="form-row">
+                            <label>Diploma Year <span class="required">*</span></label>
+                            <select name="diploma_year" required>
+                                <option value="">-- Select Diploma Year --</option>
+                                <option value="1">1st Year</option>
+                                <option value="2">2nd Year</option>
+                                <option value="3">3rd Year</option>
+                            </select>
+                        </div>
+
+                        <div class="form-row">
+                            <label>Semester <span class="required">*</span></label>
+                            <select name="semester" required>
+                                <option value="">-- Select Semester --</option>
+                                <option value="1">Semester 1</option>
+                                <option value="2">Semester 2</option>
+                                <option value="3">Semester 3</option>
+                                <option value="4">Semester 4</option>
+                                <option value="5">Semester 5</option>
+                                <option value="6">Semester 6</option>
+                            </select>
+                        </div>
+
+                        <div class="form-row">
+                            <label>Scheme <span class="required">*</span></label>
+                            <select name="scheme" required>
+                                <option value="">-- Select Scheme --</option>
+                                {% for scheme in schemes %}
+                                <option value="{{ scheme.scheme_name }}">
+                                    {{ scheme.scheme_name }}
+                                    {% if scheme.year_start %}
+                                    ({{ scheme.year_start }})
+                                    {% endif %}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-row">
+                            <label>Department (Default)</label>
+                            <input name="dept" placeholder="Default department if not in Excel">
+                        </div>
+
+                        <hr>
+
+                        <div class="form-row">
+                            <label>Excel File <span class="required">*</span></label>
+                            <input type="file" name="file" class="file-input" accept=".xlsx,.xls" required>
+                        </div>
+
+                        <a href="/download_student_template">
+                            <button type="button" class="btn btn-secondary btn-block">
+                                📥 Download Excel Template
+                            </button>
+                        </a>
+
+                        <button type="submit" class="btn btn-success btn-block">
+                            ⬆️ Upload Excel & Save
+                        </button>
+
+                    </form>
+
+                    <div class="info-note" style="margin-top: 20px; background: #fff3cd; color: #856404;">
+                        <strong>📌 Excel Template Columns:</strong><br>
+                        enrollment_no | student_name | dept | contact | email | father_name | mother_name | father_email | father_contact
+                    </div>
+
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- ===== PAGE CONTENT ===== -->
-    <div class="container">
-
-        <!-- ===== MANUAL ENTRY ===== -->
-        <div class="card">
-            <h3>Manual Student Entry</h3>
-
-            <form method="POST" action="/add_student" id="studentForm">
-
-
-                <input name="academic_year" placeholder="Academic Year (2025-26)" required>
-
-                <select name="diploma_year" required>
-                    <option value="">Select Year</option>
-                    <option value="1">1st Year</option>
-                    <option value="2">2nd Year</option>
-                    <option value="3">3rd Year</option>
-                </select>
-                <select name="semester" required>
-                    <option value="">Select semester</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                </select>
-
-                <select name="scheme" required>
-                    <option value="">Select Scheme</option>
-                    {% for scheme in schemes %}
-                    <option value="{{ scheme.scheme_name }}">
-                        {{ scheme.scheme_name }}
-                        {% if scheme.year_start %}
-                        ({{ scheme.year_start }})
-                        {% endif %}
-                    </option>
-                    {% endfor %}
-                </select>
-
-                <input name="enrollment_no" placeholder="Enrollment No" required>
-                <input name="student_name" placeholder="Student Name" required>
-                <input name="dept" placeholder="Department" required>
-                <input name="contact" placeholder="Contact">
-                <input name="email" placeholder="Email">
-
-                <hr>
-
-                <input name="father_name" placeholder="Father Name">
-                <input name="mother_name" placeholder="Mother Name">
-                <input name="father_email" placeholder="Father Email">
-                <input name="father_contact" placeholder="Father Contact">
-
-                <button type="submit" class="primary">
-                    Save Student
-                </button>
-
-            </form>
-        </div>
-
-        <!-- ===== BULK UPLOAD ===== -->
-        <div class="card">
-            <h3>Bulk Upload</h3>
-
-            <a href="/download_student_template">
-                <button type="button" class="secondary">
-                    📥 Download Excel Template
-                </button>
-            </a>
-
-            <form method="POST" action="/bulk_upload_students" enctype="multipart/form-data">
-                <input type="file" name="file" required>
-                <button type="submit">Upload Excel</button>
-            </form>
-
-        </div>
-
-    </div>
-
-    <!-- ===== SUCCESS MESSAGE SCRIPT ===== -->
+    <!-- ===== AUTO HIDE FLASH MESSAGES ===== -->
     <script>
-        const params = new URLSearchParams(window.location.search);
+        setTimeout(function() {
+            var flashes = document.querySelectorAll('.flash-message');
+            flashes.forEach(function(flash) {
+                flash.style.opacity = '0';
+                setTimeout(function() {
+                    if (flash.parentNode) flash.remove();
+                }, 300);
+            });
+        }, 4000);
 
-        if (params.get("success") === "1") {
-            const msg = document.getElementById("successMsg");
-            msg.style.display = "block";
-
+        // Auto hide success message after 3 seconds
+        const successMsg = document.getElementById('successMsg');
+        if (successMsg) {
             setTimeout(() => {
-                msg.style.display = "none";
-                const form = document.getElementById("studentForm");
-                if (form) form.reset();
+                successMsg.style.display = 'none';
             }, 3000);
         }
     </script>
