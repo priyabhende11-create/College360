@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Records View - GP Yavatmal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #f0f2f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header Section */
+        .header {
+            background: #1f3c88;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 24px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+
+        /* Filter & Action Bar */
+        .filter-bar {
+            background: white;
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            border-bottom: 2px solid #ddd;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .filter-group label {
+            font-weight: bold;
+            font-size: 14px;
+            color: #555;
+        }
+
+        select {
+            padding: 8px 12px;
+            border: 2px solid #1f3c88;
+            border-radius: 5px;
+            font-weight: 600;
+            color: #1f3c88;
+            outline: none;
+            cursor: pointer;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            margin-left: auto;
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 13px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-print {
+            background: #27ae60;
+            color: white;
+        }
+
+        .btn-back {
+            background: #5c7cfa;
+            color: white;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Table Container */
+        .container {
+            padding: 30px;
+            max-width: 1400px;
+            margin: auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .card-header {
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-bottom: 2px solid #1f3c88;
+        }
+
+        .card-header h5 {
+            margin: 0;
+            color: #1f3c88;
+            font-weight: 600;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th {
+            background: #f8f9fa;
+            color: #1f3c88;
+            padding: 15px;
+            text-align: left;
+            border-bottom: 2px solid #eee;
+            font-size: 13px;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background: #f9fbff;
+        }
+
+        /* Status Badges */
+        .badge {
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            border: 1px solid;
+            display: inline-block;
+        }
+
+        .status-active {
+            background: #e6fffa;
+            color: #27ae60;
+            border-color: #27ae60;
+        }
+
+        .status-completed {
+            background: #ebf4ff;
+            color: #1f3c88;
+            border-color: #1f3c88;
+        }
+
+        .status-detained {
+            background: #fff5f5;
+            color: #e74c3c;
+            border-color: #e74c3c;
+        }
+
+        .loader {
+            text-align: center;
+            padding: 60px;
+            color: #888;
+            font-style: italic;
+            font-size: 16px;
+        }
+
+        .alert-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            background: white;
+            padding: 12px 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .stats-count {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1f3c88;
+        }
+
+        .stats-count span {
+            font-size: 20px;
+            color: #27ae60;
+            margin-right: 5px;
+        }
+
+        /* --- PRINT STYLES --- */
+        @media print {
+            body {
+                background: white;
+            }
+
+            .filter-bar,
+            .btn-print,
+            .btn-back,
+            .stats-bar,
+            .bk {
+                display: none !important;
+            }
+
+            .container {
+                padding: 0;
+                margin: 0;
+                max-width: 100%;
+            }
+
+            .card {
+                box-shadow: none;
+                border: none;
+            }
+
+            .header {
+                background: white !important;
+                color: black !important;
+                border-bottom: 3px solid #1f3c88;
+                padding: 10px;
+            }
+
+            .header p {
+                opacity: 1;
+            }
+
+            th {
+                background: #eee !important;
+                color: black !important;
+                border: 1px solid #ddd;
+            }
+
+            td {
+                border: 1px solid #ddd;
+            }
+
+            .badge {
+                border: none !important;
+                padding: 0;
+                font-size: 12px;
+            }
+        }
+
+        .bk {
+            margin: 20px 30px;
+        }
+
+        .form-label {
+            font-weight: 600;
+            font-size: 13px;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        .form-select {
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 8px 12px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="bk">
+        <a href="/students" class="btn btn-back">⬅️ Back to Registration</a>
+    </div>
+
+    <div class="header">
+        <h1>Government Polytechnic Yavatmal</h1>
+        <p>Student Records - Complete List</p>
+    </div>
+
+    <!-- Filter Section -->
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h5>📋 Filter Students</h5>
+            </div>
+            <div class="card-body">
+                <form method="GET" action="{{ url_for('view_students') }}" class="row g-3">
+                    <div class="col-md-3">
+                        <label class="form-label">Academic Year</label>
+                        <select name="academic_year" class="form-select" onchange="this.form.submit()">
+                            <option value="">-- All Years --</option>
+                            {% for year in years %}
+                            <option value="{{ year.academic_year }}" {% if selected_year == year.academic_year %}selected{% endif %}>
+                                {{ year.academic_year }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Semester</label>
+                        <select name="semester" class="form-select" onchange="this.form.submit()">
+                            <option value="">-- All Semesters --</option>
+                            {% for sem in semesters %}
+                            <option value="{{ sem.semester }}" {% if selected_semester == sem.semester|string %}selected{% endif %}>
+                                Semester {{ sem.semester }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Scheme</label>
+                        <select name="scheme" class="form-select" onchange="this.form.submit()">
+                            <option value="">-- All Schemes --</option>
+                            {% for s in schemes %}
+                            <option value="{{ s.scheme }}" {% if selected_scheme == s.scheme %}selected{% endif %}>
+                                {{ s.scheme }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">&nbsp;</label>
+                        <div>
+                            <button type="submit" class="btn btn-primary" style="background:#1f3c88; width:100%;">🔍 Apply Filter</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Stats Bar -->
+        <div class="stats-bar">
+            <div class="stats-count">
+                <span>📊</span> Total Students: <strong>{{ students|length }}</strong>
+            </div>
+            <div>
+                <button onclick="window.print()" class="btn-print" style="padding: 6px 15px;">🖨️ Print</button>
+            </div>
+        </div>
+
+        <!-- Students Table -->
+        <div class="card">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Enrollment No</th>
+                            <th>Student Name</th>
+                            <th>Department</th>
+                            <th>Academic Year</th>
+                            <th>Diploma Year</th>
+                            <th>Semester</th>
+                            <th>Scheme</th>
+                            <th>Contact</th>
+                            <th>Email</th>
+                            <th>Father Name</th>
+                            <th>Mother Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if students %}
+                            {% for student in students %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td><strong>{{ student.enrollment_no }}</strong></td>
+                                <td>{{ student.student_name }}</td>
+                                <td>{{ student.dept or '-' }}</td>
+                                <td>{{ student.academic_year or '-' }}</td>
+                                <td>{{ student.diploma_year or '-' }}</td>
+                                <td>{{ student.semester or '-' }}</td>
+                                <td>{{ student.scheme or '-' }}</td>
+                                <td>{{ student.contact or '-' }}</td>
+                                <td>{{ student.email or '-' }}</td>
+                                <td>{{ student.father_name or '-' }}</td>
+                                <td>{{ student.mother_name or '-' }}</td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="12" class="text-center text-muted" style="padding: 40px;">
+                                    {% if selected_year or selected_semester or selected_scheme %}
+                                        No students found for the selected filters.
+                                    {% else %}
+                                        No students registered yet. Please add students from the registration page.
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Auto-submit form when filter changes
+        document.querySelectorAll('.form-select').forEach(select => {
+            select.addEventListener('change', function() {
+                this.form.submit();
+            });
+        });
+    </script>
+</body>
+
+</html>
