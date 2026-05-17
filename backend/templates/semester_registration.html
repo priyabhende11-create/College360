@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Semester Management - GP Yavatmal</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f4f7f6;
+      font-size: 13px;
+    }
+
+    .header {
+      background: #1f3c88;
+      color: #fff;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .top-bar {
+      background: #fff;
+      border-bottom: 2px solid #e0e0e0;
+      padding: 12px 20px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      flex-wrap: wrap;
+    }
+
+    .sem-group {
+      display: flex;
+      gap: 4px;
+      background: #eee;
+      padding: 4px;
+      border-radius: 25px;
+    }
+
+    .sem-btn {
+      border: none;
+      padding: 6px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 12px;
+      background: transparent;
+      transition: 0.2s;
+    }
+
+    .sem-btn.active {
+      background: #1f3c88;
+      color: #fff;
+    }
+
+    .action-group {
+      margin-left: auto;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 7px 14px;
+      border: none;
+      border-radius: 4px;
+      font-weight: bold;
+      cursor: pointer;
+      color: white;
+      font-size: 12px;
+    }
+
+    .btn-back {
+      background: #444;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-select {
+      background: #5c7cfa;
+    }
+
+    .btn-detain {
+      background: #e74c3c;
+    }
+
+    .btn-promote {
+      background: #27ae60;
+    }
+
+    .btn-view {
+      background: #c850e6;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .content {
+      padding: 20px;
+    }
+
+    .summary-bar {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .summary-card {
+      background: #fff;
+      border-radius: 6px;
+      padding: 10px 18px;
+      border-left: 4px solid #ccc;
+      min-width: 120px;
+    }
+
+    .summary-card .label {
+      font-size: 11px;
+      color: #888;
+      margin-bottom: 2px;
+    }
+
+    .summary-card .value {
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .summary-card.total {
+      border-color: #1f3c88;
+    }
+
+    .summary-card.active {
+      border-color: #27ae60;
+    }
+
+    .summary-card.detained {
+      border-color: #e74c3c;
+    }
+
+    .summary-card.completed {
+      border-color: #185FA5;
+    }
+
+    .panel {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+    }
+
+    .student-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .student-table thead th {
+      background: #1f3c88;
+      color: #fff;
+      padding: 10px 12px;
+      text-align: left;
+      font-size: 12px;
+    }
+
+    .student-table tbody td {
+      padding: 9px 12px;
+    }
+
+    .student-row {
+      border-bottom: 1px solid #eee;
+      transition: background 0.15s;
+    }
+
+    .student-row:hover {
+      background: #f1f4ff;
+    }
+
+    .student-row.detained-row {
+      background: #fff5f5 !important;
+    }
+
+    .student-row.completed-row {
+      background: #f0f7ff !important;
+    }
+
+    .status-badge {
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: bold;
+      border: 1px solid;
+      display: inline-block;
+      text-transform: uppercase;
+    }
+
+    .status-active {
+      border-color: #27ae60;
+      color: #27ae60;
+      background: #ebfbee;
+    }
+
+    .status-detained {
+      border-color: #e74c3c;
+      color: #e74c3c;
+      background: #fff5f5;
+    }
+
+    .status-completed {
+      border-color: #1f3c88;
+      color: #1f3c88;
+      background: #e7f5ff;
+    }
+
+    .stu-chk:disabled {
+      cursor: not-allowed;
+      opacity: 0.4;
+    }
+
+    .empty-msg {
+      text-align: center;
+      padding: 50px;
+      color: #999;
+      font-size: 14px;
+    }
+
+    select {
+      padding: 6px 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      font-size: 13px;
+    }
+
+    .toast-msg {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #333;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      z-index: 1000;
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="header">
+    <a href="/registration_dashboard" class="btn btn-back">&#8592; Back</a>
+    <h2 style="font-size:16px;">GP Yavatmal - Semester Portal</h2>
+    <div style="width:80px"></div>
+  </div>
+
+  <div class="top-bar">
+    <select id="yearSelect" onchange="fetchData()">
+      <option value="">-- Select Academic Year --</option>
+    </select>
+
+    <div class="sem-group">
+      <button class="sem-btn active" data-sem="1" onclick="switchSem(1,this)">Sem 1</button>
+      <button class="sem-btn" data-sem="2" onclick="switchSem(2,this)">Sem 2</button>
+      <button class="sem-btn" data-sem="3" onclick="switchSem(3,this)">Sem 3</button>
+      <button class="sem-btn" data-sem="4" onclick="switchSem(4,this)">Sem 4</button>
+      <button class="sem-btn" data-sem="5" onclick="switchSem(5,this)">Sem 5</button>
+      <button class="sem-btn" data-sem="6" onclick="switchSem(6,this)">Sem 6</button>
+    </div>
+
+    <div class="action-group">
+      <button class="btn btn-select" onclick="selectAllVisible()">&#9745; Select All</button>
+      <button class="btn btn-detain" onclick="handleAction('detain')">&#9940; Detain</button>
+      <button class="btn btn-promote" onclick="handleAction('promote')">&#128640; Promote</button>
+      <a href="/view_std" class="btn btn-view">&#128202; View Records</a>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="summary-bar" id="summaryBar" style="display:none;">
+      <div class="summary-card total">
+        <div class="label">Total</div>
+        <div class="value" id="cntTotal">0</div>
+      </div>
+      <div class="summary-card active">
+        <div class="label">Active</div>
+        <div class="value" id="cntActive">0</div>
+      </div>
+      <div class="summary-card detained">
+        <div class="label">Detained</div>
+        <div class="value" id="cntDetained">0</div>
+      </div>
+      <div class="summary-card completed">
+        <div class="label">Completed</div>
+        <div class="value" id="cntCompleted">0</div>
+      </div>
+    </div>
+
+    <div id="mainContent">
+      <div class="empty-msg">Academic Year निवडा.</div>
+    </div>
+  </div>
+
+  <div id="toastMsg" class="toast-msg"></div>
+
+  <script>
+    let allStudents = [];
+    let currentSem = 1;
+
+    window.onload = loadYears;
+
+    async function loadYears() {
+      try {
+        const res = await fetch('/get_years');
+        const years = await res.json();
+        const select = document.getElementById('yearSelect');
+        select.innerHTML = `<option value="">-- Select Academic Year --</option>`;
+        years.forEach(y => {
+          const opt = document.createElement('option');
+          opt.value = y;
+          opt.textContent = y;
+          select.appendChild(opt);
+        });
+      } catch (err) {
+        console.error("Error loading years:", err);
+      }
+    }
+
+    async function fetchData() {
+      const year = document.getElementById('yearSelect').value;
+      if (!year) {
+        document.getElementById('mainContent').innerHTML = `<div class="empty-msg">Academic Year निवडा.</div>`;
+        document.getElementById('summaryBar').style.display = 'none';
+        return;
+      }
+
+      try {
+        const res = await fetch(`/get_students_by_year?year=${encodeURIComponent(year)}`);
+        allStudents = await res.json();
+        renderSem(currentSem);
+      } catch (err) {
+        console.error("Fetch error:", err);
+      }
+    }
+
+    function switchSem(n, btn) {
+      currentSem = n;
+      document.querySelectorAll('.sem-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderSem(n);
+    }
+
+    function renderSem(n) {
+      const students = allStudents.filter(s => Number(s.sem) === Number(n));
+      const content = document.getElementById('mainContent');
+      const summaryBar = document.getElementById('summaryBar');
+
+      if (students.length === 0) {
+        content.innerHTML = `<div class="empty-msg">Semester ${n} साठी कोणतेही विद्यार्थी सापडले नाहीत.</div>`;
+        summaryBar.style.display = 'none';
+        return;
+      }
+
+      // Calculate summary counts
+      const total = students.length;
+      const active = students.filter(s => s.status === 'active').length;
+      const detained = students.filter(s => s.status === 'detained').length;
+      const completed = students.filter(s => s.status === 'completed').length;
+
+      document.getElementById('cntTotal').innerText = total;
+      document.getElementById('cntActive').innerText = active;
+      document.getElementById('cntDetained').innerText = detained;
+      document.getElementById('cntCompleted').innerText = completed;
+      summaryBar.style.display = 'flex';
+
+      let rows = students.map(s => {
+        let status = (s.status || '').toLowerCase();
+        let rowClass = "student-row";
+        let badge = "";
+        let disabled = "";
+
+        if (status === "completed") {
+          rowClass += " completed-row";
+          badge = `<span class="status-badge status-completed">COMPLETED</span>`;
+          disabled = "disabled";
+        } else if (status === "detained") {
+          rowClass += " detained-row";
+          badge = `<span class="status-badge status-detained">DETAINED</span>`;
+          disabled = "disabled";
+        } else {
+          badge = `<span class="status-badge status-active">ACTIVE</span>`;
+          disabled = "";
+        }
+
+        return `
+          <tr class="${rowClass}">
+            <td style="text-align:center; width:60px;">
+              <input type="checkbox" class="stu-chk" data-id="${s.id}" data-name="${s.name}" data-sem="${s.sem}" data-diploma="${s.diploma_year}" ${disabled}>
+            </td>
+            <td><b>${s.enroll}</b></td>
+            <td>${s.name}</td>
+            <td>${s.dept || '-'}</td>
+            <td>${badge}</td>
+          </tr>
+        `;
+      }).join("");
+
+      content.innerHTML = `
+        <div class="panel">
+          <table class="student-table">
+            <thead>
+              <tr>
+                <th style="width:60px; text-align:center;">Select</th>
+                <th>Enrollment</th>
+                <th>Name</th>
+                <th>Dept</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    function selectAllVisible() {
+      const checkboxes = document.querySelectorAll('.stu-chk:not(:disabled)');
+      checkboxes.forEach(cb => cb.checked = true);
+      showToast(`Selected ${checkboxes.length} students`);
+    }
+
+    async function handleAction(action) {
+      const checkedBoxes = document.querySelectorAll('.stu-chk:checked');
+      const selectedIds = Array.from(checkedBoxes).map(cb => cb.getAttribute('data-id'));
+      const selectedNames = Array.from(checkedBoxes).map(cb => cb.getAttribute('data-name'));
+
+      if (selectedIds.length === 0) {
+        showToast("Please select at least one student", "error");
+        return;
+      }
+
+      const actionText = action === 'promote' ? 'Promote' : 'Detain';
+      if (!confirm(`${actionText} ${selectedIds.length} student(s)?\n\n${selectedNames.join('\n')}`)) {
+        return;
+      }
+
+      try {
+        const res = await fetch('/update_student_status', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ids: selectedIds, action: action })
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+          showToast(`✅ ${selectedIds.length} student(s) ${actionText}d successfully!`);
+          fetchData(); // Reload data
+        } else {
+          showToast("Error: " + data.msg, "error");
+        }
+      } catch (err) {
+        console.error("Action error:", err);
+        showToast("Server error occurred", "error");
+      }
+    }
+
+    function showToast(msg, type = 'success') {
+      const toast = document.getElementById('toastMsg');
+      toast.style.backgroundColor = type === 'error' ? '#dc3545' : '#28a745';
+      toast.innerText = msg;
+      toast.style.display = 'block';
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, 3000);
+    }
+  </script>
+</body>
+
+</html>
